@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tất cả sản phẩm - TS-AQUA Pharma</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <link rel="stylesheet" href="assets/css/products.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="top-bar">
+            <div class="container">
+                <span><i class="fa-solid fa-phone"></i> Hotline: 1800 55 88 99</span>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container flex-row">
+                <div class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></div>
+                <a href="index.html" class="logo-wrapper">
+                    <div class="logo-icon"><i class="fa-solid fa-layers-group"></i></div>
+                    <div class="logo-text"><span class="brand">TS-AQUA Pharma</span><span class="slogan">Chất lượng cao</span></div>
+                </a>
+                <div class="search-container">
+                    <form class="search-box-wrapper">
+                        <input type="text" placeholder="Tìm thuốc...">
+                        <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
+                </div>
+                <div class="header-actions">
+                    <a href="#" class="btn-cart"><i class="fa-solid fa-cart-shopping"></i></a>
+                </div>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <div class="container">
+                <ul class="menu-root">
+                    <li class="menu-item"><a href="index.html">Trang chủ</a></li>
+                    <li class="menu-item active"><a href="products.html">Sản phẩm</a></li>
+                    <li class="menu-item"><a href="#">Kiến thức</a></li>
+                    <li class="menu-item"><a href="#">Liên hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-nav-overlay"></div>
+    <nav class="mobile-nav-drawer">
+        <div class="mobile-nav-header"><span class="nav-title">MENU</span><button class="btn-close-menu"><i class="fa-solid fa-xmark"></i></button></div>
+        <ul class="mobile-nav-list"><li><a href="index.html">Trang chủ</a></li><li><a href="products.html">Sản phẩm</a></li></ul>
+    </nav>
+
+    <div class="breadcrumb container">
+        <a href="index.html">Trang chủ</a> <i class="fa-solid fa-angle-right"></i>
+        <span>Tất cả sản phẩm</span>
+    </div>
+
+    <section class="shop-page container section-padding">
+        
+        <div class="mobile-filter-bar">
+            <button class="btn-open-filter"><i class="fa-solid fa-filter"></i> Bộ lọc sản phẩm</button>
+            <select class="mobile-sort">
+                <option>Mới nhất</option>
+                <option>Giá tăng dần</option>
+                <option>Giá giảm dần</option>
+            </select>
+        </div>
+
+        <div class="shop-layout">
+            
+            <aside class="shop-sidebar">
+                <div class="sidebar-header-mobile">
+                    <span>Lọc sản phẩm</span>
+                    <i class="fa-solid fa-xmark btn-close-filter"></i>
+                </div>
+
+                <div class="filter-widget">
+                    <h3 class="widget-title">Danh mục sản phẩm</h3>
+                    <ul class="filter-list">
+                        <li><label><input type="checkbox"> Men vi sinh (12)</label></li>
+                        <li><label><input type="checkbox"> Kháng sinh (8)</label></li>
+                        <li><label><input type="checkbox"> Dinh dưỡng (15)</label></li>
+                        <li><label><input type="checkbox"> Xử lý nước (5)</label></li>
+                        <li><label><input type="checkbox"> Khoáng tạt (9)</label></li>
+                    </ul>
+                </div>
+
+                <div class="filter-widget">
+                    <h3 class="widget-title">Thương hiệu</h3>
+                    <ul class="filter-list">
+                        <li><label><input type="checkbox"> Bayer</label></li>
+                        <li><label><input type="checkbox"> Vemedim</label></li>
+                        <li><label><input type="checkbox"> Thịnh Vượng</label></li>
+                        <li><label><input type="checkbox"> TS-Pharma</label></li>
+                    </ul>
+                </div>
+
+                <div class="filter-widget">
+                    <h3 class="widget-title">Khoảng giá</h3>
+                    <div class="price-filter">
+                        <div class="price-inputs">
+                            <input type="number" placeholder="Từ" value="0">
+                            <span>-</span>
+                            <input type="number" placeholder="Đến" value="500000">
+                        </div>
+                        <button class="btn-filter-price">Áp dụng</button>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="shop-content">
+                
+                <div class="shop-toolbar">
+                    <span class="result-count">Hiển thị <strong>12</strong> trên <strong>45</strong> sản phẩm</span>
+                    <div class="sort-dropdown">
+                        <label>Sắp xếp theo:</label>
+                        <select>
+                            <option>Mới nhất</option>
+                            <option>Bán chạy nhất</option>
+                            <option>Giá: Thấp đến Cao</option>
+                            <option>Giá: Cao đến Thấp</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="product-grid shop-grid">
+                    <article class="product-card">
+                        <div class="badge">-15%</div>
+                        <div class="img-box"><img src="https://placehold.co/200x200?text=Khoang+Tat" alt="SP"></div>
+                        <div class="info">
+                            <h3>Khoáng tạt nguyên liệu (Bao 25kg)</h3>
+                            <div class="price"><span class="current">450.000đ</span><span class="old">530.000đ</span></div>
+                            <div class="card-actions">
+                                <button class="btn-action btn-view">Xem</button>
+                                <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product-card">
+                        <div class="img-box"><img src="https://placehold.co/200x200?text=Yucca" alt="SP"></div>
+                        <div class="info">
+                            <h3>Yucca Hấp thụ khí độc cấp tốc</h3>
+                            <div class="price"><span class="current">180.000đ</span></div>
+                            <div class="card-actions"><button class="btn-action btn-view">Xem</button><button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button></div>
+                        </div>
+                    </article>
+
+                     <article class="product-card">
+                        <div class="badge">Hot</div>
+                        <div class="img-box"><img src="https://placehold.co/200x200?text=Diet+Khuan" alt="SP"></div>
+                        <div class="info">
+                            <h3>Diệt khuẩn BKC 80% (Can 1L)</h3>
+                            <div class="price"><span class="current">165.000đ</span></div>
+                            <div class="card-actions"><button class="btn-action btn-view">Xem</button><button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button></div>
+                        </div>
+                    </article>
+                     <article class="product-card">
+                        <div class="img-box"><img src="https://placehold.co/200x200?text=Bo+Gan" alt="SP"></div>
+                        <div class="info">
+                            <h3>Thảo dược bổ gan (Chai 1L)</h3>
+                            <div class="price"><span class="current">320.000đ</span></div>
+                            <div class="card-actions"><button class="btn-action btn-view">Xem</button><button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button></div>
+                        </div>
+                    </article>
+                     </div>
+
+                <div class="pagination">
+                    <a href="#" class="page-link prev"><i class="fa-solid fa-angle-left"></i></a>
+                    <a href="#" class="page-link active">1</a>
+                    <a href="#" class="page-link">2</a>
+                    <a href="#" class="page-link">3</a>
+                    <span class="dots">...</span>
+                    <a href="#" class="page-link">10</a>
+                    <a href="#" class="page-link next"><i class="fa-solid fa-angle-right"></i></a>
+                </div>
+
+            </main>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container"><p class="copyright text-center" style="padding: 20px;">&copy; 2025 Thủy Sản Pharma</p></div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        const filterBtn = document.querySelector('.btn-open-filter');
+        const sidebar = document.querySelector('.shop-sidebar');
+        const closeFilter = document.querySelector('.btn-close-filter');
+        const overlay = document.querySelector('.mobile-nav-overlay'); // Tận dụng overlay cũ
+
+        if(filterBtn) {
+            filterBtn.addEventListener('click', () => {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            });
+        }
+        if(closeFilter) {
+            closeFilter.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        }
+        // Bấm ra ngoài đóng luôn bộ lọc
+        if(overlay) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

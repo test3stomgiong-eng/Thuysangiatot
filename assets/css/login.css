@@ -1,0 +1,111 @@
+/* =========================================
+   STYLE RIÊNG CHO TRANG LOGIN / REGISTER (DẠNG ĐƠN)
+   ========================================= */
+
+body { background-color: #f0f2f5; } /* Nền xám nhạt dịu mắt */
+
+/* Khung bao ngoài (Dạng thẻ đơn) */
+.auth-wrapper {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    padding: 40px;
+    max-width: 480px; /* Giới hạn chiều rộng để form gọn gàng */
+    margin: 20px auto; /* Căn giữa màn hình */
+    border: 1px solid #fff;
+}
+
+/* Tiêu đề */
+.auth-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.auth-subtitle {
+    text-align: center; color: #666; font-size: 14px; margin-bottom: 30px;
+}
+
+/* Form Input */
+.form-group { margin-bottom: 20px; }
+.form-group label {
+    display: block; font-weight: 600; font-size: 14px; color: #333; margin-bottom: 8px;
+}
+.req { color: red; }
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+    background: #fcfcfc;
+}
+.form-group input:focus {
+    border-color: var(--primary-color);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(0, 138, 51, 0.1);
+}
+
+/* Hành động phụ */
+.form-actions {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 25px; font-size: 14px;
+}
+.forgot-pass { color: var(--primary-color); font-weight: 600; }
+
+/* Nút Submit */
+.btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 138, 51, 0.2);
+}
+.btn-submit:hover { background: #006a31; transform: translateY(-2px); }
+
+/* Social Login */
+.social-login { margin-top: 30px; text-align: center; }
+.social-label { 
+    font-size: 13px; color: #888; margin-bottom: 15px; position: relative; 
+}
+.social-label::before, .social-label::after {
+    content: ""; position: absolute; top: 50%; width: 30%; height: 1px; background: #eee;
+}
+.social-label::before { left: 0; } .social-label::after { right: 0; }
+
+.social-btns { display: flex; gap: 15px; }
+.social-btns button {
+    flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px;
+    font-weight: 600; font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: white; transition: 0.2s;
+}
+.btn-face { color: #1877f2; }
+.btn-google { color: #db4437; }
+.social-btns button:hover { background: #f9f9f9; border-color: #ccc; }
+
+/* Chuyển trang (Link qua lại giữa Login/Register) */
+.auth-switch {
+    text-align: center; margin-top: 25px; font-size: 15px;
+}
+.auth-switch a {
+    color: var(--primary-color); font-weight: 700; text-decoration: underline;
+}
+
+/* Responsive Mobile */
+@media (max-width: 480px) {
+    .auth-wrapper { padding: 25px 20px; margin: 15px; }
+    .auth-title { font-size: 22px; }
+}

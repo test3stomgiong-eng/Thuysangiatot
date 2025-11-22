@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Website chuyên cung cấp thuốc thủy sản, kháng sinh tôm cá, chế phẩm sinh học chất lượng cao.">
+    <title>Thủy Sản Pharma - Thuốc Thủy Sản Chính Hãng</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="mobile-nav-overlay"></div>
+
+    <nav class="mobile-nav-drawer">
+        <div class="mobile-nav-header">
+            <span class="nav-title">MENU</span>
+            <button class="btn-close-menu"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <ul class="mobile-nav-list">
+            <li><a href="#"><i class="fa-solid fa-house"></i> Trang chủ</a></li>
+            <li><a href="products.html"><i class="fa-solid fa-capsules"></i> Sản phẩm</a></li>
+            <li><a href="#"><i class="fa-solid fa-book-medical"></i> Kiến thức nuôi tôm</a></li>
+            <li><a href="news.html"><i class="fa-solid fa-newspaper"></i> Tin tức & Sự kiện</a></li>
+            <li><a href="#"><i class="fa-solid fa-phone"></i> Liên hệ</a></li>
+            <li class="divider"></li> <li><a href="#"><i class="fa-solid fa-user"></i> Đăng nhập / Đăng ký</a></li>
+        </ul>
+    </nav>
+
+    <header class="header">
+        <div class="top-bar">
+            <div class="container">
+                <span><i class="fa-solid fa-phone"></i> Hotline: 1800 55 88 99</span>
+                <span class="separator">|</span>
+                <span>Hệ thống cửa hàng</span>
+            </div>
+        </div>
+
+        <div class="main-header">
+            <div class="container flex-row">
+                
+                <div class="mobile-menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+
+                <a href="#" class="logo-wrapper">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-layers-group"></i> 
+                    </div>
+                    <div class="logo-text">
+                        <span class="brand">TS-AQUA Pharma</span>
+                        <span class="slogan">Chất lượng cao - Niềm tin lớn</span>
+                    </div>
+                </a>
+
+                <div class="search-container">
+                    <form class="search-box-wrapper">
+                        <input type="text" placeholder="Tìm tên thuốc, bệnh lý...">
+                        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
+                    <div class="search-tags">
+                        <a href="#">Siêu Hot T11</a>
+                        <a href="#">Bổ gan</a>
+                        <a href="#">Trị ký sinh trùng</a>
+                        <a href="#">Xử lý nước</a>
+                        <a href="#">Khoáng tạt</a>
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <a href="cart.html" class="btn-cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>Giỏ hàng</span>
+                    </a>
+                    <a href="#" class="btn-login">
+                        <i class="fa-regular fa-circle-user"></i>
+                        <span>Đăng nhập</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container">
+                <ul class="menu-root">
+                    <li class="menu-item active"><a href="#">Trang chủ</a></li>
+                    <li class="menu-item has-child">
+                        <a href="products.html">Sản phẩm <i class="fa-solid fa-angle-down"></i></a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Thuốc trị bệnh gan tụy</a></li>
+                            <li><a href="#">Men vi sinh xử lý nước</a></li>
+                            <li><a href="#">Khoáng tạt & Dinh dưỡng</a></li>
+                            <li><a href="#">Diệt khuẩn & Ký sinh trùng</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item has-child">
+                        <a href="news.html">Kiến thức nuôi tôm <i class="fa-solid fa-angle-down"></i></a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Phác đồ điều trị</a></li>
+                            <li><a href="#">Giá tôm hôm nay</a></li>
+                            <li><a href="#">Kỹ thuật gây màu nước</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item"><a href="#">Liên hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-welcome-bar">
+        <span>Xin chào, khách!</span>
+        <a href="#">Đăng nhập <i class="fa-solid fa-chevron-right"></i></a>
+    </div>
+
+    <section class="hero-banner container section-padding">
+        <div class="banner-grid">
+            <div class="banner-main">
+                <a href="#">
+                    <img src="https://placehold.co/800x400/008a33/ffffff?text=Khuyen+Mai+Lon+Mung+Vu+Mua" alt="Khuyến mãi chính">
+                </a>
+                <div class="slider-nav">
+                    <button class="prev"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="next"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="banner-side">
+                <a href="#" class="banner-item">
+                    <img src="https://placehold.co/400x190/f39c12/ffffff?text=Deal+Soc+Trong+Ngay" alt="Banner phụ 1">
+                </a>
+                <a href="#" class="banner-item">
+                    <img src="https://placehold.co/400x190/2980b9/ffffff?text=Combo+Tiet+Kiem" alt="Banner phụ 2">
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="mobile-quick-menu container">
+        <div class="quick-menu-grid">
+            <a href="#" class="quick-item">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span>Dược sĩ tư vấn</span>
+            </a>
+            <a href="#" class="quick-item">
+                <i class="fa-solid fa-file-prescription"></i>
+                <span>Mua thuốc theo đơn</span>
+            </a>
+            <a href="#" class="quick-item">
+                <i class="fa-solid fa-house-medical"></i>
+                <span>Hệ thống nhà thuốc</span>
+            </a>
+            <a href="#" class="quick-item">
+                <i class="fa-solid fa-hand-holding-medical"></i>
+                <span>Sức khỏe tổng quát</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="categories container section-padding">
+        <h2 class="section-title" style="margin-bottom: 20px; font-size: 20px; font-weight: 700; color: #333;">Danh mục sản phẩm</h2>
+        <div class="category-grid">
+            <div class="cat-item">
+                <div class="icon-box"><i class="fa-solid fa-bacteria"></i></div>
+                <p>Men vi sinh</p>
+            </div>
+            <div class="cat-item">
+                <div class="icon-box"><i class="fa-solid fa-pills"></i></div>
+                <p>Kháng sinh</p>
+            </div>
+            <div class="cat-item">
+                <div class="icon-box"><i class="fa-solid fa-droplet"></i></div>
+                <p>Xử lý nước</p>
+            </div>
+            <div class="cat-item">
+                <div class="icon-box"><i class="fa-solid fa-fish-fins"></i></div>
+                <p>Dinh dưỡng</p>
+            </div>
+            <div class="cat-item">
+                <div class="icon-box"><i class="fa-solid fa-vial"></i></div>
+                <p>Khoáng chất</p>
+            </div>
+            <div class="cat-item">
+                <div class="icon-box"><i class="fa-solid fa-shield-virus"></i></div>
+                <p>Phòng bệnh</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="products container section-padding bg-light">
+        <div class="section-header">
+            <h2 class="section-title text-orange"><i class="fa-solid fa-bolt"></i> DEAL SIÊU KHỦNG</h2>
+            <a href="#" class="view-all">Xem tất cả <i class="fa-solid fa-caret-right"></i></a>
+        </div>
+
+        <div class="product-grid">
+            <article class="product-card">
+                <div class="badge">-15%</div>
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Khoang+Tat" alt="SP"></div>
+                <div class="info">
+                    <h3>Khoáng tạt nguyên liệu (Bao 25kg)</h3>
+                    <div class="price">
+                        <span class="current">450.000đ</span>
+                        <span class="old">530.000đ</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="product-detail.html" class="btn-action btn-view"><i class="fa-regular fa-eye"></i> Xem</a>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Yucca" alt="SP"></div>
+                <div class="info">
+                    <h3>Yucca Hấp thụ khí độc cấp tốc</h3>
+                    <div class="price"><span class="current">180.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view"><i class="fa-regular fa-eye"></i> Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="badge">Tặng 1</div>
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Vit+C" alt="SP"></div>
+                <div class="info">
+                    <h3>Vitamin C tạt ao (Lon 1kg)</h3>
+                    <div class="price"><span class="current">120.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view"><i class="fa-regular fa-eye"></i> Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Men+Tieu+Hoa" alt="SP"></div>
+                <div class="info">
+                    <h3>Men tiêu hóa đường ruột tôm</h3>
+                    <div class="price"><span class="current">250.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view"><i class="fa-regular fa-eye"></i> Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="badge">Hot</div>
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Diet+Khuan" alt="SP"></div>
+                <div class="info">
+                    <h3>Diệt khuẩn BKC 80% (Can 1L)</h3>
+                    <div class="price"><span class="current">165.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view"><i class="fa-regular fa-eye"></i> Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="products container section-padding">
+        <div class="section-header">
+            <h2 class="section-title" style="color: var(--primary-color);"><i class="fa-solid fa-star"></i> SẢN PHẨM MỚI</h2>
+            <a href="#" class="view-all">Xem tất cả <i class="fa-solid fa-caret-right"></i></a>
+        </div>
+
+        <div class="product-grid">
+            <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Bo+Gan" alt="SP"></div>
+                <div class="info">
+                    <h3>Thảo dược bổ gan (Chai 1L)</h3>
+                    <div class="price"><span class="current">320.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view">Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+            <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Vi+Sinh" alt="SP"></div>
+                <div class="info">
+                    <h3>Vi sinh xử lý đáy (Gói 500g)</h3>
+                    <div class="price"><span class="current">190.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view">Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+            <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Tang+Trong" alt="SP"></div>
+                <div class="info">
+                    <h3>Thuốc tăng trọng tôm thẻ</h3>
+                    <div class="price"><span class="current">410.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view">Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+            <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=EDTA" alt="SP"></div>
+                <div class="info">
+                    <h3>EDTA Khử phèn (Bao 5kg)</h3>
+                    <div class="price"><span class="current">150.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view">Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+            <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Soda" alt="SP"></div>
+                <div class="info">
+                    <h3>Soda lạnh tăng kiềm (Bao 25kg)</h3>
+                    <div class="price"><span class="current">220.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view">Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="products container section-padding bg-light">
+        <div class="section-header">
+            <h2 class="section-title" style="color: #c0392b;"><i class="fa-solid fa-kit-medical"></i> KHÁNG SINH ĐẶC TRỊ</h2>
+            <a href="#" class="view-all">Xem tất cả <i class="fa-solid fa-caret-right"></i></a>
+        </div>
+        <div class="product-grid">
+             <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Doxy" alt="SP"></div>
+                <div class="info">
+                    <h3>Kháng sinh Doxycycline</h3>
+                    <div class="price"><span class="current">1.200.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view">Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+             <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Cefo" alt="SP"></div>
+                <div class="info">
+                    <h3>Kháng sinh Cefotaxime</h3>
+                    <div class="price"><span class="current">1.800.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view">Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+            <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Flor" alt="SP"></div>
+                <div class="info">
+                    <h3>Florfenicol (Chai 1L)</h3>
+                    <div class="price"><span class="current">650.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view">Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+            <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Tri+Gan" alt="SP"></div>
+                <div class="info">
+                    <h3>Đặc trị sưng gan, vàng gan</h3>
+                    <div class="price"><span class="current">280.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view">Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+            <article class="product-card">
+                <div class="img-box"><img src="https://placehold.co/200x200?text=Tri+Ruot" alt="SP"></div>
+                <div class="info">
+                    <h3>Đặc trị phân trắng (Gói 100g)</h3>
+                    <div class="price"><span class="current">95.000đ</span></div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-view">Xem</button>
+                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="news container section-padding">
+        <h2 class="section-title">Thông tin kỹ thuật - Dịch bệnh</h2>
+        <div class="news-layout">
+            <article class="news-big">
+                <img src="https://placehold.co/600x350?text=Benh+Phan+Trang" alt="Tin chính">
+                <h3>Nguyên nhân tôm bị phân trắng và phác đồ điều trị hiệu quả 2025</h3>
+                <p>Bệnh phân trắng là nỗi ám ảnh của bà con nuôi tôm...</p>
+            </article>
+            <div class="news-list">
+                <article class="news-small">
+                    <img src="https://placehold.co/150x100?text=Khi+Doc+NO2" alt="Tin nhỏ">
+                    <div class="news-text">
+                        <h4>Cách xử lý khí độc NO2 trong ao nuôi</h4>
+                    </div>
+                </article>
+                <article class="news-small">
+                    <img src="https://placehold.co/150x100?text=Gay+Mau+Nuoc" alt="Tin nhỏ">
+                    <div class="news-text">
+                        <h4>Quy trình gây màu nước chuẩn bị thả giống</h4>
+                    </div>
+                </article>
+                <article class="news-small">
+                    <img src="https://placehold.co/150x100?text=Gia+Tom+Hom+Nay" alt="Tin nhỏ">
+                    <div class="news-text">
+                        <h4>Bảng giá tôm thẻ chân trắng hôm nay</h4>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="col">
+                <h4>Về Chúng Tôi</h4>
+                <ul>
+                    <li>Giới thiệu công ty</li>
+                    <li>Hệ thống cửa hàng</li>
+                    <li>Tuyển dụng</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h4>Danh Mục</h4>
+                <ul>
+                    <li>Thuốc thủy sản</li>
+                    <li>Dụng cụ đo môi trường</li>
+                    <li>Máy móc thiết bị</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h4>Hỗ Trợ Khách Hàng</h4>
+                <ul>
+                    <li>Chính sách đổi trả</li>
+                    <li>Giao hàng - Thanh toán</li>
+                    <li>Tư vấn kỹ thuật: 1800 xxxx</li>
+                </ul>
+            </div>
+            <div class="col newsletter">
+                <h4>Đăng ký nhận tin</h4>
+                <p>Nhận thông tin khuyến mãi và kỹ thuật nuôi mới nhất.</p>
+                <div class="input-group">
+                    <input type="email" placeholder="Email của bạn">
+                    <button>Gửi</button>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Thủy Sản Pharma. All rights reserved.</p>
+        </div>
+    </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

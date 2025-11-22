@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm - TS-AQUA Pharma</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link rel="stylesheet" href="assets/css/product-detail.css">
+</head>
+
+<body>
+
+    <div class="mobile-nav-overlay"></div>
+
+    <nav class="mobile-nav-drawer">
+        <div class="mobile-nav-header">
+            <span class="nav-title">MENU</span>
+            <button class="btn-close-menu"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <ul class="mobile-nav-list">
+            <li><a href="#"><i class="fa-solid fa-house"></i> Trang chủ</a></li>
+            <li><a href="#"><i class="fa-solid fa-capsules"></i> Sản phẩm</a></li>
+            <li><a href="#"><i class="fa-solid fa-book-medical"></i> Kiến thức nuôi tôm</a></li>
+            <li><a href="#"><i class="fa-solid fa-newspaper"></i> Tin tức & Sự kiện</a></li>
+            <li><a href="#"><i class="fa-solid fa-phone"></i> Liên hệ</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="fa-solid fa-user"></i> Đăng nhập / Đăng ký</a></li>
+        </ul>
+    </nav>
+    <header class="header">
+        <div class="top-bar">
+            <div class="container">
+                <span><i class="fa-solid fa-phone"></i> Hotline: 1800 55 88 99</span>
+                <span class="separator">|</span>
+                <span>Hệ thống cửa hàng</span>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container flex-row">
+                <div class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></div>
+                <a href="index.html" class="logo-wrapper">
+                    <div class="logo-icon"><i class="fa-solid fa-layers-group"></i></div>
+                    <div class="logo-text"><span class="brand">TS-AQUA Pharma</span><span class="slogan">Chất lượng
+                            cao</span></div>
+                </a>
+                <div class="search-container">
+                    <form class="search-box-wrapper">
+                        <input type="text" placeholder="Tìm thuốc...">
+                        <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
+                </div>
+                <div class="header-actions">
+                    <a href="#" class="btn-cart"><i class="fa-solid fa-cart-shopping"></i></a>
+                </div>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <div class="container">
+                <ul class="menu-root">
+                    <li class="menu-item"><a href="index.html">Trang chủ</a></li>
+                    <li class="menu-item"><a href="#">Sản phẩm</a></li>
+                    <li class="menu-item"><a href="#">Kiến thức</a></li>
+                    <li class="menu-item"><a href="#">Liên hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-nav-overlay"></div>
+    <nav class="mobile-nav-drawer">
+        <div class="mobile-nav-header"><span class="nav-title">MENU</span><button class="btn-close-menu"><i
+                    class="fa-solid fa-xmark"></i></button></div>
+        <ul class="mobile-nav-list">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="#">Sản phẩm</a></li>
+        </ul>
+    </nav>
+
+    <div class="breadcrumb container">
+        <a href="index.html">Trang chủ</a> <i class="fa-solid fa-angle-right"></i>
+        <a href="#">Thuốc xử lý môi trường</a> <i class="fa-solid fa-angle-right"></i>
+        <span>BIO-BACILLUS PRO</span>
+    </div>
+
+    <section class="product-main container section-padding">
+        <div class="product-main-grid">
+            <div class="product-gallery">
+                <div class="main-image">
+                    <div class="voucher-tag">Mới</div>
+                    <img src="https://placehold.co/500x500?text=Men+Vi+Sinh" alt="Main Product" id="mainImg">
+                </div>
+                <div class="thumb-list">
+                    <img src="https://placehold.co/100x100?text=Anh+1" onclick="changeImage(this.src)">
+                    <img src="https://placehold.co/100x100?text=Anh+2" onclick="changeImage(this.src)">
+                    <img src="https://placehold.co/100x100?text=Anh+3" onclick="changeImage(this.src)">
+                </div>
+            </div>
+
+            <div class="product-info">
+                <div class="brand-sku">
+                    <span>Thương hiệu: <strong>TS-AQUA</strong></span>
+                    <span class="sku">SKU: VS001</span>
+                </div>
+                <h1 class="product-title">Men vi sinh xử lý đáy BIO-BACILLUS PRO (Gói 500g) - Cắt tảo, giảm khí độc</h1>
+
+                <div class="price-box">
+                    <span class="current-price">190.000đ</span>
+                    <span class="unit">/ Gói</span>
+                </div>
+
+                <div class="short-desc">
+                    <p><strong>Công dụng chính:</strong></p>
+                    <ul>
+                        <li>Phân hủy mùn bã hữu cơ, thức ăn thừa.</li>
+                        <li>Giảm khí độc NH3, NO2 trong ao nuôi.</li>
+                        <li>Ổn định màu nước, gây màu trà đẹp.</li>
+                    </ul>
+                </div>
+
+                <div class="purchase-controls">
+                    <div class="qty-control">
+                        <label>Số lượng:</label>
+                        <div class="input-group">
+                            <button onclick="decreaseQty()">-</button>
+                            <input type="number" id="qty" value="1" min="1">
+                            <button onclick="increaseQty()">+</button>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn-buy-now">MUA NGAY <span>(Giao nhanh toàn quốc)</span></button>
+                        <div class="btn-row-2">
+                            <button class="btn-add-cart">Thêm giỏ hàng</button>
+                            <button class="btn-find-store">Tư vấn Zalo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-content-area container">
+        <div class="content-grid">
+
+            <div class="content-left">
+                <div class="content-tabs">
+                    <div class="tab-item active" onclick="openTab(event, 'tab-congdung')">Công dụng</div>
+                    <div class="tab-item" onclick="openTab(event, 'tab-thanhphan')">Thành phần</div>
+                    <div class="tab-item" onclick="openTab(event, 'tab-huongdan')">Hướng dẫn sử dụng</div>
+                    <div class="tab-item" onclick="openTab(event, 'tab-luuy')">Lưu ý</div>
+                </div>
+
+                <div class="content-body">
+
+                    <div id="tab-congdung" class="tab-content active">
+                        <h3><i class="fa-solid fa-circle-check"></i> Công dụng vượt trội</h3>
+                        <p>Sản phẩm <strong>BIO-BACILLUS PRO</strong> mang lại hiệu quả cao:</p>
+                        <ul class="feature-list">
+                            <li>Phân hủy nhanh chóng mùn bã hữu cơ, thức ăn thừa và phân tôm tích tụ dưới đáy ao.</li>
+                            <li>Làm sạch nước, giảm độ nhớt và váng bọt trên mặt nước.</li>
+                            <li>Cạnh tranh dinh dưỡng với vi khuẩn có hại, ức chế sự phát triển của Vibrio.</li>
+                            <li>Hấp thu và ngăn chặn khí độc: <span style="color: red; font-weight: bold;">NH3, NO2,
+                                    H2S</span>.</li>
+                            <li>Giúp tôm khỏe mạnh, giảm stress khi thời tiết thay đổi.</li>
+                        </ul>
+                        <img src="https://placehold.co/800x400?text=Anh+Minh+Hoa+Cong+Dung" alt="Công dụng">
+                    </div>
+
+                    <div id="tab-thanhphan" class="tab-content">
+                        <h3><i class="fa-solid fa-flask"></i> Thành phần (Trong 1 kg)</h3>
+                        <table class="table-ingredients">
+                            <thead>
+                                <tr>
+                                    <th width="60%">Tên thành phần</th>
+                                    <th width="40%">Hàm lượng (min)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Bacillus subtilis</td>
+                                    <td>1 x 10^9 CFU</td>
+                                </tr>
+                                <tr>
+                                    <td>Bacillus licheniformis</td>
+                                    <td>1 x 10^9 CFU</td>
+                                </tr>
+                                <tr>
+                                    <td>Saccharomyces cerevisiae</td>
+                                    <td>1 x 10^8 CFU</td>
+                                </tr>
+                                <tr>
+                                    <td>Amylase</td>
+                                    <td>1.000 UI</td>
+                                </tr>
+                                <tr>
+                                    <td>Protease</td>
+                                    <td>500 UI</td>
+                                </tr>
+                                <tr>
+                                    <td>Chất mang (Dextrose)</td>
+                                    <td>Vừa đủ 1 kg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="tab-huongdan" class="tab-content">
+                        <h3><i class="fa-solid fa-book-open"></i> Hướng dẫn sử dụng</h3>
+                        <div class="guide-box">
+                            <p><strong>Cách dùng:</strong> Hòa tan thuốc với 20-30 lít nước ao, sục khí khoảng 2-3 giờ
+                                (để tăng sinh khối) rồi tạt đều khắp mặt ao.</p>
+                            <p><strong>Thời điểm:</strong> Nên sử dụng vào buổi sáng (8h-10h) để gây màu, hoặc chiều mát
+                                để xử lý đáy.</p>
+                            <p><strong>Liều dùng:</strong></p>
+                            <ul>
+                                <li>Trước khi thả giống: 500g / 2.000m³.</li>
+                                <li>Tháng 1-2: 250g / 1.000m³. Định kỳ 7 ngày/lần.</li>
+                                <li>Tháng 3-4: 300g - 500g / 1.000m³. Định kỳ 5 ngày/lần.</li>
+                                <li>Ao ô nhiễm nặng: Dùng liều gấp đôi, đánh 2 ngày liên tiếp.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="tab-luuy" class="tab-content">
+                        <h3><i class="fa-solid fa-triangle-exclamation"></i> Lưu ý & Bảo quản</h3>
+                        <p><strong>Bảo quản:</strong> Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Đóng kín bao bì
+                            sau khi dùng.</p>
+                        <p style="color: red; font-style: italic;">* Không sử dụng chung với các loại hóa chất diệt
+                            khuẩn, thuốc tím, chlorine hoặc kháng sinh trong vòng 48 giờ.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="sidebar-right">
+                <h3 class="sidebar-title">Sản phẩm cùng loại</h3>
+                <div class="sidebar-list">
+                    <a href="#" class="sidebar-item">
+                        <img src="https://placehold.co/80x80?text=Yucca" alt="SP">
+                        <div class="info">
+                            <h4>Yucca Hấp thụ khí độc cấp tốc</h4><span class="price">180.000đ</span>
+                        </div>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <img src="https://placehold.co/80x80?text=Zeolite" alt="SP">
+                        <div class="info">
+                            <h4>Zeolite Hạt - Hấp thụ độc tố đáy</h4><span class="price">85.000đ</span>
+                        </div>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <img src="https://placehold.co/80x80?text=Vi+Sinh+Nuoc" alt="SP">
+                        <div class="info">
+                            <h4>Vi sinh dạng nước EM Gốc</h4><span class="price">120.000đ</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="copyright text-center" style="padding: 20px;">&copy; 2025 Thủy Sản Pharma</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // 1. Xử lý Ảnh & Số lượng
+        function changeImage(src) { document.getElementById('mainImg').src = src; }
+        function increaseQty() { var el = document.getElementById('qty'); el.value = parseInt(el.value) + 1; }
+        function decreaseQty() { var el = document.getElementById('qty'); if (el.value > 1) el.value = parseInt(el.value) - 1; }
+
+        // 2. Xử lý Tabs (Chuyển đổi nội dung)
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+
+            // Ẩn tất cả nội dung tab
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+
+            // Bỏ active ở tất cả các nút tab
+            tablinks = document.getElementsByClassName("tab-item");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Hiện tab được chọn và thêm class active cho nút đó
+            document.getElementById(tabName).style.display = "block";
+            // Thêm một chút delay để animation (nếu có) hoạt động mượt hơn
+            setTimeout(() => {
+                document.getElementById(tabName).classList.add("active");
+            }, 10);
+
+            evt.currentTarget.className += " active";
+        }
+    </script>
+</body>
+
+</html>

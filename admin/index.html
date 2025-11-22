@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - TS-AQUA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+    <div class="admin-overlay"></div>
+
+    <div class="admin-wrapper">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html" class="active"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span> <span class="badge">3</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-newspaper"></i> <span>Tin tức</span></a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-right-from-bracket"></i> <span>Đăng xuất</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            
+            <header class="top-header">
+                <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+                <div class="header-right">
+                    <div class="user-info">
+                        <span>Xin chào, Admin</span>
+                        <img src="https://placehold.co/40x40" alt="Admin">
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <h2 class="page-title">Tổng quan kinh doanh</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h4>Doanh thu hôm nay</h4>
+                            <h3>2.500.000đ</h3>
+                        </div>
+                        <div class="stat-icon bg-blue"><i class="fa-solid fa-sack-dollar"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h4>Đơn hàng mới</h4>
+                            <h3>12</h3>
+                        </div>
+                        <div class="stat-icon bg-green"><i class="fa-solid fa-cart-plus"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h4>Sản phẩm</h4>
+                            <h3>45</h3>
+                        </div>
+                        <div class="stat-icon bg-orange"><i class="fa-solid fa-box-open"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h4>Khách hàng</h4>
+                            <h3>150</h3>
+                        </div>
+                        <div class="stat-icon bg-red"><i class="fa-solid fa-users"></i></div>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div class="card-header">
+                        <h3>Đơn hàng vừa đặt</h3>
+                        <button class="btn-action btn-blue">Xem tất cả</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mã Đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#DH001</td>
+                                    <td>Nguyễn Văn A</td>
+                                    <td>22/11/2025</td>
+                                    <td>450.000đ</td>
+                                    <td><span class="status pending">Chờ xử lý</span></td>
+                                    <td><a href="#" class="btn-view">Chi tiết</a></td>
+                                </tr>
+                                <tr>
+                                    <td>#DH002</td>
+                                    <td>Trần Thị B</td>
+                                    <td>22/11/2025</td>
+                                    <td>1.200.000đ</td>
+                                    <td><span class="status completed">Đã giao</span></td>
+                                    <td><a href="#" class="btn-view">Chi tiết</a></td>
+                                </tr>
+                                <tr>
+                                    <td>#DH003</td>
+                                    <td>Lê Văn C</td>
+                                    <td>21/11/2025</td>
+                                    <td>85.000đ</td>
+                                    <td><span class="status completed">Đã giao</span></td>
+                                    <td><a href="#" class="btn-view">Chi tiết</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const toggleBtn = document.querySelector('.menu-toggle');
+        const body = document.body;
+        const overlay = document.querySelector('.admin-overlay');
+
+        toggleBtn.addEventListener('click', () => {
+            if (window.innerWidth > 768) {
+                // PC: Thêm class để thu nhỏ menu
+                body.classList.toggle('collapsed');
+            } else {
+                // Mobile: Thêm class để hiện menu trượt
+                body.classList.toggle('mobile-open');
+            }
+        });
+
+        // Bấm ra ngoài (vùng đen) thì đóng menu mobile
+        overlay.addEventListener('click', () => {
+            body.classList.remove('mobile-open');
+        });
+
+        // Tự động reset khi thay đổi kích thước màn hình
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                body.classList.remove('mobile-open');
+            } else {
+                body.classList.remove('collapsed');
+            }
+        });
+    </script>
+</body>
+</html>
