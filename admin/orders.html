@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đơn hàng - Admin TS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+    <div class="admin-overlay"></div>
+
+    <div class="admin-wrapper">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand"><i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span></div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
+                <li><a href="products.html"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
+                <li><a href="orders.html" class="active"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span> <span class="badge">3</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-newspaper"></i> <span>Tin tức</span></a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+                <div class="header-right">
+                    <div class="user-dropdown" onclick="document.getElementById('userMenu').classList.toggle('show')">
+                        <div class="user-info">
+                            <span>Xin chào, Admin <i class="fa-solid fa-caret-down"></i></span>
+                            <img src="https://placehold.co/40x40" alt="Admin">
+                        </div>
+                        <ul class="dropdown-menu" id="userMenu">
+                            <li><a href="#"><i class="fa-regular fa-user"></i> Thông tin</a></li>
+                            <li><a href="#" class="text-red"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div class="page-header-row">
+                    <h2 class="page-title">Danh sách đơn hàng</h2>
+                    <button class="btn-action btn-blue"><i class="fa-solid fa-file-export"></i> Xuất Excel</button>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Tìm mã đơn, tên khách...">
+                    </div>
+                    <select class="filter-select">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="pending">Chờ xử lý</option>
+                        <option value="shipping">Đang giao hàng</option>
+                        <option value="completed">Đã giao</option>
+                        <option value="cancelled">Đã hủy</option>
+                    </select>
+                    <input type="date" class="filter-select" style="width: auto;">
+                </div>
+
+                <div class="data-card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mã Đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Thanh toán</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>#DH005</strong></td>
+                                    <td>
+                                        <strong>Nguyễn Văn A</strong><br>
+                                        <span class="sub-text">0912345678</span>
+                                    </td>
+                                    <td>22/11/2025<br><span class="sub-text">10:30 AM</span></td>
+                                    <td class="text-red">810.000đ</td>
+                                    <td><span class="badge-pay cod">COD</span></td>
+                                    <td><span class="status pending">Chờ xử lý</span></td>
+                                    <td>
+                                        <a href="order-detail.html" class="btn-table blue">
+                                            <i class="fa-regular fa-eye"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>#DH004</strong></td>
+                                    <td>
+                                        <strong>Trần Thị B</strong><br>
+                                        <span class="sub-text">0987654321</span>
+                                    </td>
+                                    <td>21/11/2025</td>
+                                    <td class="text-red">1.250.000đ</td>
+                                    <td><span class="badge-pay bank">CK Ngân hàng</span></td>
+                                    <td><span class="status shipping">Đang giao</span></td>
+                                    <td>
+                                        <a href="order-detail.html" class="btn-table blue">
+                                            <i class="fa-regular fa-eye"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>#DH003</strong></td>
+                                    <td>
+                                        <strong>Lê Văn C</strong><br>
+                                        <span class="sub-text">0909123123</span>
+                                    </td>
+                                    <td>20/11/2025</td>
+                                    <td class="text-red">450.000đ</td>
+                                    <td><span class="badge-pay momo">MoMo</span></td>
+                                    <td><span class="status completed">Hoàn thành</span></td>
+                                    <td>
+                                        <a href="order-detail.html" class="btn-table blue">
+                                            <i class="fa-regular fa-eye"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td><strong>#DH002</strong></td>
+                                    <td><strong>Phạm Văn D</strong></td>
+                                    <td>19/11/2025</td>
+                                    <td class="text-red">2.000.000đ</td>
+                                    <td><span class="badge-pay cod">COD</span></td>
+                                    <td><span class="status cancelled">Đã hủy</span></td>
+                                    <td>
+                                        <a href="order-detail.html" class="btn-table blue">
+                                            <i class="fa-regular fa-eye"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination-admin">
+                        <span>Hiển thị 1-10 của 50 đơn hàng</span>
+                        <div class="pages">
+                            <button disabled><i class="fa-solid fa-angle-left"></i></button>
+                            <button class="active">1</button>
+                            <button>2</button>
+                            <button><i class="fa-solid fa-angle-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const toggleBtn = document.querySelector('.menu-toggle');
+        const body = document.body;
+        const overlay = document.querySelector('.admin-overlay');
+        toggleBtn.addEventListener('click', () => {
+            if (window.innerWidth > 768) body.classList.toggle('collapsed');
+            else body.classList.toggle('mobile-open');
+        });
+        overlay.addEventListener('click', () => { body.classList.remove('mobile-open'); });
+        window.addEventListener('click', function(e) {
+            if (!document.querySelector('.user-dropdown').contains(e.target)) 
+                document.getElementById('userMenu').classList.remove('show');
+        });
+    </script>
+</body>
+</html>

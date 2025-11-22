@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm - Admin TS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+    <div class="admin-overlay"></div>
+
+    <div class="admin-wrapper">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
+                <li><a href="products.html" class="active"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span> <span class="badge">3</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-newspaper"></i> <span>Tin tức</span></a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            
+            <header class="top-header">
+                <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+                <div class="header-right">
+                    <div class="user-dropdown" onclick="toggleUserMenu()">
+                        <div class="user-info">
+                            <span>Xin chào, Admin <i class="fa-solid fa-caret-down"></i></span>
+                            <img src="https://placehold.co/40x40" alt="Admin">
+                        </div>
+                        <ul class="dropdown-menu" id="userMenu">
+                            <li><a href="#"><i class="fa-regular fa-user"></i> Thông tin</a></li>
+                            <li><a href="#" class="text-red"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div class="page-header-row">
+                    <h2 class="page-title">Danh sách sản phẩm</h2>
+                    <a href="product-add.html" class="btn-action btn-green"><i class="fa-solid fa-plus"></i> Thêm mới</a>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                    </div>
+                    <select class="filter-select">
+                        <option>Tất cả danh mục</option>
+                        <option>Men vi sinh</option>
+                        <option>Kháng sinh</option>
+                        <option>Dinh dưỡng</option>
+                    </select>
+                </div>
+
+                <div class="data-card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="50">ID</th>
+                                    <th width="80">Hình ảnh</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Danh mục</th>
+                                    <th>Giá bán</th>
+                                    <th>Tồn kho</th>
+                                    <th>Trạng thái</th>
+                                    <th width="100">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#10</td>
+                                    <td><img src="https://placehold.co/50x50" class="table-img" alt="SP"></td>
+                                    <td><strong>Khoáng tạt nguyên liệu</strong><br><span class="sub-text">SKU: KT001</span></td>
+                                    <td>Khoáng chất</td>
+                                    <td class="text-red">450.000đ</td>
+                                    <td>150</td>
+                                    <td><span class="status completed">Còn hàng</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit" title="Sửa"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa?')"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>#11</td>
+                                    <td><img src="https://placehold.co/50x50" class="table-img" alt="SP"></td>
+                                    <td><strong>Men vi sinh BIO</strong><br><span class="sub-text">SKU: VS002</span></td>
+                                    <td>Men vi sinh</td>
+                                    <td class="text-red">190.000đ</td>
+                                    <td>50</td>
+                                    <td><span class="status completed">Còn hàng</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>#12</td>
+                                    <td><img src="https://placehold.co/50x50" class="table-img" alt="SP"></td>
+                                    <td><strong>Yucca Hấp thụ khí độc</strong><br><span class="sub-text">SKU: YC99</span></td>
+                                    <td>Xử lý nước</td>
+                                    <td class="text-red">180.000đ</td>
+                                    <td>0</td>
+                                    <td><span class="status pending">Hết hàng</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination-admin">
+                        <span>Hiển thị 1-10 của 45 sản phẩm</span>
+                        <div class="pages">
+                            <button disabled><i class="fa-solid fa-angle-left"></i></button>
+                            <button class="active">1</button>
+                            <button>2</button>
+                            <button>3</button>
+                            <button><i class="fa-solid fa-angle-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const toggleBtn = document.querySelector('.menu-toggle');
+        const body = document.body;
+        const overlay = document.querySelector('.admin-overlay');
+        
+        toggleBtn.addEventListener('click', () => {
+            if (window.innerWidth > 768) body.classList.toggle('collapsed');
+            else body.classList.toggle('mobile-open');
+        });
+        overlay.addEventListener('click', () => { body.classList.remove('mobile-open'); });
+        function toggleUserMenu() { document.getElementById('userMenu').classList.toggle('show'); }
+        window.addEventListener('click', function(e) {
+            if (!document.querySelector('.user-dropdown').contains(e.target)) 
+                document.getElementById('userMenu').classList.remove('show');
+        });
+    </script>
+</body>
+</html>
