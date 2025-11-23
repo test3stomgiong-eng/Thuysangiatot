@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý nhân viên - Admin TS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+    <div class="admin-overlay"></div>
+    <div class="admin-wrapper">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand"><i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span></div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
+                <li><a href="products.html"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
+                <li><a href="orders.html"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span></a></li>
+                <li><a href="customers.html"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+                <li><a href="staff.html" class="active"><i class="fa-solid fa-user-shield"></i> <span>Nhân viên</span></a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+                <div class="header-right">
+                    <div class="user-dropdown">
+                        <div class="user-info"><span>Admin</span><img src="https://placehold.co/40x40"></div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div class="page-header-row">
+                    <h2 class="page-title">Danh sách nhân viên</h2>
+                    <a href="staff-add.html" class="btn-action btn-blue"><i class="fa-solid fa-user-plus"></i> Thêm nhân viên</a>
+                </div>
+
+                <div class="data-card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nhân viên</th>
+                                    <th>Email</th>
+                                    <th>Chức vụ</th> <th>Trạng thái</th>
+                                    <th style="text-align:center;">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#NV01</td>
+                                    <td style="display:flex; align-items:center; gap:10px;">
+                                        <img src="https://placehold.co/40x40" class="table-img" style="border-radius:50%">
+                                        <strong>Lê Văn Sale</strong>
+                                    </td>
+                                    <td>sale01@tsaqua.com</td>
+                                    <td><span class="badge-pay bank">Bán hàng</span></td>
+                                    <td><span class="status completed">Hoạt động</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>#NV02</td>
+                                    <td style="display:flex; align-items:center; gap:10px;">
+                                        <img src="https://placehold.co/40x40" class="table-img" style="border-radius:50%">
+                                        <strong>Trần Thị Kho</strong>
+                                    </td>
+                                    <td>kho@tsaqua.com</td>
+                                    <td><span class="badge-pay cod">Thủ kho</span></td>
+                                    <td><span class="status completed">Hoạt động</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/admin.js"></script> 
+    <script>
+         const toggleBtn = document.querySelector('.menu-toggle');
+        const body = document.body;
+        const overlay = document.querySelector('.admin-overlay');
+        toggleBtn.addEventListener('click', () => {
+            if (window.innerWidth > 768) body.classList.toggle('collapsed');
+            else body.classList.toggle('mobile-open');
+        });
+        overlay.addEventListener('click', () => { body.classList.remove('mobile-open'); });
+    </script>
+</body>
+</html>

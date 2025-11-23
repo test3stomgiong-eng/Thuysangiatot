@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý tin tức - Admin TS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+    <div class="admin-overlay"></div>
+
+    <div class="admin-wrapper">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand"><i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span></div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
+                <li><a href="products.html"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
+                <li><a href="orders.html"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span> <span class="badge">3</span></a></li>
+                <li><a href="customers.html"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+                <li><a href="news.html" class="active"><i class="fa-solid fa-newspaper"></i> <span>Tin tức</span></a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+                <div class="header-right">
+                    <div class="user-dropdown" onclick="document.getElementById('userMenu').classList.toggle('show')">
+                        <div class="user-info"><span>Xin chào, Admin <i class="fa-solid fa-caret-down"></i></span><img src="https://placehold.co/40x40" alt="Admin"></div>
+                        <ul class="dropdown-menu" id="userMenu"><li><a href="#">Thông tin</a></li><li><a href="#" class="text-red">Đăng xuất</a></li></ul>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div class="page-header-row">
+                    <h2 class="page-title">Danh sách bài viết</h2>
+                    <a href="news-add.html" class="btn-action btn-blue"><i class="fa-solid fa-plus"></i> Viết bài mới</a>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Tìm tiêu đề bài viết...">
+                    </div>
+                    <select class="filter-select">
+                        <option>Tất cả chuyên mục</option>
+                        <option>Kỹ thuật nuôi tôm</option>
+                        <option>Phác đồ điều trị</option>
+                        <option>Tin thị trường</option>
+                    </select>
+                </div>
+
+                <div class="data-card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="50">ID</th>
+                                    <th width="80">Hình ảnh</th>
+                                    <th>Tiêu đề bài viết</th>
+                                    <th>Chuyên mục</th>
+                                    <th>Tác giả</th>
+                                    <th>Ngày đăng</th>
+                                    <th>Trạng thái</th>
+                                    <th width="120" style="text-align: center;">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#1</td>
+                                    <td><img src="https://placehold.co/60x40" class="table-img"></td>
+                                    <td>
+                                        <strong>Nguyên nhân tôm bị phân trắng</strong>
+                                        <br><span class="sub-text">1.254 lượt xem</span>
+                                    </td>
+                                    <td>Kỹ thuật nuôi</td>
+                                    <td>Dr. Tôm</td>
+                                    <td>22/11/2025</td>
+                                    <td><span class="status completed">Đã đăng</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete" onclick="return confirm('Xóa bài này?')"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>#2</td>
+                                    <td><img src="https://placehold.co/60x40" class="table-img"></td>
+                                    <td><strong>Cập nhật giá tôm hôm nay</strong></td>
+                                    <td>Tin thị trường</td>
+                                    <td>Admin</td>
+                                    <td>21/11/2025</td>
+                                    <td><span class="status completed">Đã đăng</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>#3</td>
+                                    <td><img src="https://placehold.co/60x40" class="table-img"></td>
+                                    <td><strong>Quy trình xử lý nước ao nuôi</strong></td>
+                                    <td>Kỹ thuật nuôi</td>
+                                    <td>Kỹ sư A</td>
+                                    <td>-</td>
+                                    <td><span class="status pending">Bản nháp</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination-admin">
+                        <span>Hiển thị 1-10 của 25 bài viết</span>
+                        <div class="pages">
+                            <button class="active">1</button>
+                            <button>2</button>
+                            <button><i class="fa-solid fa-angle-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const toggleBtn = document.querySelector('.menu-toggle');
+        const body = document.body;
+        const overlay = document.querySelector('.admin-overlay');
+        toggleBtn.addEventListener('click', () => {
+            if (window.innerWidth > 768) body.classList.toggle('collapsed');
+            else body.classList.toggle('mobile-open');
+        });
+        overlay.addEventListener('click', () => { body.classList.remove('mobile-open'); });
+        window.addEventListener('click', function(e) {
+            if (!document.querySelector('.user-dropdown').contains(e.target)) 
+                document.getElementById('userMenu').classList.remove('show');
+        });
+    </script>
+</body>
+</html>

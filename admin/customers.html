@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khách hàng - Admin TS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+    <div class="admin-overlay"></div>
+
+    <div class="admin-wrapper">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand"><i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span></div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
+                <li><a href="products.html"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
+                <li><a href="orders.html"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span> <span class="badge">3</span></a></li>
+                <li><a href="customers.html" class="active"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-newspaper"></i> <span>Tin tức</span></a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            
+            <header class="top-header">
+                <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+                <div class="header-right">
+                    <div class="user-dropdown" onclick="document.getElementById('userMenu').classList.toggle('show')">
+                        <div class="user-info"><span>Xin chào, Admin <i class="fa-solid fa-caret-down"></i></span><img src="https://placehold.co/40x40" alt="Admin"></div>
+                        <ul class="dropdown-menu" id="userMenu"><li><a href="#">Thông tin</a></li><li><a href="#" class="text-red">Đăng xuất</a></li></ul>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                
+                <div class="page-header-row">
+                    <h2 class="page-title">Danh sách khách hàng</h2>
+                    <a href="customer-add.html" class="btn-action btn-blue"><i class="fa-solid fa-user-plus"></i> Thêm khách</a>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Tìm tên, sđt, email...">
+                    </div>
+                    <select class="filter-select">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="active">Hoạt động</option>
+                        <option value="blocked">Đã khóa</option>
+                    </select>
+                </div>
+
+                <div class="data-card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="50">ID</th>
+                                    <th>Thông tin khách hàng</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Đơn hàng</th>
+                                    <th>Chi tiêu</th>
+                                    <th>Trạng thái</th>
+                                    <th width="100">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#101</td>
+                                    <td style="display: flex; align-items: center; gap: 10px;">
+                                        <img src="https://placehold.co/40x40" class="table-img" style="border-radius: 50%;">
+                                        <div>
+                                            <strong>Nguyễn Văn A</strong><br>
+                                            <span class="sub-text">nguyenvana@gmail.com</span>
+                                        </div>
+                                    </td>
+                                    <td>0912 345 678</td>
+                                    <td><span class="badge-pay cod">5 đơn</span></td>
+                                    <td class="text-red">2.500.000đ</td>
+                                    <td><span class="status completed">Hoạt động</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit" title="Sửa"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete" title="Khóa" onclick="return confirm('Khóa tài khoản này?')"><i class="fa-solid fa-lock"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>#102</td>
+                                    <td style="display: flex; align-items: center; gap: 10px;">
+                                        <img src="https://placehold.co/40x40" class="table-img" style="border-radius: 50%;">
+                                        <div>
+                                            <strong>Trần Thị B</strong><br>
+                                            <span class="sub-text">tranthib@gmail.com</span>
+                                        </div>
+                                    </td>
+                                    <td>0987 654 321</td>
+                                    <td><span class="badge-pay cod">12 đơn</span></td>
+                                    <td class="text-red">15.200.000đ</td>
+                                    <td><span class="status completed">Hoạt động</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete"><i class="fa-solid fa-lock"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>#103</td>
+                                    <td style="display: flex; align-items: center; gap: 10px;">
+                                        <img src="https://placehold.co/40x40" class="table-img" style="border-radius: 50%;">
+                                        <div>
+                                            <strong>Lê Văn C</strong><br>
+                                            <span class="sub-text">levanc@gmail.com</span>
+                                        </div>
+                                    </td>
+                                    <td>0909 123 123</td>
+                                    <td><span class="badge-pay cod">0 đơn</span></td>
+                                    <td>0đ</td>
+                                    <td><span class="status cancelled">Đã khóa</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon btn-unlock" title="Mở khóa"><i class="fa-solid fa-lock-open"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination-admin">
+                        <span>Hiển thị 1-10 của 150 khách hàng</span>
+                        <div class="pages">
+                            <button disabled><i class="fa-solid fa-angle-left"></i></button>
+                            <button class="active">1</button>
+                            <button>2</button>
+                            <button><i class="fa-solid fa-angle-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const toggleBtn = document.querySelector('.menu-toggle');
+        const body = document.body;
+        const overlay = document.querySelector('.admin-overlay');
+        toggleBtn.addEventListener('click', () => {
+            if (window.innerWidth > 768) body.classList.toggle('collapsed');
+            else body.classList.toggle('mobile-open');
+        });
+        overlay.addEventListener('click', () => { body.classList.remove('mobile-open'); });
+        window.addEventListener('click', function(e) {
+            if (!document.querySelector('.user-dropdown').contains(e.target)) 
+                document.getElementById('userMenu').classList.remove('show');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm nhân viên - Admin TS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+    <div class="admin-overlay"></div>
+    <div class="admin-wrapper">
+        
+        <aside class="sidebar">
+             <div class="sidebar-brand"><i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span></div>
+             <ul class="sidebar-menu">
+                 <li><a href="index.html"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
+                 <li><a href="products.html"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
+                 <li><a href="orders.html"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span></a></li>
+                 <li><a href="customers.html"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+                 <li><a href="staff.html" class="active"><i class="fa-solid fa-user-shield"></i> <span>Nhân viên</span></a></li>
+                 <li class="divider"></li>
+             </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+                <div class="header-right">
+                    <div class="user-info"><span>Admin</span><img src="https://placehold.co/40x40"></div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div class="page-header-row">
+                    <h2 class="page-title">Thêm nhân viên mới</h2>
+                    <div class="actions">
+                        <a href="staff.html" class="btn-action btn-gray">Hủy bỏ</a>
+                        <button class="btn-action btn-green">Lưu nhân viên</button>
+                    </div>
+                </div>
+
+                <form class="form-layout" onsubmit="return false;">
+                    
+                    <div class="form-col-main">
+                        <div class="data-card form-card">
+                            <h3 class="card-title">Thông tin cá nhân</h3>
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label>Họ và tên</label>
+                                    <input type="text" placeholder="VD: Nguyễn Văn Sale">
+                                </div>
+                                <div class="form-group">
+                                    <label>Số điện thoại</label>
+                                    <input type="text" placeholder="09xxxx">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email (Tên đăng nhập)</label>
+                                <input type="email" placeholder="nv@tsaqua.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Mật khẩu cấp lần đầu</label>
+                                <input type="text" value="123456">
+                            </div>
+                        </div>
+
+                        <div class="data-card form-card">
+                            <h3 class="card-title">Phân quyền truy cập</h3>
+                            <div class="form-group">
+                                <label>Vai trò (Role)</label>
+                                <select style="width:100%; padding:10px; border:1px solid #ddd; border-radius:4px;">
+                                    <option>Nhân viên Bán hàng (Sales)</option>
+                                    <option>Thủ kho (Warehouse)</option>
+                                    <option>Biên tập viên (Editor)</option>
+                                    <option>Quản trị viên (Admin)</option>
+                                </select>
+                            </div>
+                            <div class="form-group checkbox-group" style="display:flex; flex-direction:column; align-items:flex-start; gap:10px;">
+                                <label><input type="checkbox" checked> Được phép xem đơn hàng</label>
+                                <label><input type="checkbox" checked> Được phép xử lý đơn hàng</label>
+                                <label><input type="checkbox"> Được phép sửa sản phẩm</label>
+                                <label><input type="checkbox"> Được phép xem báo cáo doanh thu</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-col-side">
+                        <div class="data-card form-card">
+                            <h3 class="card-title">Ảnh đại diện</h3>
+                            <div class="main-image-upload">
+                                <div class="image-upload-box main-box" style="height: 200px; border-radius: 50%; width: 200px; margin: 0 auto; background:#f9f9f9;">
+                                    <i class="fa-solid fa-camera" style="font-size:30px; color:#ccc;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="data-card form-card">
+                            <h3 class="card-title">Trạng thái</h3>
+                            <select style="width:100%; padding:10px; border:1px solid #ddd;">
+                                <option>Đang làm việc</option>
+                                <option>Đã nghỉ việc</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+         const toggleBtn = document.querySelector('.menu-toggle');
+        const body = document.body;
+        const overlay = document.querySelector('.admin-overlay');
+        toggleBtn.addEventListener('click', () => {
+            if (window.innerWidth > 768) body.classList.toggle('collapsed');
+            else body.classList.toggle('mobile-open');
+        });
+        overlay.addEventListener('click', () => { body.classList.remove('mobile-open'); });
+    </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viết bài mới - Admin TS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+</head>
+<body>
+
+    <div class="admin-overlay"></div>
+
+    <div class="admin-wrapper">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand"><i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span></div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
+                <li><a href="products.html"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
+                <li><a href="orders.html"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span> <span class="badge">3</span></a></li>
+                <li><a href="customers.html"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+                <li><a href="news.html" class="active"><i class="fa-solid fa-newspaper"></i> <span>Tin tức</span></a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+                <div class="header-right">
+                    <div class="user-dropdown" onclick="document.getElementById('userMenu').classList.toggle('show')">
+                        <div class="user-info"><span>Xin chào, Admin <i class="fa-solid fa-caret-down"></i></span><img src="https://placehold.co/40x40" alt="Admin"></div>
+                        <ul class="dropdown-menu" id="userMenu"><li><a href="#">Thông tin</a></li><li><a href="#" class="text-red">Đăng xuất</a></li></ul>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                
+                <div class="page-header-row">
+                    <h2 class="page-title">Viết bài mới</h2>
+                    <div class="actions">
+                        <a href="news.html" class="btn-action btn-gray"><i class="fa-solid fa-xmark"></i> Hủy bỏ</a>
+                        <button class="btn-action btn-green" onclick="alert('Đã đăng bài viết!')"><i class="fa-solid fa-paper-plane"></i> Đăng bài</button>
+                    </div>
+                </div>
+
+                <form class="form-layout" onsubmit="return false;">
+                    
+                    <div class="form-col-main">
+                        <div class="data-card form-card">
+                            <div class="form-group">
+                                <label>Tiêu đề bài viết <span class="required">*</span></label>
+                                <input type="text" placeholder="Nhập tiêu đề...">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mô tả ngắn (Sapo)</label>
+                                <textarea rows="3" placeholder="Đoạn giới thiệu ngắn về bài viết..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nội dung chi tiết</label>
+                                <textarea name="news-content" id="news-content"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-col-side">
+                        
+                        <div class="data-card form-card">
+                            <h3 class="card-title">Đăng bài</h3>
+                            <div class="form-group">
+                                <label>Trạng thái</label>
+                                <select>
+                                    <option value="1">Đăng ngay</option>
+                                    <option value="0">Lưu nháp</option>
+                                    <option value="2">Chờ duyệt</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Chuyên mục</label>
+                                <select>
+                                    <option>-- Chọn chuyên mục --</option>
+                                    <option>Kỹ thuật nuôi tôm</option>
+                                    <option>Phác đồ điều trị</option>
+                                    <option>Tin tức thị trường</option>
+                                    <option>Góc chuyên gia</option>
+                                </select>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <label><input type="checkbox"> Đánh dấu "Nổi bật"</label>
+                            </div>
+                        </div>
+
+                        <div class="data-card form-card">
+                            <h3 class="card-title">Ảnh đại diện</h3>
+                            <div class="main-image-upload">
+                                <div class="image-upload-box main-box" onclick="document.getElementById('thumbInput').click()" style="height: 180px;">
+                                    <img id="previewThumb" src="" class="img-hidden">
+                                    <div class="upload-placeholder" id="placeholderThumb">
+                                        <i class="fa-solid fa-image"></i>
+                                        <span>Chọn ảnh</span>
+                                    </div>
+                                    <input type="file" id="thumbInput" hidden onchange="previewImage(event, 'previewThumb', 'placeholderThumb')">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Menu Mobile
+        const toggleBtn = document.querySelector('.menu-toggle');
+        const body = document.body;
+        const overlay = document.querySelector('.admin-overlay');
+        toggleBtn.addEventListener('click', () => {
+            if (window.innerWidth > 768) body.classList.toggle('collapsed');
+            else body.classList.toggle('mobile-open');
+        });
+        overlay.addEventListener('click', () => { body.classList.remove('mobile-open'); });
+
+        // Xem trước ảnh
+        function previewImage(event, imgId, placeholderId) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const img = document.getElementById(imgId);
+                const placeholder = document.getElementById(placeholderId);
+                img.src = reader.result;
+                img.classList.remove('img-hidden');
+                img.classList.add('img-show');
+                if(placeholder) placeholder.style.display = 'none';
+            };
+            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // Kích hoạt CKEditor
+        CKEDITOR.replace('news-content', {
+            height: 400,
+            language: 'vi',
+            versionCheck: false,
+            toolbarGroups: [
+                { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+                { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ] },
+                { name: 'links' },
+                { name: 'insert' },
+                { name: 'forms' },
+                { name: 'tools' },
+                { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+                '/',
+                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+                { name: 'styles' },
+                { name: 'colors' },
+                { name: 'about' }
+            ]
+        });
+    </script>
+</body>
+</html>
