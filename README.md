@@ -1,2 +1,2 @@
 # Thuysangiatot
-# link gemini: https://gemini.google.com/share/ee4f1a08caf1
+# link gemini: https://gemini.google.com/share/2dc238a56a0c
