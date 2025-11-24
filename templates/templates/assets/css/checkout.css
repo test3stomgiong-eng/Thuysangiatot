@@ -1,0 +1,282 @@
+/* =========================================
+   STYLE RIÊNG CHO TRANG THANH TOÁN
+   ========================================= */
+
+body {
+  background-color: #f9f9f9;
+} /* Nền xám nhẹ cho trang này */
+
+/* --- Header Đơn giản --- */
+.checkout-header {
+  background: #fff;
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.checkout-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo-simple {
+  font-weight: 600;
+  color: var(--primary-color);
+  font-size: 14px;
+}
+.logo-simple:hover {
+  text-decoration: underline;
+}
+.checkout-title {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  border-left: 2px solid #ddd;
+  padding-left: 15px;
+}
+
+/* --- Layout Grid --- */
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px; /* Form rộng | Summary 380px */
+  gap: 30px;
+  align-items: start;
+}
+
+/* --- Cột Trái: Form --- */
+.checkout-info {
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.block-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: #555;
+}
+.required {
+  color: red;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 138, 51, 0.1);
+}
+
+/* Grid cho các ô input */
+.form-group-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+.form-group-row.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* Phương thức thanh toán */
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.payment-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.payment-item:hover {
+  background: #f9f9f9;
+}
+.payment-item input:checked + .payment-content {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+.payment-item:has(input:checked) {
+  border-color: var(--primary-color);
+  background: #f0fdf4;
+}
+
+.payment-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #333;
+}
+.payment-content i {
+  font-size: 20px;
+  color: var(--primary-color);
+}
+
+/* --- Cột Phải: Summary --- */
+.summary-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 20px; /* Dính khi cuộn */
+}
+.summary-header {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.summary-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 5px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+.summary-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.summary-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+.summary-item .info {
+  flex: 1;
+}
+.summary-item .info h4 {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0;
+}
+.summary-item .info p {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+.summary-item .price {
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+}
+
+.summary-pricing .row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #555;
+}
+.summary-pricing .divider {
+  border-top: 1px dashed #ddd;
+  margin: 15px 0;
+}
+.summary-pricing .total {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+.summary-pricing .total-price {
+  color: #d0021b;
+  font-size: 22px;
+}
+
+.btn-place-order {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background: #d0021b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-place-order:hover {
+  background: #a00;
+}
+.policy-text {
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  margin-top: 15px;
+  line-height: 1.5;
+}
+
+/* Footer đơn giản */
+.footer-simple {
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: #777;
+  border-top: 1px solid #ddd;
+  margin-top: 30px;
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 992px) {
+  .form-group-row.three-col {
+    grid-template-columns: 1fr;
+  } /* Tỉnh/Huyện/Xã xuống dòng */
+}
+
+@media (max-width: 768px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* Đảo thứ tự: Để Tóm tắt lên trước Form (nếu muốn), hoặc để Form trước */
+  /* Ở đây tôi để Form trước, Tóm tắt sau */
+
+  .checkout-header .container {
+    flex-direction: row;
+    gap: 10px;
+  }
+  .checkout-title {
+    font-size: 16px;
+    border: none;
+    padding: 0;
+  }
+  .form-group-row {
+    grid-template-columns: 1fr;
+  } /* Họ tên, SĐT xuống dòng */
+}
