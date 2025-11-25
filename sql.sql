@@ -84,6 +84,18 @@ CREATE TABLE `product_images` (
   FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+-- 1. Xóa bỏ 2 cột cũ (Mô tả ngắn & Mô tả chi tiết)
+ALTER TABLE `products`
+  DROP COLUMN `summary`,
+  DROP COLUMN `description`;
+
+-- 2. Chèn thêm 4 cột mới vào sau cột 'stock' (Số lượng tồn kho)
+ALTER TABLE `products`
+  ADD COLUMN `ingredients` TEXT NULL COMMENT 'Thành phần' AFTER `stock`,
+  ADD COLUMN `uses` TEXT NULL COMMENT 'Công dụng' AFTER `ingredients`,
+  ADD COLUMN `usage_instruction` TEXT NULL COMMENT 'Hướng dẫn sử dụng' AFTER `uses`,
+  ADD COLUMN `note` TEXT NULL COMMENT 'Lưu ý riêng' AFTER `usage_instruction`;
 -- ====================================================
 -- 4. NHÓM ĐƠN HÀNG (ORDERS)
 -- ====================================================

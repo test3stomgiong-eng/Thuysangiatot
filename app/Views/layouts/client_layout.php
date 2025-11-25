@@ -51,7 +51,7 @@
                     <i class="fa-solid fa-bars"></i>
                 </div>
 
-                <a href="#" class="logo-wrapper">
+                <a href="/index" class="logo-wrapper">
                     <div class="logo-icon">
                         <i class="fa-solid fa-layers-group"></i>
                     </div>
@@ -76,11 +76,11 @@
                 </div>
 
                 <div class="header-actions">
-                    <a href="cart.html" class="btn-cart">
+                    <a href="/cart" class="btn-cart">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span>Giỏ hàng</span>
                     </a>
-                    <a href="#" class="btn-login">
+                    <a href="/login" class="btn-login">
                         <i class="fa-regular fa-circle-user"></i>
                         <span>Đăng nhập</span>
                     </a>
@@ -91,7 +91,7 @@
         <nav class="main-nav">
             <div class="container">
                 <ul class="menu-root">
-                    <li class="menu-item active"><a href="#">Trang chủ</a></li>
+                    <li class="menu-item active"><a href="/index">Trang chủ</a></li>
                     <li class="menu-item has-child">
                         <a href="products.html">Sản phẩm <i class="fa-solid fa-angle-down"></i></a>
                         <ul class="sub-menu">

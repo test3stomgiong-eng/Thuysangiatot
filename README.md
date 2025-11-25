@@ -1,3 +1,5 @@
 # Thuysangiatot
 # link gemini: https://gemini.google.com/share/2dc238a56a0c
 # Link gemini fontend: https://gemini.google.com/share/af27d19fc063
+
+# 2: https://gemini.google.com/share/d5bc3ef2b780

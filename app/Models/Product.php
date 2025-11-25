@@ -44,10 +44,38 @@ class Product extends Model
      */
     public function find($id)
     {
-        $sql = "SELECT * FROM products WHERE id = :id";
+        $sql = "SELECT p.*, c.name as category_name, c.slug as category_slug 
+                FROM products p 
+                LEFT JOIN product_categories c ON p.category_id = c.id
+                WHERE p.id = :id";
         $stmt = $this->query($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetch();
+    }
+
+    public function getGallery($product_id)
+    {
+        $sql = "SELECT * FROM product_images WHERE product_id = :id ORDER BY sort_order ASC";
+        $stmt = $this->query($sql);
+        $stmt->bindParam(':id', $product_id);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function getRelatedProducts($category_id, $exclude_id, $limit = 5)
+    {
+        // Logic: Lấy cùng category_id NHƯNG id phải khác exclude_id
+        $sql = "SELECT * FROM products 
+            WHERE category_id = :cat_id 
+            AND id != :ex_id 
+            AND status = 1 
+            ORDER BY id DESC LIMIT $limit";
+
+        $stmt = $this->query($sql);
+        $stmt->bindParam(':cat_id', $category_id);
+        $stmt->bindParam(':ex_id', $exclude_id);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }

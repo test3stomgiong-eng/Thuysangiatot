@@ -1,6 +1,6 @@
 <?php
 // public/index.php
-
+session_start();
 // 1. Định nghĩa đường dẫn gốc (để sau này dễ gọi file)
 define('ROOT_PATH', dirname(__DIR__)); 
 
