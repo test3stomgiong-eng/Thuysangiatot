@@ -75,7 +75,8 @@
                     </div>
                 </div>
 
-                <div class="header-actions">
+                <!-- Giỏ hàng -->
+                <!-- <div class="header-actions">
                     <a href="/cart" class="btn-cart">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span>Giỏ hàng</span>
@@ -84,7 +85,92 @@
                         <i class="fa-regular fa-circle-user"></i>
                         <span>Đăng nhập</span>
                     </a>
+                </div> -->
+
+                <div class="header-user">
+
+                    <?php if (isset($_SESSION['customer_user'])): ?>
+
+
+
+                        <!-- ĐÃ ĐĂNG NHẬP (DROPDOWN USER) -->
+
+                        <div class="user-dropdown">
+
+                            <!-- Nút chính -->
+
+                            <div class="user-btn">
+
+                                <span class="welcome-text">Xin chào, <b><?php echo $_SESSION['customer_user']['fullname']; ?></b></span>
+
+                                <i class="fa-solid fa-caret-down"></i>
+
+                            </div>
+
+
+
+                            <!-- Menu con sổ xuống -->
+
+                            <div class="dropdown-menu">
+
+                                <a href="/account/profile"><i class="fa-solid fa-user"></i> Thông tin tài khoản</a>
+
+                                <a href="/account/orders"><i class="fa-solid fa-box-open"></i> Đơn hàng của tôi</a>
+
+                                <div class="divider"></div>
+
+                                <a href="/auth/logout" class="logout-item"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+
+                            </div>
+
+                        </div>
+
+
+
+                    <?php else: ?>
+
+
+
+                        <!-- CHƯA ĐĂNG NHẬP -->
+
+                        <div class="header-actions">
+
+                            <a href="/cart" class="btn-cart">
+
+                                <i class="fa-solid fa-cart-shopping"></i>
+
+                                <span>Giỏ hàng</span>
+
+                                <?php
+
+                                $cartCount = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+
+                                if ($cartCount > 0) echo "<span class='badge'>$cartCount</span>";
+
+                                ?>
+
+                            </a>
+
+
+
+                            <a href="/auth/login" class="btn-login">
+
+                                <i class="fa-regular fa-circle-user"></i>
+
+                                <span>Đăng nhập</span>
+
+                            </a>
+
+                        </div>
+
+
+
+                    <?php endif; ?>
+
                 </div>
+
+
+
             </div>
         </div>
 
@@ -117,7 +203,7 @@
 
     <div class="mobile-welcome-bar">
         <span>Xin chào, khách!</span>
-        <a href="#">Đăng nhập <i class="fa-solid fa-chevron-right"></i></a>
+        <a href="">Đăng nhập <i class="fa-solid fa-chevron-right"></i></a>
     </div>
 
     <!-- ROUTER -->
@@ -172,7 +258,7 @@
         </div>
     </footer>
 
-    <script src="assets/js/main.js"></script>
+    <script src="/assets/client/js/main.js"></script>
 </body>
 
 </html>
