@@ -1,15 +1,19 @@
 <?php
+
 namespace App\Controllers\Client;
+
 use App\Core\Controller;
 use App\Models\Customer;
 
-class AuthController extends Controller {
+class AuthController extends Controller
+{
 
     // ---------------------------------------------------------
     // 1. HIỂN THỊ FORM ĐĂNG KÝ (GET)
     // URL: /auth/register
     // ---------------------------------------------------------
-    public function register() {
+    public function register()
+    {
         // Nếu đã đăng nhập rồi thì đá về trang chủ
         if (isset($_SESSION['customer_user'])) {
             header("Location: /");
@@ -20,7 +24,7 @@ class AuthController extends Controller {
             'title'     => 'Đăng ký thành viên - TS AQUA',
             'css_files' => ['style.css', 'login.css'] // Dùng chung CSS với trang login
         ];
-        
+
         // Gọi view register
         $this->view('Client/register', $data);
     }
@@ -29,58 +33,51 @@ class AuthController extends Controller {
     // 2. XỬ LÝ ĐĂNG KÝ (POST)
     // URL: /auth/registerPost
     // ---------------------------------------------------------
-    public function registerPost() {
+    public function registerPost()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Lấy dữ liệu từ form
+            // 1. Lấy dữ liệu
             $fullname   = trim($_POST['fullname']);
             $phone      = trim($_POST['phone']);
             $email      = trim($_POST['email']);
             $password   = $_POST['password'];
-            $repassword = isset($_POST['repassword']) ? $_POST['repassword'] : ''; // Mật khẩu nhập lại
+            $repassword = isset($_POST['repassword']) ? $_POST['repassword'] : '';
 
-            // --- KIỂM TRA DỮ LIỆU (VALIDATION) ---
-            
-            // 1. Kiểm tra rỗng
+            // 2. Validate dữ liệu
             if (empty($fullname) || empty($phone) || empty($password)) {
                 $data['error'] = "Vui lòng nhập đầy đủ Họ tên, SĐT và Mật khẩu!";
                 $this->view('Client/register', $data);
                 return;
             }
 
-            // 2. Kiểm tra mật khẩu nhập lại
             if ($password !== $repassword) {
                 $data['error'] = "Mật khẩu xác nhận không khớp!";
                 $this->view('Client/register', $data);
                 return;
             }
 
-            // 3. Gọi Model để kiểm tra trùng lặp
+            // 3. Gọi Model xử lý
             $customerModel = new Customer();
-            
-            // Kiểm tra SĐT đã có chưa (Hàm exists này phải có trong Model Customer)
+
+            // Kiểm tra trùng SĐT
             if ($customerModel->exists($phone)) {
                 $data['error'] = "Số điện thoại này đã được đăng ký!";
                 $this->view('Client/register', $data);
                 return;
             }
 
-            // --- LƯU VÀO DATABASE ---
-            
-            // Câu lệnh SQL thêm mới
-            $sql = "INSERT INTO customers (fullname, phone, email, password, status, created_at) 
-                    VALUES (:name, :phone, :email, :pass, 1, NOW())";
-            
-            $stmt = $customerModel->query($sql);
-            $result = $stmt->execute([
-                ':name'  => $fullname,
-                ':phone' => $phone,
-                ':email' => $email,
-                ':pass'  => $password 
-                // Lưu ý: Thực tế nên mã hóa: password_hash($password, PASSWORD_DEFAULT)
+            // --- GỌI HÀM REGISTER TỪ MODEL (THAY VÌ VIẾT SQL Ở ĐÂY) ---
+            $isCreated = $customerModel->register([
+                'fullname' => $fullname,
+                'phone'    => $phone,
+                'email'    => $email,
+
+                // 👇 THAY ĐỔI Ở ĐÂY: Mã hóa mật khẩu trước khi lưu
+                'password' => password_hash($password, PASSWORD_DEFAULT)
             ]);
 
-            if ($result) {
-                // Đăng ký thành công -> Báo JS rồi chuyển về trang Login
+            // 4. Kiểm tra kết quả
+            if ($isCreated) {
                 echo "<script>
                         alert('Chúc mừng! Đăng ký tài khoản thành công. Vui lòng đăng nhập.'); 
                         window.location.href='/auth/login';
@@ -96,7 +93,8 @@ class AuthController extends Controller {
     // 3. HIỂN THỊ FORM ĐĂNG NHẬP (GET)
     // URL: /auth/login
     // ---------------------------------------------------------
-    public function login() {
+    public function login()
+    {
         // Nếu đã đăng nhập thì đá về trang chủ
         if (isset($_SESSION['customer_user'])) {
             header("Location: /");
@@ -105,13 +103,13 @@ class AuthController extends Controller {
 
         $data = [
             'title'     => 'Đăng nhập - TS AQUA',
-            'css_files' => ['style.css', 'login.css'] 
+            'css_files' => ['style.css', 'login.css']
         ];
 
         // Xử lý khi bấm nút Đăng nhập (POST) -> Gộp chung vào hàm login luôn cho tiện
         // Hoặc tách ra loginPost nếu muốn (như trong App.php bạn cấu hình)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $account  = $_POST['account']; 
+            $account  = $_POST['account'];
             $password = $_POST['password'];
 
             // Gọi Model kiểm tra
@@ -124,11 +122,16 @@ class AuthController extends Controller {
                     'id'       => $customer->id,
                     'fullname' => $customer->fullname,
                     'phone'    => $customer->phone,
-                    'email'    => $customer->email
+                    'email'    => $customer->email,
+                    'role'     => $customer->role
                 ];
-                header("Location: /");
+                if ($customer->role == 'admin') {
+                    header("Location: /admin/dashboard");
+                } else {
+                    // Nếu là Khách -> Về trang chủ mua hàng
+                    header("Location: /");
+                }
                 exit();
-
             } else {
                 // --- ĐĂNG NHẬP THẤT BẠI ---
                 $data['error'] = "Tài khoản hoặc mật khẩu không chính xác!";
@@ -144,9 +147,10 @@ class AuthController extends Controller {
     // 4. XỬ LÝ ĐĂNG XUẤT
     // URL: /auth/logout
     // ---------------------------------------------------------
-    public function logout() {
+    public function logout()
+    {
         unset($_SESSION['customer_user']);
-        header("Location: /auth/login"); 
+        header("Location: /auth/login");
         exit();
     }
 }

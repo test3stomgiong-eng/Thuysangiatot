@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm danh mục - Admin TS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+    <div class="admin-overlay"></div>
+
+    <div class="admin-wrapper">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand"><i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span></div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
+                <li><a href="categories.html" class="active"><i class="fa-solid fa-folder-tree"></i> <span>Danh mục SP</span></a></li>
+                <li><a href="products.html"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
+                <li><a href="orders.html"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span></a></li>
+                <li><a href="customers.html"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+                <div class="header-right">
+                    <div class="user-info"><span>Admin</span><img src="https://placehold.co/40x40"></div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div class="page-header-row">
+                    <h2 class="page-title">Thêm danh mục mới</h2>
+                    <div class="actions">
+                        <a href="categories.html" class="btn-action btn-gray">Hủy bỏ</a>
+                        <button class="btn-action btn-green">Lưu danh mục</button>
+                    </div>
+                </div>
+
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <form class="data-card form-card">
+                        <h3 class="card-title">Thông tin danh mục</h3>
+
+                        <div class="form-group">
+                            <label>Tên danh mục <span class="required">*</span></label>
+                            <input type="text" id="catName" placeholder="Ví dụ: Men vi sinh..." onkeyup="generateSlug()">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Đường dẫn (Slug)</label>
+                            <input type="text" id="catSlug" placeholder="tu-dong-tao-slug">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Danh mục cha (Parent ID)</label>
+                            <select>
+                                <option value="0">-- Là danh mục gốc --</option>
+                                <option value="1">Thuốc Thủy Sản</option>
+                                <option value="4">Thiết bị nuôi tôm</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mô tả</label>
+                            <textarea rows="3" placeholder="Mô tả ngắn về danh mục này..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Trạng thái</label>
+                            <div class="checkbox-group">
+                                <label><input type="radio" name="status" checked> Hiển thị</label>
+                                <label><input type="radio" name="status"> Ẩn tạm thời</label>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Script tạo slug tự động từ tên
+        function generateSlug() {
+            let title = document.getElementById('catName').value;
+            let slug = title.toLowerCase();
+            // Đổi ký tự có dấu thành không dấu
+            slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+            slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+            slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+            slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+            slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+            slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+            slug = slug.replace(/đ/gi, 'd');
+            // Xóa các ký tự đặc biệt
+            slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+            // Đổi khoảng trắng thành gạch ngang
+            slug = slug.replace(/ /gi, "-");
+            slug = slug.replace(/\-\-\-\-\-/gi, '-');
+            slug = slug.replace(/\-\-\-\-/gi, '-');
+            slug = slug.replace(/\-\-\-/gi, '-');
+            slug = slug.replace(/\-\-/gi, '-');
+            slug = '@' + slug + '@';
+            slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+            
+            document.getElementById('catSlug').value = slug;
+        }
+
+        // Menu script
+        const toggleBtn = document.querySelector('.menu-toggle');
+        const body = document.body;
+        const overlay = document.querySelector('.admin-overlay');
+        toggleBtn.addEventListener('click', () => {
+            if (window.innerWidth > 768) body.classList.toggle('collapsed');
+            else body.classList.toggle('mobile-open');
+        });
+        overlay.addEventListener('click', () => { body.classList.remove('mobile-open'); });
+    </script>
+</body>
+</html>

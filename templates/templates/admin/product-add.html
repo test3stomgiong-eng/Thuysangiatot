@@ -221,27 +221,26 @@
         const editorIds = ['editor-usage', 'editor-ingredients', 'editor-guide', 'editor-other'];
         
         editorIds.forEach(id => {
-            // Thay thế textarea bằng CKEditor
             if(document.getElementById(id)) {
                 CKEDITOR.replace(id, {
-                    height: 200,
-                    language: 'vi', // Tiếng Việt
-                    // Tùy chỉnh thanh công cụ để có Màu sắc, Căn lề...
-                    toolbarGroups: [
-                        { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-                        { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ] },
-                        { name: 'links' },
-                        { name: 'insert' },
-                        { name: 'forms' },
-                        { name: 'tools' },
-                        { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
-                        '/',
-                        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-                        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] }, /* Căn lề */
-                        { name: 'styles' },
-                        { name: 'colors' }, /* Màu chữ/nền */
-                        { name: 'about' }
-                    ]
+                    height: 250,
+                    language: 'vi',
+                    
+                    // 1. CẤU HÌNH THANH CÔNG CỤ GỌN GÀNG (Giống hình bạn gửi)
+                    toolbar: [
+                        { name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
+                        { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                        { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat' ] },
+                        { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+                        { name: 'links', items: [ 'Link', 'Unlink' ] },
+                        { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule' ] }, // Nút Image ở đây
+                        { name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] }
+                    ],
+
+                    // 2. CẤU HÌNH UPLOAD ẢNH TRỰC TIẾP
+                    // Trỏ đến file PHP xử lý upload (ta sẽ tạo ở bước 2)
+                    filebrowserUploadUrl: 'upload.php', 
+                    filebrowserUploadMethod: 'form'
                 });
             }
         });

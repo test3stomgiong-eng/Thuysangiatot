@@ -894,28 +894,50 @@ tfoot td {
 
   /* Override Labels */
   .data-card table tbody td:not(:first-child):not(:last-child)::before {
-    content: "Thông tin";
+    /* content: "Thông tin"; */
     font-weight: 600;
     color: #888;
   }
 
-  /* Override Labels for Orders/Customers */
-  .data-card table tbody td:nth-child(2)::before {
-    content: "Khách hàng / Thông tin";
-  }
-  .data-card table tbody td:nth-child(3)::before {
-    content: "Ngày đặt / SĐT";
-  }
-  .data-card table tbody td:nth-child(4)::before {
-    content: "Tổng tiền / Đơn hàng";
-  }
-  .data-card table tbody td:nth-child(5)::before {
-    content: "Thanh toán / Chi tiêu";
-  }
-  .data-card table tbody td:nth-child(6)::before {
-    content: "Trạng thái";
-  }
+ /* 1. Ẩn tiêu đề bảng (Thead) trên mobile */
+    .data-card table thead {
+        display: none;
+    }
 
+    /* 2. Chuyển các dòng (tr) thành khối (block) */
+    .data-card table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+    /* 3. Chuyển các ô (td) thành dòng */
+    .data-card table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        border-bottom: 1px solid #f1f1f1;
+        text-align: right;
+    }
+
+    /* 4. QUAN TRỌNG NHẤT: Lấy nội dung từ HTML để hiện tiêu đề */
+    .data-card table tbody td::before {
+        content: attr(data-label); /* <--- Tự động lấy chữ từ HTML */
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-right: 15px;
+        text-align: left;
+    }
+    
+    /* Xóa đường kẻ ở ô cuối cùng */
+    .data-card table tbody td:last-child {
+        border-bottom: none;
+    }
   /* --- NÚT HÀNH ĐỘNG TO VÀ XẾP DỌC (MOBILE UX) --- */
   /* CÁC THAY ĐỔI NÀY LÀM NÚT CHIẾM TRỌN CHIỀU DỌC TRONG KHUNG */
 

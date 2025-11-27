@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý danh mục - Admin TS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+    <div class="admin-overlay"></div>
+
+    <div class="admin-wrapper">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand"><i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span></div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
+                <li><a href="categories.html" class="active"><i class="fa-solid fa-folder-tree"></i> <span>Danh mục SP</span></a></li>
+                <li><a href="products.html"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
+                <li><a href="orders.html"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span> <span class="badge">3</span></a></li>
+                <li><a href="customers.html"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+                <div class="header-right">
+                    <div class="user-dropdown" onclick="document.getElementById('userMenu').classList.toggle('show')">
+                        <div class="user-info"><span>Xin chào, Admin <i class="fa-solid fa-caret-down"></i></span><img src="https://placehold.co/40x40" alt="Admin"></div>
+                        <ul class="dropdown-menu" id="userMenu"><li><a href="#">Đăng xuất</a></li></ul>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div class="page-header-row">
+                    <h2 class="page-title">Danh mục sản phẩm</h2>
+                    <a href="category-add.html" class="btn-action btn-blue"><i class="fa-solid fa-plus"></i> Thêm danh mục</a>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Tìm kiếm danh mục...">
+                    </div>
+                    <select class="filter-select">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="1">Đang hiện</option>
+                        <option value="0">Đang ẩn</option>
+                    </select>
+                </div>
+
+                <div class="data-card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="50">ID</th>
+                                    <th>Tên danh mục</th>
+                                    <th>Slug (Đường dẫn)</th>
+                                    <th>Cấp cha</th>
+                                    <th>Trạng thái</th>
+                                    <th width="120">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><strong>Thuốc Thủy Sản</strong></td>
+                                    <td>thuoc-thuy-san</td>
+                                    <td><span class="sub-text">Gốc (Root)</span></td>
+                                    <td><span class="status completed">Hiển thị</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>2</td>
+                                    <td style="padding-left: 40px; color: #555;">
+                                        <i class="fa-solid fa-turn-up" style="transform: rotate(90deg); margin-right: 5px; color: #999;"></i> 
+                                        Kháng sinh
+                                    </td>
+                                    <td>khang-sinh</td>
+                                    <td>Thuốc Thủy Sản</td>
+                                    <td><span class="status completed">Hiển thị</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>3</td>
+                                    <td style="padding-left: 40px; color: #555;">
+                                        <i class="fa-solid fa-turn-up" style="transform: rotate(90deg); margin-right: 5px; color: #999;"></i> 
+                                        Men vi sinh
+                                    </td>
+                                    <td>men-vi-sinh</td>
+                                    <td>Thuốc Thủy Sản</td>
+                                    <td><span class="status completed">Hiển thị</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>4</td>
+                                    <td><strong>Thiết bị nuôi tôm</strong></td>
+                                    <td>thiet-bi-nuoi-tom</td>
+                                    <td><span class="sub-text">Gốc (Root)</span></td>
+                                    <td><span class="status pending">Đang ẩn</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="#" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="#" class="btn-icon delete"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+         const toggleBtn = document.querySelector('.menu-toggle');
+        const body = document.body;
+        const overlay = document.querySelector('.admin-overlay');
+        toggleBtn.addEventListener('click', () => {
+            if (window.innerWidth > 768) body.classList.toggle('collapsed');
+            else body.classList.toggle('mobile-open');
+        });
+        overlay.addEventListener('click', () => { body.classList.remove('mobile-open'); });
+    </script>
+</body>
+</html>

@@ -31,7 +31,55 @@
             <li><a href="news.html"><i class="fa-solid fa-newspaper"></i> Tin tức & Sự kiện</a></li>
             <li><a href="#"><i class="fa-solid fa-phone"></i> Liên hệ</a></li>
             <li class="divider"></li>
-            <li><a href="#"><i class="fa-solid fa-user"></i> Đăng nhập / Đăng ký</a></li>
+            <?php if (isset($_SESSION['customer_user'])): ?>
+
+                <li class="mobile-user-group">
+                    <a href="javascript:void(0)" class="menu-toggle" onclick="toggleMobileSubmenu(this)">
+                        <i class="fa-solid fa-circle-user"></i>
+                        <span>Chào, <?php echo $_SESSION['customer_user']['fullname']; ?></span>
+                        <i class="fa-solid fa-chevron-down arrow-icon" style="float: right; font-size: 12px; margin-top: 4px;"></i>
+                    </a>
+
+                    <ul class="mobile-sub-menu" style="display: none; background-color: #f9f9f9;">
+
+                        <?php
+                        // Kiểm tra nếu có quyền role = 1 (Admin)
+                        if (isset($_SESSION['customer_user']['role']) && $_SESSION['customer_user']['role'] == 'admin'):
+                        ?>
+                            <li>
+                                <a href="/admin/dashboard" style="color: #d63031 !important; padding-left: 40px; font-weight: bold;">
+                                    <i class="fa-solid fa-user-gear"></i> Trang quản trị
+                                </a>
+                            </li>
+                        <?php endif; ?>
+
+                        <li>
+                            <a href="/profile" style="padding-left: 40px;">
+                                <i class="fa-solid fa-id-card"></i> Tài khoản
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/cart" style="padding-left: 40px;">
+                                <i class="fa-solid fa-box"></i> Đơn hàng
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/auth/logout" style="padding-left: 40px; color: #dc3545;">
+                                <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            <?php else: ?>
+
+                <li>
+                    <a href="/auth/login">
+                        <i class="fa-solid fa-user"></i> Đăng nhập / Đăng ký
+                    </a>
+                </li>
+
+            <?php endif; ?>
         </ul>
     </nav>
 
@@ -89,87 +137,59 @@
 
                 <div class="header-user">
 
+                    <a href="/cart" class="btn-action btn-cart">
+                        <div class="icon-wrapper">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <?php
+                            // Logic đếm giỏ hàng
+                            $cartCount = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+                            if ($cartCount > 0):
+                            ?>
+                                <span class="cart-badge"><?php echo $cartCount; ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <span>Giỏ hàng</span>
+                    </a>
+
                     <?php if (isset($_SESSION['customer_user'])): ?>
 
-
-
-                        <!-- ĐÃ ĐĂNG NHẬP (DROPDOWN USER) -->
-
                         <div class="user-dropdown">
-
-                            <!-- Nút chính -->
-
-                            <div class="user-btn">
-
+                            <div class="user-trigger">
                                 <span class="welcome-text">Xin chào, <b><?php echo $_SESSION['customer_user']['fullname']; ?></b></span>
-
                                 <i class="fa-solid fa-caret-down"></i>
-
                             </div>
-
-
-
-                            <!-- Menu con sổ xuống -->
 
                             <div class="dropdown-menu">
+                                <ul class="dropdown-content">
 
-                                <a href="/account/profile"><i class="fa-solid fa-user"></i> Thông tin tài khoản</a>
-
-                                <a href="/account/orders"><i class="fa-solid fa-box-open"></i> Đơn hàng của tôi</a>
-
-                                <div class="divider"></div>
-
-                                <a href="/auth/logout" class="logout-item"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
-
+                                    <?php
+                                    // Kiểm tra nếu có quyền role = 1 (Admin)
+                                    if (isset($_SESSION['customer_user']['role']) && $_SESSION['customer_user']['role'] == 'admin'):
+                                    ?>
+                                        <li>
+                                            <a href="/admin/dashboard" style="color: #d63031 !important; font-weight: bold;">
+                                                <i class="fa-solid fa-user-gear"></i> Trang quản trị
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li> <?php endif; ?>
+                                    <li><a href="/account/profile"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li>
+                                    <li><a href="/account/orders"><i class="fa-solid fa-box-open"></i> Đơn hàng</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/auth/logout" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
+                                </ul>
                             </div>
-
                         </div>
-
-
 
                     <?php else: ?>
 
-
-
-                        <!-- CHƯA ĐĂNG NHẬP -->
-
-                        <div class="header-actions">
-
-                            <a href="/cart" class="btn-cart">
-
-                                <i class="fa-solid fa-cart-shopping"></i>
-
-                                <span>Giỏ hàng</span>
-
-                                <?php
-
-                                $cartCount = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
-
-                                if ($cartCount > 0) echo "<span class='badge'>$cartCount</span>";
-
-                                ?>
-
-                            </a>
-
-
-
-                            <a href="/auth/login" class="btn-login">
-
-                                <i class="fa-regular fa-circle-user"></i>
-
-                                <span>Đăng nhập</span>
-
-                            </a>
-
-                        </div>
-
-
+                        <a href="/auth/login" class="btn-action btn-login">
+                            <i class="fa-regular fa-circle-user"></i>
+                            <span>Đăng nhập</span>
+                        </a>
 
                     <?php endif; ?>
 
                 </div>
-
-
 
             </div>
         </div>
@@ -202,8 +222,28 @@
     </header>
 
     <div class="mobile-welcome-bar">
-        <span>Xin chào, khách!</span>
-        <a href="">Đăng nhập <i class="fa-solid fa-chevron-right"></i></a>
+        <span> <?php
+                if (isset($_SESSION['customer_user'])) {
+                    // Đã đăng nhập: Hiện tên
+                    echo 'Xin chào, <b>' . $_SESSION['customer_user']['fullname'] . '!</b>';
+                } else {
+                    // Chưa đăng nhập: Hiện chào khách
+                    echo 'Xin chào, Khách!';
+                }
+                ?></span>
+
+        <?php if (isset($_SESSION['customer_user'])): ?>
+
+            <a href="/auth/logout" style="color: #dc3545;"> Đăng xuất <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
+
+        <?php else: ?>
+
+            <a href="/auth/login">
+                Đăng nhập <i class="fa-solid fa-chevron-right"></i>
+            </a>
+
+        <?php endif; ?>
     </div>
 
     <!-- ROUTER -->
@@ -259,6 +299,21 @@
     </footer>
 
     <script src="/assets/client/js/main.js"></script>
+    <script>
+        function toggleMobileSubmenu(element) {
+            // 1. Tìm menu con ngay bên cạnh thẻ a vừa click
+            var submenu = element.nextElementSibling;
+
+            // 2. Toggle hiển thị
+            if (submenu.style.display === "none" || submenu.style.display === "") {
+                submenu.style.display = "block";
+                element.classList.add("active"); // Để xoay mũi tên
+            } else {
+                submenu.style.display = "none";
+                element.classList.remove("active");
+            }
+        }
+    </script>
 </body>
 
 </html>
