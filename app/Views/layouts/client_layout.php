@@ -137,7 +137,7 @@
 
                 <div class="header-user">
 
-                    <a href="/cart" class="btn-action btn-cart">
+                    <a href="/cart" class=" btn-cart">
                         <div class="icon-wrapper">
                             <i class="fa-solid fa-cart-shopping"></i>
                             <?php
@@ -182,7 +182,7 @@
 
                     <?php else: ?>
 
-                        <a href="/auth/login" class="btn-action btn-login">
+                        <a href="/auth/login" class="btn-login">
                             <i class="fa-regular fa-circle-user"></i>
                             <span>Đăng nhập</span>
                         </a>

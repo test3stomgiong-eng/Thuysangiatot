@@ -1,12 +1,16 @@
 <?php
+
 namespace App\Controllers\Client;
+
 use App\Core\Controller;
 use App\Core\Database;
 
-class CheckoutController extends Controller {
+class CheckoutController extends Controller
+{
 
     // 1. Hiển thị trang điền thông tin
-    public function index() {
+    public function index()
+    {
         // Nếu giỏ hàng trống thì đá về trang chủ, không cho thanh toán
         if (empty($_SESSION['cart'])) {
             header("Location: /");
@@ -25,22 +29,23 @@ class CheckoutController extends Controller {
             'cart'        => $cart,
             'total_money' => $total_money,
             // Bạn có thể tạo thêm file checkout.css nếu muốn style riêng
-            'css_files'   => ['style.css', 'checkout.css'] 
+            'css_files'   => ['style.css', 'checkout.css']
         ];
 
         $this->view('Client/checkout', $data, 'client_layout');
     }
 
     // 2. Xử lý khi bấm nút "ĐẶT HÀNG" (Lưu vào DB)
-    public function process() {
+    public function process()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['cart'])) {
-            
+
             // Lấy dữ liệu từ Form
             $fullname = $_POST['fullname'];
             $phone    = $_POST['phone'];
             $address  = $_POST['address'];
             $note     = isset($_POST['note']) ? $_POST['note'] : '';
-            
+
             // Tính lại tổng tiền
             $cart = $_SESSION['cart'];
             $total_money = 0;
@@ -63,6 +68,8 @@ class CheckoutController extends Controller {
                 $sql1 = "INSERT INTO orders (code, customer_name, customer_phone, shipping_address, total_money, note, status, created_at) 
                          VALUES (:code, :name, :phone, :address, :total, :note, 'pending', NOW())";
                 $stmt1 = $conn->prepare($sql1);
+                $sql_stock = "UPDATE products SET stock = stock - :qty WHERE id = :p_id";
+                $stmt_stock = $conn->prepare($sql_stock);
                 $stmt1->execute([
                     ':code'    => $order_code,
                     ':name'    => $fullname,
@@ -71,7 +78,12 @@ class CheckoutController extends Controller {
                     ':total'   => $total_money,
                     ':note'    => $note
                 ]);
-                
+                // 2. THỰC HIỆN TRỪ KHO (MỚI)
+                $stmt_stock->execute([
+                    ':qty'  => $item['qty'], // Số lượng khách mua
+                    ':p_id' => $item['id']   // ID sản phẩm
+                ]);
+
                 $order_id = $conn->lastInsertId(); // Lấy ID đơn vừa tạo
 
                 // B. Lưu bảng ORDER_DETAILS (Chi tiết từng món)
@@ -99,7 +111,6 @@ class CheckoutController extends Controller {
                         alert('🎉 Đặt hàng thành công! Mã đơn: $order_code. Chúng tôi sẽ liên hệ sớm.');
                         window.location.href = '/';
                       </script>";
-
             } catch (\Exception $e) {
                 $conn->rollBack(); // Hủy nếu lỗi
                 echo "Lỗi hệ thống: " . $e->getMessage();

@@ -9,17 +9,17 @@
         <div class="product-gallery">
             <div class="main-image">
                 <div class="voucher-tag">Mới</div>
-                <img src="/assets/uploads/<?php echo $product->main_image; ?>" alt="Main Product" id="mainImg">
+                <img src="/assets/uploads/products/<?php echo $product->main_image; ?>" alt="Main Product" id="mainImg">
             </div>
             <div class="thumb-list">
 
-                <img src="/assets/uploads/<?php echo $product->main_image; ?>"
+                <img src="/assets/uploads/products/<?php echo $product->main_image; ?>"
                     onclick="changeImage(this.src)">
 
                 <?php if (!empty($gallery)): ?>
                     <?php foreach ($gallery as $img): ?>
 
-                        <img src="/assets/uploads/<?php echo $img->image_url; ?>"
+                        <img src="/assets/uploads/products/<?php echo $img->image_url; ?>"
                             onclick="changeImage(this.src)">
 
                     <?php endforeach; ?>
@@ -30,8 +30,8 @@
 
         <div class="product-info">
             <div class="brand-sku">
-                <span>Thương hiệu: <strong>TS-AQUA</strong></span>
-                <span class="sku">SKU: VS001</span>
+                <span>Thương hiệu: <strong>Công ty TNHH Khoa Học Công Nghệ 3S</strong></span>
+                <span class="sku">SKU: <?php echo $product->sku; ?></span>
             </div>
             <h1 class="product-title"><?php echo $product->name; ?></h1>
 
@@ -55,7 +55,7 @@
 
                 <?php endif; ?>
 
-                <span class="unit">/ Gói</span>
+                <!-- <span class="unit"></span> -->
             </div>
 
             <div class="short-desc">
@@ -82,10 +82,15 @@
 
 
                     <div class="btn-group">
-
+                        <?php if ($product->stock <= 0): ?>
+                            <p style="color:orange; font-size:12px; margin-top:5px;">
+                                * Thời gian giao hàng có thể chậm hơn 1-2 ngày, xin quý khách hàng thông cảm.
+                            </p>
+                        <?php endif; ?>
                         <button type="submit" name="action" value="buy_now" class="btn-buy-now">
                             MUA NGAY <span>(Giao nhanh toàn quốc)</span>
                         </button>
+
 
                         <div class="btn-row-2">
                             <button type="submit" name="action" value="add_cart" class="btn-add-cart">

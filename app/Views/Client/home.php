@@ -155,7 +155,7 @@
                 <?php foreach ($new_products as $item): ?>
                     <?php
                     // Đường dẫn ảnh mặc định
-                    $img_path = '/assets/uploads/' . $item->main_image;
+                    $img_path = '/assets/uploads/products/' . $item->main_image;
 
                     // Nếu DB không có tên ảnh thì dùng ảnh placeholder
                     if (empty($item->main_image)) {

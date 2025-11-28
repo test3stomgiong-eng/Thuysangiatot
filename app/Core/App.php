@@ -26,14 +26,30 @@ class App
         }
 
         // 2. Xác định tên File Controller
+        // 2. Xác định Controller
         if (isset($url[0])) {
-            // Kiểm tra file controller có tồn tại không
-            // Ví dụ: app/Controllers/Client/ProductController.php
-            $checkFile = "../app/Controllers/" . $this->folder . "/" . ucfirst($url[0]) . "Controller.php";
+            // Tạo tên file controller theo URL
+            $urlController = ucfirst($url[0]) . "Controller";
+            $checkFile = "../app/Controllers/" . $this->folder . "/" . $urlController . ".php";
 
             if (file_exists($checkFile)) {
-                $this->controller = ucfirst($url[0]) . "Controller";
+                $this->controller = $urlController;
                 unset($url[0]);
+            } else {
+                // 👇 THÊM ĐOẠN NÀY: Nếu gõ sai tên Controller thì báo lỗi 404 hoặc về trang chủ
+                // Chứ không để nó tự gọi HomeController trong Admin gây lỗi
+                if ($this->folder == 'Admin') {
+                    // Nếu đang ở Admin mà gõ sai -> Về Dashboard
+                    $this->controller = 'DashboardController';
+                } else {
+                    // Nếu ở Client mà gõ sai -> Về trang chủ hoặc trang 404
+                    $this->controller = 'HomeController';
+                }
+            }
+        } else {
+            // Nếu không gõ gì sau /admin
+            if ($this->folder == 'Admin') {
+                $this->controller = 'DashboardController';
             }
         }
 

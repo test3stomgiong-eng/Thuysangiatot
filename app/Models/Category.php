@@ -104,4 +104,67 @@ class Category extends Model
             ':id'        => $data['id']
         ]);
     }
+
+    public function getProductCategories()
+    {
+        // ID của danh mục Bài Viết (Tin tức) cần loại bỏ
+        $id_tin_tuc = 1;
+
+        // Câu SQL: Lấy tất cả TRỪ ông tin tức (id != 6) VÀ TRỪ con của ông tin tức (parent_id != 6)
+        $sql = "SELECT * FROM product_categories 
+                WHERE id != :id_news 
+                AND parent_id != :id_news 
+                ORDER BY id DESC";
+
+        $stmt = $this->query($sql);
+        $stmt->bindValue(':id_news', $id_tin_tuc);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * 1. HÀM CHÍNH: Lấy danh sách cây danh mục sản phẩm (Đã sắp xếp)
+     */
+    public function getTreeProductCategories()
+    {
+        // Lấy dữ liệu thô (Đã lọc bỏ tin tức như bước trước)
+        $id_tin_tuc = 6; // ID bài viết tổng hợp
+        $sql = "SELECT * FROM product_categories 
+                WHERE id != :id_news AND parent_id != :id_news 
+                ORDER BY name ASC"; // Sắp xếp tên A-Z trước
+
+        $stmt = $this->query($sql);
+        $stmt->bindValue(':id_news', $id_tin_tuc);
+        $stmt->execute();
+        $rawData = $stmt->fetchAll();
+
+        // Gọi hàm đệ quy để sắp xếp lại
+        $result = [];
+        $this->recursiveSort($rawData, 0, 0, $result);
+
+        return $result;
+    }
+
+    /**
+     * 2. HÀM PHỤ: Thuật toán đệ quy
+     * $source: Mảng dữ liệu thô
+     * $parent_id: Đang tìm con của ai?
+     * $level: Cấp độ thụt đầu dòng (0, 1, 2...)
+     */
+    private function recursiveSort($source, $parent_id, $level, &$result)
+    {
+        if (!empty($source)) {
+            foreach ($source as $key => $value) {
+                if ($value->parent_id == $parent_id) {
+                    // Gán thêm thuộc tính level để View biết đường thụt dòng
+                    $value->level = $level;
+                    $result[] = $value;
+
+                    // Tiếp tục tìm con của ông này (Level tăng lên 1)
+                    $this->recursiveSort($source, $value->id, $level + 1, $result);
+                }
+            }
+        }
+    }
 }

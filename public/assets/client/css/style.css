@@ -645,7 +645,7 @@ img {
 .btn-action {
   flex: 1;
   padding: 8px 0;
-  /* border-radius: 6px; */
+  border-radius: 6px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -653,8 +653,8 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  /* border: 1px solid; */
+  gap: 5px; 
+  border: 1px solid;
 }
 .btn-view {
   background: #fff;

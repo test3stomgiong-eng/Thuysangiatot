@@ -214,4 +214,6 @@ class CategoryController extends Controller
         $str = preg_replace('/([\s]+)/', '-', $str);
         return $str;
     }
+
+    
 }

@@ -18,7 +18,7 @@
                     // Tính thành tiền từng món
                     $line_total = $item['price'] * $item['qty'];
                     // Xử lý ảnh
-                    $img_src = !empty($item['image']) ? '/assets/uploads/' . $item['image'] : 'https://placehold.co/100x100?text=No+Image';
+                    $img_src = !empty($item['image']) ? '/assets/uploads/products/' . $item['image'] : 'https://placehold.co/100x100?text=No+Image';
                     ?>
 
                     <div class="cart-item">

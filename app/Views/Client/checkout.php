@@ -78,7 +78,7 @@
                     <?php foreach ($cart as $item): ?>
                         <?php
                         // Xử lý ảnh (Nếu không có ảnh thật thì dùng ảnh placeholder)
-                        $img = !empty($item['image']) ? '/assets/uploads/' . $item['image'] : 'https://placehold.co/60x60?text=No+Img';
+                        $img = !empty($item['image']) ? '/assets/uploads/products/' . $item['image'] : 'https://placehold.co/60x60?text=No+Img';
                         ?>
                         <div class="summary-item">
                             <div class="img-wrapper"><img src="<?php echo $img; ?>" alt="<?php echo $item['name']; ?>"></div>
