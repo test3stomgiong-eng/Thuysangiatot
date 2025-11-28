@@ -20,20 +20,20 @@
                 <i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="dashboard" class="active"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
+                <li><a href="/admin/dashboard" class="active"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
                 <li class="divider"></li>
-                <li><a href="product"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
-                <li><a href="category"><i class="fa-solid fa-layer-group"></i> <span>Danh mục sản phẩm</span></a></li>
+                <li><a href="/admin/product"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
+                <li><a href="/admin/category"><i class="fa-solid fa-layer-group"></i> <span>Danh mục sản phẩm</span></a></li>
                 <li class="divider"></li>
-                <li><a href="order"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span> <span class="badge">3</span></a></li>
+                <li><a href="/admin/order"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span> <span class="badge">3</span></a></li>
                 <li class="divider"></li>
-                <li><a href="customers.html"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
-                <li><a href="staff.html"><i class="fa-solid fa-id-card"></i> <span>Nhân viên</span></a></li>
+                <li><a href="/admin/customers.html"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+                <li><a href="/admin/staff.html"><i class="fa-solid fa-id-card"></i> <span>Nhân viên</span></a></li>
                 <li class="divider"></li>
-                <li><a href="news.html"><i class="fa-solid fa-newspaper"></i> <span>Tin tức</span></a></li>
-                <li><a href="news.html"><i class="fa-solid fa-file"></i> <span>Giấy Test TPD</span></a></li>
+                <li><a href="/admin/news.html"><i class="fa-solid fa-newspaper"></i> <span>Tin tức</span></a></li>
+                <li><a href="/admin/news.html"><i class="fa-solid fa-file"></i> <span>Giấy Test TPD</span></a></li>
                 <li class="divider"></li>
-                <li><a href="#"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
+                <li><a href="/admin/template"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-right-from-bracket"></i> <span>Đăng xuất</span></a></li>
             </ul>
         </aside>

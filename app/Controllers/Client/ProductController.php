@@ -8,39 +8,49 @@ use App\Models\Product;
 class ProductController extends Controller
 {
 
+    // 1. TRANG DANH SÁCH SẢN PHẨM (/product)
+    public function index()
+    {
+        $productModel = new Product();
+        $cat_id = isset($_GET['cat']) ? $_GET['cat'] : null;
+
+        $products = $productModel->getAllClient($cat_id);
+
+        $data = [
+            'title'     => 'Danh sách sản phẩm',
+            'products'  => $products,
+            'css_files' => ['style.css', 'products.css']
+        ];
+        $this->view('Client/products', $data, 'client_layout');
+    }
+
+    // 2. TRANG CHI TIẾT SẢN PHẨM (/product/detail/ID)
     public function detail($id = null)
     {
-        // 1. Kiểm tra ID
         if (!$id) {
-            header("Location: /"); // Không có ID thì về trang chủ
+            header("Location: /");
             exit();
         }
 
-        // 2. Gọi Model lấy dữ liệu
         $productModel = new Product();
         $product = $productModel->find($id);
 
-        // 3. Nếu không tìm thấy sản phẩm (ID sai)
         if (!$product) {
             echo "Sản phẩm không tồn tại!";
-            // Hoặc load view 404
             return;
         }
 
         $gallery = $productModel->getGallery($id);
+        $related = $productModel->getRelatedProducts($product->category_id, $product->id, 4);
 
-        $related_products = $productModel->getRelatedProducts($product->category_id, $product->id);
-
-        // 4. Gửi dữ liệu sang View
         $data = [
-            'title'     => $product->name, // Title tab trình duyệt là tên SP
-            'product'   => $product,       // Biến chứa toàn bộ thông tin SP
-            'gallery'   => $gallery,
-            'related_products' => $related_products,
-            // Load file CSS riêng cho trang chi tiết (Bạn nhớ tạo file này)
-            'css_files'     => ['style.css', 'product-detail.css']
+            'title'            => $product->name,
+            'product'          => $product,
+            'gallery'          => $gallery,
+            'related_products' => $related,
+            'css_files'        => ['style.css', 'product-detail.css']
         ];
 
-        $this->view('Client/product-detail', $data, 'client_layout');
+        $this->view('Client/product_detail', $data, 'client_layout');
     }
 }

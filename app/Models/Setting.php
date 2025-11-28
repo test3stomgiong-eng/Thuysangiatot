@@ -18,9 +18,21 @@ class Setting extends Model
         $settings = [];
         foreach ($data as $row) {
             $settings[$row->config_key] = $row->config_value;
-            $settings[$row->config_key. '_desc'] = $row->description;
+            $settings[$row->config_key . '_desc'] = $row->description;
         }
 
         return $settings;
     }
+
+    // public function updateValue($key, $value)
+    // {
+    //     // Cập nhật giá trị dựa theo config_key
+    //     $sql = "UPDATE settings SET config_value = :val WHERE config_key = :key";
+
+    //     $stmt = $this->query($sql);
+    //     return $stmt->execute([
+    //         ':val' => $value,
+    //         ':key' => $key
+    //     ]);
+    // }
 }

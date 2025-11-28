@@ -14,7 +14,11 @@
         </div>
         <div class="actions">
             <a href="/admin/order" class="btn-action btn-gray"><i class="fa-solid fa-arrow-left"></i> Quay lại</a>
-            <button class="btn-action btn-blue" onclick="window.print()"><i class="fa-solid fa-print"></i> In hóa đơn</button>
+            <!-- <button class="btn-action btn-blue" onclick="window.print()"><i class="fa-solid fa-print"></i> In hóa đơn</button> -->
+
+            <button class="btn-action btn-blue" onclick="openPrintModal()">
+                <i class="fa-solid fa-print"></i> In hóa đơn
+            </button>
         </div>
     </div>
 
@@ -126,3 +130,80 @@
         </div>
     </div>
 </div>
+
+<div id="printModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+
+    <div style="background:white; padding:25px; border-radius:8px; width:400px; max-width:90%; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+
+        <h3 style="margin-top:0; border-bottom:1px solid #eee; padding-bottom:10px; color:#333;">
+            <i class="fa-solid fa-print"></i> Chọn mẫu in
+        </h3>
+
+        <div class="form-group" style="margin-top: 20px;">
+            <label style="font-weight:bold; display:block; margin-bottom:5px;">Vui lòng chọn khổ giấy:</label>
+
+            <select id="templateSelect" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:4px; font-size:14px;">
+                <?php if (!empty($templates)): ?>
+                    <?php foreach ($templates as $tpl): ?>
+                        <option value="<?php echo $tpl->id; ?>">
+                            <?php echo $tpl->name; ?> <?php echo ($tpl->is_default) ? '(Mặc định)' : ''; ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <option value="">-- Chưa cấu hình mẫu in --</option>
+                <?php endif; ?>
+            </select>
+        </div>
+
+        <div style="margin-top:30px; text-align:right; display:flex; gap:10px; justify-content:flex-end;">
+            <button onclick="document.getElementById('printModal').style.display='none'"
+                class="btn-action btn-gray" style="border:none; cursor:pointer; background:#eee; color:#333;">
+                Đóng
+            </button>
+
+            <button onclick="confirmPrint()"
+                class="btn-action btn-blue" style="border:none; cursor:pointer;">
+                <i class="fa-solid fa-check"></i> Xác nhận in
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. Mở Popup
+    function openPrintModal() {
+        const modal = document.getElementById('printModal');
+        modal.style.display = 'flex';
+    }
+
+    // 2. Xử lý khi bấm nút Xác nhận
+    function confirmPrint() {
+        // Lấy ID mẫu in mà người dùng chọn trong thẻ Select
+        var tplId = document.getElementById('templateSelect').value;
+
+        // Lấy ID đơn hàng hiện tại
+        var orderId = <?php echo $order->id; ?>;
+
+        if (!tplId) {
+            alert("Vui lòng chọn mẫu in trước!");
+            return;
+        }
+
+        // Tạo đường dẫn: /admin/order/printOrder/ID_DON/ID_MAU
+        var url = '/admin/order/printOrder/' + orderId + '/' + tplId;
+
+        // Mở tab mới để in
+        window.open(url, '_blank');
+
+        // Đóng modal lại
+        document.getElementById('printModal').style.display = 'none';
+    }
+
+    // Đóng modal khi click ra ngoài vùng trắng
+    window.onclick = function(event) {
+        var modal = document.getElementById('printModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

@@ -7,11 +7,11 @@ use App\Core\Model;
 class Product extends Model
 {
 
-    // =========================================================================
-    // 1. CÁC HÀM CHO CLIENT (TRANG CHỦ & DANH SÁCH)
-    // =========================================================================
+    // ================================================================
+    // PHẦN 1: DÀNH CHO KHÁCH HÀNG (CLIENT)
+    // ================================================================
 
-    // Lấy sản phẩm mới nhất (Dùng cho Trang chủ)
+    // 1. Lấy sản phẩm mới (Trang chủ)
     public function getNewProducts($limit = 8)
     {
         $sql = "SELECT * FROM products WHERE status = 1 ORDER BY id DESC LIMIT $limit";
@@ -20,7 +20,7 @@ class Product extends Model
         return $stmt->fetchAll();
     }
 
-    // Lấy sản phẩm khuyến mãi (Dùng cho Trang chủ)
+    // 2. Lấy sản phẩm khuyến mãi (Trang chủ)
     public function getSaleProducts($limit = 4)
     {
         $sql = "SELECT * FROM products WHERE status = 1 AND sale_price > 0 ORDER BY id DESC LIMIT $limit";
@@ -29,7 +29,7 @@ class Product extends Model
         return $stmt->fetchAll();
     }
 
-    // Lấy tất cả sản phẩm cho trang danh sách (Client /product)
+    // 3. Lấy tất cả sản phẩm (Trang danh sách sản phẩm)
     public function getAllClient($category_id = null)
     {
         $sql = "SELECT * FROM products WHERE status = 1";
@@ -44,12 +44,11 @@ class Product extends Model
         if ($category_id) {
             $stmt->bindValue(':cat_id', $category_id);
         }
-
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
-    // Lấy sản phẩm liên quan (Trang chi tiết)
+    // 4. Lấy sản phẩm liên quan (Trang chi tiết)
     public function getRelatedProducts($category_id, $exclude_id, $limit = 3)
     {
         $sql = "SELECT * FROM products 
@@ -59,60 +58,51 @@ class Product extends Model
                 ORDER BY id DESC LIMIT $limit";
 
         $stmt = $this->query($sql);
-        $stmt->bindParam(':cat_id', $category_id);
-        $stmt->bindParam(':ex_id', $exclude_id);
-        $stmt->execute();
+        $stmt->execute([':cat_id' => $category_id, ':ex_id' => $exclude_id]);
         return $stmt->fetchAll();
     }
 
-    // =========================================================================
-    // 2. CÁC HÀM DÙNG CHUNG (CẢ ADMIN & CLIENT)
-    // =========================================================================
+    // ================================================================
+    // PHẦN 2: DÙNG CHUNG (CẢ ADMIN & CLIENT)
+    // ================================================================
 
-    // Lấy chi tiết 1 sản phẩm (Kèm tên danh mục)
+    // 5. Tìm 1 sản phẩm theo ID (Dùng cho xem chi tiết & Sửa)
     public function find($id)
     {
+        // JOIN để lấy tên danh mục luôn
         $sql = "SELECT p.*, c.name as category_name 
                 FROM products p 
                 LEFT JOIN product_categories c ON p.category_id = c.id
                 WHERE p.id = :id";
-
         $stmt = $this->query($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
+        $stmt->execute([':id' => $id]);
         return $stmt->fetch();
     }
 
-    // Lấy album ảnh phụ
+    // 6. Lấy Album ảnh phụ (Gallery)
     public function getGallery($product_id)
     {
         $sql = "SELECT * FROM product_images WHERE product_id = :pid";
         $stmt = $this->query($sql);
-        $stmt->bindParam(':pid', $product_id);
-        $stmt->execute();
+        $stmt->execute([':pid' => $product_id]);
         return $stmt->fetchAll();
     }
 
-    // =========================================================================
-    // 3. CÁC HÀM CHO ADMIN (QUẢN TRỊ)
-    // =========================================================================
+    // ================================================================
+    // PHẦN 3: DÀNH CHO ADMIN (QUẢN TRỊ)
+    // ================================================================
 
-    // Lấy danh sách admin (có search, filter)
-    // app/Models/Product.php
-
+    // 7. Lấy danh sách Admin (Có tìm kiếm + Lọc danh mục)
     public function getAllAdmin($keyword = null, $cat_id = null)
     {
         $sql = "SELECT p.*, c.name as category_name 
-            FROM products p
-            LEFT JOIN product_categories c ON p.category_id = c.id
-            WHERE 1=1";
+                FROM products p
+                LEFT JOIN product_categories c ON p.category_id = c.id
+                WHERE 1=1";
 
-        // 👇 LOGIC TÌM KIẾM
         if (!empty($keyword)) {
             $sql .= " AND (p.name LIKE :keyword OR p.sku LIKE :keyword)";
         }
-
-        // 👇 LOGIC LỌC DANH MỤC
         if (!empty($cat_id)) {
             $sql .= " AND p.category_id = :cat_id";
         }
@@ -120,8 +110,6 @@ class Product extends Model
         $sql .= " ORDER BY p.id DESC";
 
         $stmt = $this->query($sql);
-
-        // Bind giá trị
         if (!empty($keyword)) $stmt->bindValue(':keyword', "%$keyword%");
         if (!empty($cat_id)) $stmt->bindValue(':cat_id', $cat_id);
 
@@ -129,8 +117,7 @@ class Product extends Model
         return $stmt->fetchAll();
     }
 
-    
-    // Thêm mới và lấy ID
+    // 8. Thêm mới và lấy ID
     public function createGetId($data)
     {
         $sql = "INSERT INTO products 
@@ -156,52 +143,42 @@ class Product extends Model
         return $this->db->getConnection()->lastInsertId();
     }
 
-    // Cập nhật
+    // 9. Cập nhật
     public function update($data)
     {
         $sql = "UPDATE products SET 
-                category_id = :cat_id,
-                name = :name,
-                sku = :sku,
-                price = :price,
-                sale_price = :sale,
-                main_image = :img,
-                stock = :stock,
-                ingredients = :ingr,
-                uses = :uses,
-                usage_instruction = :usage,
-                note = :note,
-                status = :status
+                category_id = :cat_id, name = :name, sku = :sku, price = :price, sale_price = :sale, 
+                main_image = :img, stock = :stock, ingredients = :ingr, uses = :uses, 
+                usage_instruction = :usage, note = :note, status = :status
                 WHERE id = :id";
 
         $stmt = $this->query($sql);
         return $stmt->execute([
             ':cat_id' => $data['category_id'],
-            ':name'   => $data['name'],
-            ':sku'    => $data['sku'],
-            ':price'  => $data['price'],
-            ':sale'   => $data['sale_price'],
-            ':img'    => $data['main_image'],
-            ':stock'  => $data['stock'],
-            ':ingr'   => $data['ingredients'],
-            ':uses'   => $data['uses'],
-            ':usage'  => $data['usage_instruction'],
-            ':note'   => $data['note'],
+            ':name' => $data['name'],
+            ':sku' => $data['sku'],
+            ':price' => $data['price'],
+            ':sale' => $data['sale_price'],
+            ':img' => $data['main_image'],
+            ':stock' => $data['stock'],
+            ':ingr' => $data['ingredients'],
+            ':uses' => $data['uses'],
+            ':usage' => $data['usage_instruction'],
+            ':note' => $data['note'],
             ':status' => $data['status'],
-            ':id'     => $data['id']
+            ':id' => $data['id']
         ]);
     }
 
-    // Xóa sản phẩm
+    // 10. Xóa sản phẩm
     public function delete($id)
     {
         $sql = "DELETE FROM products WHERE id = :id";
         $stmt = $this->query($sql);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+        return $stmt->execute([':id' => $id]);
     }
 
-    // Thêm ảnh gallery
+    // 11. Các hàm xử lý Gallery
     public function addGalleryImage($product_id, $image_url)
     {
         $sql = "INSERT INTO product_images (product_id, image_url) VALUES (:pid, :url)";
@@ -209,7 +186,6 @@ class Product extends Model
         return $stmt->execute([':pid' => $product_id, ':url' => $image_url]);
     }
 
-    // Tìm ảnh gallery để xóa
     public function findGalleryImage($image_id)
     {
         $sql = "SELECT * FROM product_images WHERE id = :id";
@@ -218,7 +194,6 @@ class Product extends Model
         return $stmt->fetch();
     }
 
-    // Xóa ảnh gallery
     public function deleteGalleryImage($image_id)
     {
         $sql = "DELETE FROM product_images WHERE id = :id";
