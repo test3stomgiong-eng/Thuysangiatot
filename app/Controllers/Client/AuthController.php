@@ -36,59 +36,56 @@ class AuthController extends Controller
     public function registerPost()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // 1. Lấy dữ liệu
             $fullname   = trim($_POST['fullname']);
             $phone      = trim($_POST['phone']);
             $email      = trim($_POST['email']);
             $password   = $_POST['password'];
-            $repassword = isset($_POST['repassword']) ? $_POST['repassword'] : '';
+            $repassword = $_POST['repassword'];
 
-            // 2. Validate dữ liệu
+            // --- VALIDATION PHÍA SERVER (LỚP BẢO VỆ CUỐI CÙNG) ---
+
+            // 1. Check rỗng
             if (empty($fullname) || empty($phone) || empty($password)) {
-                $data['error'] = "Vui lòng nhập đầy đủ Họ tên, SĐT và Mật khẩu!";
+                $data['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc.";
                 $this->view('Client/register', $data);
                 return;
             }
 
-            if ($password !== $repassword) {
-                $data['error'] = "Mật khẩu xác nhận không khớp!";
+            // 2. Check định dạng SĐT (Regex giống JS)
+            if (!preg_match('/^0[0-9]{9}$/', $phone)) {
+                $data['error'] = "Số điện thoại không hợp lệ (Phải 10 số, bắt đầu bằng 0).";
                 $this->view('Client/register', $data);
                 return;
             }
 
-            // 3. Gọi Model xử lý
+            // 3. Check định dạng Email
+            if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $data['error'] = "Địa chỉ Email không hợp lệ.";
+                $this->view('Client/register', $data);
+                return;
+            }
+
+            // 4. Check trùng lặp (Gọi Model)
             $customerModel = new Customer();
-
-            // Kiểm tra trùng SĐT
-            if ($customerModel->exists($phone)) {
-                $data['error'] = "Số điện thoại này đã được đăng ký!";
+            if ($customerModel->exists($phone, $email)) {
+                $data['error'] = "Số điện thoại hoặc Email này đã được sử dụng!";
                 $this->view('Client/register', $data);
                 return;
             }
 
-            // --- GỌI HÀM REGISTER TỪ MODEL (THAY VÌ VIẾT SQL Ở ĐÂY) ---
+            // --- NẾU ỔN HẾT THÌ LƯU ---
             $isCreated = $customerModel->register([
                 'fullname' => $fullname,
                 'phone'    => $phone,
                 'email'    => $email,
-
-                // 👇 THAY ĐỔI Ở ĐÂY: Mã hóa mật khẩu trước khi lưu
                 'password' => password_hash($password, PASSWORD_DEFAULT)
             ]);
 
-            // 4. Kiểm tra kết quả
             if ($isCreated) {
-                echo "<script>
-                        alert('Chúc mừng! Đăng ký tài khoản thành công. Vui lòng đăng nhập.'); 
-                        window.location.href='/auth/login';
-                      </script>";
-            } else {
-                $data['error'] = "Lỗi hệ thống: Không thể tạo tài khoản.";
-                $this->view('Client/register', $data);
+                echo "<script>alert('Đăng ký thành công!'); window.location.href='/auth/login';</script>";
             }
         }
     }
-
     // ---------------------------------------------------------
     // 3. HIỂN THỊ FORM ĐĂNG NHẬP (GET)
     // URL: /auth/login

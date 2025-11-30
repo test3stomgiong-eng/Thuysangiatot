@@ -27,13 +27,13 @@
                 <li class="divider"></li>
                 <li><a href="/admin/order"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span> <span class="badge">3</span></a></li>
                 <li class="divider"></li>
-                <li><a href="/admin/customers.html"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
-                <li><a href="/admin/staff.html"><i class="fa-solid fa-id-card"></i> <span>Nhân viên</span></a></li>
+                <li><a href="/admin/customer"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
+                <li><a href="/admin/user    "><i class="fa-solid fa-id-card"></i> <span>Nhân viên</span></a></li>
                 <li class="divider"></li>
                 <li><a href="/admin/news.html"><i class="fa-solid fa-newspaper"></i> <span>Tin tức</span></a></li>
                 <li><a href="/admin/news.html"><i class="fa-solid fa-file"></i> <span>Giấy Test TPD</span></a></li>
                 <li class="divider"></li>
-                <li><a href="/admin/template"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
+                <li><a href="/admin/setting"><i class="fa-solid fa-gear"></i> <span>Cấu hình</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-right-from-bracket"></i> <span>Đăng xuất</span></a></li>
             </ul>
         </aside>

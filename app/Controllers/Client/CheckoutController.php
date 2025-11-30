@@ -36,87 +36,103 @@ class CheckoutController extends Controller
     }
 
     // 2. Xử lý khi bấm nút "ĐẶT HÀNG" (Lưu vào DB)
-    public function process()
-    {
+public function process() {
+        // Chỉ xử lý khi có POST và Giỏ hàng không rỗng
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['cart'])) {
 
-            // Lấy dữ liệu từ Form
-            $fullname = $_POST['fullname'];
-            $phone    = $_POST['phone'];
-            $address  = $_POST['address'];
-            $note     = isset($_POST['note']) ? $_POST['note'] : '';
+            // 1. LẤY DỮ LIỆU TỪ FORM
+            $fullname = trim($_POST['fullname']);
+            $phone    = trim($_POST['phone']);
+            $address  = trim($_POST['address']);
+            $note     = isset($_POST['note']) ? trim($_POST['note']) : '';
 
-            // Tính lại tổng tiền
+            // 2. XÁC ĐỊNH KHÁCH HÀNG (Để lưu lịch sử mua hàng)
+            $customer_id = null; // Mặc định là khách vãng lai
+            if (isset($_SESSION['customer_user'])) {
+                $customer_id = $_SESSION['customer_user']['id'];
+            }
+
+            // 3. TÍNH TỔNG TIỀN
             $cart = $_SESSION['cart'];
             $total_money = 0;
             foreach ($cart as $item) {
                 $total_money += $item['price'] * $item['qty'];
             }
 
-            // Tạo mã đơn hàng (Ví dụ: DH-169...)
+            // 4. TẠO MÃ ĐƠN HÀNG (VD: DH1702345678)
             $order_code = 'DH' . time();
 
-            // Kết nối DB
-            $db = new Database();
+            // 5. KẾT NỐI DB & BẮT ĐẦU GIAO DỊCH
+            $db = new \App\Core\Database(); // Nhớ thêm dấu \ hoặc use App\Core\Database ở đầu file
             $conn = $db->getConnection();
 
             try {
-                // Bắt đầu giao dịch (Transaction)
-                $conn->beginTransaction();
+                $conn->beginTransaction(); // --- BẮT ĐẦU ---
 
-                // A. Lưu bảng ORDERS
-                $sql1 = "INSERT INTO orders (code, customer_name, customer_phone, shipping_address, total_money, note, status, created_at) 
-                         VALUES (:code, :name, :phone, :address, :total, :note, 'pending', NOW())";
-                $stmt1 = $conn->prepare($sql1);
-                $sql_stock = "UPDATE products SET stock = stock - :qty WHERE id = :p_id";
+                // A. INSERT BẢNG ORDERS
+                $sql_order = "INSERT INTO orders (code, customer_id, customer_name, customer_phone, shipping_address, total_money, note, status, created_at) 
+                              VALUES (:code, :cid, :name, :phone, :addr, :total, :note, 'pending', NOW())";
+                
+                $stmt_order = $conn->prepare($sql_order);
+                $stmt_order->execute([
+                    ':code'  => $order_code,
+                    ':cid'   => $customer_id, // Lưu ID khách (quan trọng để xem lịch sử)
+                    ':name'  => $fullname,
+                    ':phone' => $phone,
+                    ':addr'  => $address,
+                    ':total' => $total_money,
+                    ':note'  => $note
+                ]);
+
+                // Lấy ID của đơn hàng vừa tạo
+                $order_id = $conn->lastInsertId();
+
+                // B. CHUẨN BỊ SQL: CHI TIẾT & TRỪ KHO
+                $sql_detail = "INSERT INTO order_details (order_id, product_id, product_name, price, quantity, total_price) 
+                               VALUES (:oid, :pid, :pname, :price, :qty, :total)";
+                $stmt_detail = $conn->prepare($sql_detail);
+
+                $sql_stock = "UPDATE products SET stock = stock - :qty WHERE id = :pid";
                 $stmt_stock = $conn->prepare($sql_stock);
-                $stmt1->execute([
-                    ':code'    => $order_code,
-                    ':name'    => $fullname,
-                    ':phone'   => $phone,
-                    ':address' => $address,
-                    ':total'   => $total_money,
-                    ':note'    => $note
-                ]);
-                // 2. THỰC HIỆN TRỪ KHO (MỚI)
-                $stmt_stock->execute([
-                    ':qty'  => $item['qty'], // Số lượng khách mua
-                    ':p_id' => $item['id']   // ID sản phẩm
-                ]);
 
-                $order_id = $conn->lastInsertId(); // Lấy ID đơn vừa tạo
-
-                // B. Lưu bảng ORDER_DETAILS (Chi tiết từng món)
-                $sql2 = "INSERT INTO order_details (order_id, product_id, product_name, price, quantity, total_price) 
-                         VALUES (:order_id, :p_id, :p_name, :price, :qty, :total)";
-                $stmt2 = $conn->prepare($sql2);
-
+                // C. CHẠY VÒNG LẶP TỪNG SẢN PHẨM
                 foreach ($cart as $item) {
-                    $stmt2->execute([
-                        ':order_id' => $order_id,
-                        ':p_id'     => $item['id'],
-                        ':p_name'   => $item['name'],
-                        ':price'    => $item['price'],
-                        ':qty'      => $item['qty'],
-                        ':total'    => $item['price'] * $item['qty']
+                    // C.1 Lưu chi tiết đơn hàng
+                    $stmt_detail->execute([
+                        ':oid'   => $order_id,
+                        ':pid'   => $item['id'],
+                        ':pname' => $item['name'],
+                        ':price' => $item['price'],
+                        ':qty'   => $item['qty'],
+                        ':total' => $item['price'] * $item['qty']
+                    ]);
+
+                    // C.2 Trừ tồn kho (Nằm trong vòng lặp là ĐÚNG)
+                    $stmt_stock->execute([
+                        ':qty' => $item['qty'],
+                        ':pid' => $item['id']
                     ]);
                 }
 
-                // C. Chốt đơn và Xóa giỏ hàng
-                $conn->commit();
+                // D. CHỐT GIAO DỊCH
+                $conn->commit(); // --- THÀNH CÔNG ---
+
+                // 6. XÓA GIỎ HÀNG & CHUYỂN HƯỚNG
                 unset($_SESSION['cart']);
 
-                // Thông báo và chuyển về trang chủ
                 echo "<script>
                         alert('🎉 Đặt hàng thành công! Mã đơn: $order_code. Chúng tôi sẽ liên hệ sớm.');
                         window.location.href = '/';
                       </script>";
+
             } catch (\Exception $e) {
-                $conn->rollBack(); // Hủy nếu lỗi
+                // Nếu có lỗi bất kỳ -> Hủy toàn bộ thao tác
+                $conn->rollBack(); 
                 echo "Lỗi hệ thống: " . $e->getMessage();
             }
+
         } else {
-            // Nếu truy cập trực tiếp link process mà không post
+            // Nếu truy cập trực tiếp mà không mua hàng -> Về trang chủ
             header("Location: /");
         }
     }

@@ -35,4 +35,23 @@ class Setting extends Model
     //         ':key' => $key
     //     ]);
     // }
+
+    // 2. Cập nhật 1 giá trị (Dùng cho cả text và ảnh)
+    public function updateValue($key, $value)
+    {
+        // Kiểm tra xem key đã tồn tại chưa
+        $check = $this->query("SELECT id FROM settings WHERE config_key = :key");
+        $check->execute([':key' => $key]);
+
+        if ($check->rowCount() > 0) {
+            // Update
+            $sql = "UPDATE settings SET config_value = :val WHERE config_key = :key";
+        } else {
+            // Insert mới nếu chưa có
+            $sql = "INSERT INTO settings (config_key, config_value) VALUES (:key, :val)";
+        }
+
+        $stmt = $this->query($sql);
+        return $stmt->execute([':key' => $key, ':val' => $value]);
+    }
 }
