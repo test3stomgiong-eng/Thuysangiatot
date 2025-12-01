@@ -6,24 +6,18 @@ use App\Core\Model;
 
 class Category extends Model
 {
-
-    // Lấy tất cả danh mục
-    // app/Models/Category.php
-
+    // 1. Lấy tất cả danh mục (Kèm tên cha)
     public function getAll($keyword = null, $status = null)
     {
-
         $sql = "SELECT c.*, p.name as parent_name 
             FROM product_categories c
             LEFT JOIN product_categories p ON c.parent_id = p.id
-            WHERE 1=1"; // Mẹo: 1=1 để dễ nối chuỗi AND phía sau
+            WHERE 1=1";
 
-        // 1. Lọc theo Tên (Nếu có keyword)
         if (!empty($keyword)) {
             $sql .= " AND c.name LIKE :keyword";
         }
 
-        // 2. Lọc theo Trạng thái (Nếu có chọn)
         if ($status !== null && $status !== '') {
             $sql .= " AND c.status = :status";
         }
@@ -32,7 +26,6 @@ class Category extends Model
 
         $stmt = $this->query($sql);
 
-        // Bind dữ liệu
         if (!empty($keyword)) {
             $stmt->bindValue(':keyword', '%' . $keyword . '%');
         }
@@ -44,45 +37,28 @@ class Category extends Model
         return $stmt->fetchAll();
     }
 
-    // Thêm mới danh mục
-
+    // 2. Thêm mới danh mục (Đã bổ sung image và icon_class)
     public function create($data)
     {
-        // 👇 SQL phải có cột parent_id
-        $sql = "INSERT INTO product_categories (name, slug, parent_id, description, status) 
-            VALUES (:name, :slug, :parent_id, :desc, :status)";
+        $sql = "INSERT INTO product_categories (name, slug, parent_id, description, status, image, icon_class) 
+            VALUES (:name, :slug, :parent_id, :desc, :status, :img, :icon)";
 
         $stmt = $this->query($sql);
 
         return $stmt->execute([
             ':name'      => $data['name'],
             ':slug'      => $data['slug'],
-            ':parent_id' => $data['parent_id'], // 👈 Bind dữ liệu ở đây
+            ':parent_id' => $data['parent_id'],
             ':desc'      => $data['description'],
-            ':status'    => $data['status']
+            ':status'    => $data['status'],
+            
+            // 👇 Hai trường mới thêm
+            ':img'       => $data['image'],
+            ':icon'      => $data['icon_class']
         ]);
     }
 
-    // Xóa danh mục
-    public function delete($id)
-    {
-        $sql = "DELETE FROM product_categories WHERE id = :id";
-        $stmt = $this->query($sql);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
-    }
-
-    // Lấy 1 danh mục (để sửa)
-    public function find($id)
-    {
-        $sql = "SELECT * FROM product_categories WHERE id = :id";
-        $stmt = $this->query($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch();
-    }
-
-    // Cập nhật danh mục
+    // 3. Cập nhật danh mục (Đã bổ sung image và icon_class)
     public function update($data)
     {
         $sql = "UPDATE product_categories 
@@ -90,7 +66,9 @@ class Category extends Model
                 slug = :slug, 
                 parent_id = :parent_id, 
                 description = :desc, 
-                status = :status 
+                status = :status,
+                image = :img,        -- 👈 Thêm
+                icon_class = :icon   -- 👈 Thêm
             WHERE id = :id";
 
         $stmt = $this->query($sql);
@@ -101,16 +79,36 @@ class Category extends Model
             ':parent_id' => $data['parent_id'],
             ':desc'      => $data['description'],
             ':status'    => $data['status'],
+            ':img'       => $data['image'],       // 👈 Bind dữ liệu
+            ':icon'      => $data['icon_class'],  // 👈 Bind dữ liệu
             ':id'        => $data['id']
         ]);
     }
 
+    // 4. Xóa danh mục
+    public function delete($id)
+    {
+        $sql = "DELETE FROM product_categories WHERE id = :id";
+        $stmt = $this->query($sql);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+
+    // 5. Lấy 1 danh mục (để sửa)
+    public function find($id)
+    {
+        $sql = "SELECT * FROM product_categories WHERE id = :id";
+        $stmt = $this->query($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    // 6. Lấy danh mục SẢN PHẨM (Loại bỏ tin tức ID=6)
     public function getProductCategories()
     {
-        // ID của danh mục Bài Viết (Tin tức) cần loại bỏ
-        $id_tin_tuc = 1;
+        $id_tin_tuc = 6; // ID bài viết tổng hợp
 
-        // Câu SQL: Lấy tất cả TRỪ ông tin tức (id != 6) VÀ TRỪ con của ông tin tức (parent_id != 6)
         $sql = "SELECT * FROM product_categories 
                 WHERE id != :id_news 
                 AND parent_id != :id_news 
@@ -123,48 +121,48 @@ class Category extends Model
         return $stmt->fetchAll();
     }
 
-    /**
-     * 1. HÀM CHÍNH: Lấy danh sách cây danh mục sản phẩm (Đã sắp xếp)
-     */
+    // 7. Lấy cây danh mục sản phẩm (Đã sắp xếp và lọc tin tức)
     public function getTreeProductCategories()
     {
-        // Lấy dữ liệu thô (Đã lọc bỏ tin tức như bước trước)
-        $id_tin_tuc = 6; // ID bài viết tổng hợp
+        $id_tin_tuc = 6; 
         $sql = "SELECT * FROM product_categories 
                 WHERE id != :id_news AND parent_id != :id_news 
-                ORDER BY name ASC"; // Sắp xếp tên A-Z trước
+                ORDER BY name ASC";
 
         $stmt = $this->query($sql);
         $stmt->bindValue(':id_news', $id_tin_tuc);
         $stmt->execute();
         $rawData = $stmt->fetchAll();
 
-        // Gọi hàm đệ quy để sắp xếp lại
         $result = [];
         $this->recursiveSort($rawData, 0, 0, $result);
 
         return $result;
     }
 
-    /**
-     * 2. HÀM PHỤ: Thuật toán đệ quy
-     * $source: Mảng dữ liệu thô
-     * $parent_id: Đang tìm con của ai?
-     * $level: Cấp độ thụt đầu dòng (0, 1, 2...)
-     */
+    // 8. Hàm đệ quy sắp xếp
     private function recursiveSort($source, $parent_id, $level, &$result)
     {
         if (!empty($source)) {
             foreach ($source as $key => $value) {
                 if ($value->parent_id == $parent_id) {
-                    // Gán thêm thuộc tính level để View biết đường thụt dòng
                     $value->level = $level;
                     $result[] = $value;
-
-                    // Tiếp tục tìm con của ông này (Level tăng lên 1)
                     $this->recursiveSort($source, $value->id, $level + 1, $result);
                 }
             }
         }
+    }
+
+    // 9. Lấy riêng danh mục TIN TỨC (Nếu cần dùng tạm)
+    public function getNewsCategories() {
+        $id_tin_tuc = 6; 
+        $sql = "SELECT * FROM product_categories 
+                WHERE id = :id OR parent_id = :id 
+                ORDER BY id DESC";
+        
+        $stmt = $this->query($sql);
+        $stmt->execute([':id' => $id_tin_tuc]);
+        return $stmt->fetchAll();
     }
 }

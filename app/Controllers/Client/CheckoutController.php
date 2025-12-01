@@ -11,33 +11,46 @@ class CheckoutController extends Controller
     // 1. Hiển thị trang điền thông tin
     public function index()
     {
-        // Nếu giỏ hàng trống thì đá về trang chủ, không cho thanh toán
+        // 1. Kiểm tra giỏ hàng (Code cũ)
         if (empty($_SESSION['cart'])) {
             header("Location: /");
             exit();
         }
 
-        // Tính tổng tiền
+        // 2. Tính tổng tiền (Code cũ)
         $cart = $_SESSION['cart'];
         $total_money = 0;
         foreach ($cart as $item) {
             $total_money += $item['price'] * $item['qty'];
         }
 
+        // 👇 3. THÊM ĐOẠN NÀY: Lấy thông tin khách hàng nếu đã đăng nhập
+        $currentUser = null; // Mặc định là null (Khách vãng lai)
+
+        if (isset($_SESSION['customer_user'])) {
+            $cusModel = new \App\Models\Customer();
+            // Lấy dữ liệu mới nhất từ DB (để đảm bảo địa chỉ, sđt là mới nhất)
+            $currentUser = $cusModel->find($_SESSION['customer_user']['id']);
+        }
+        // -----------------------------------------------------------
+
         $data = [
             'title'       => 'Thanh toán đơn hàng',
             'cart'        => $cart,
             'total_money' => $total_money,
-            // Bạn có thể tạo thêm file checkout.css nếu muốn style riêng
-            'css_files'   => ['style.css', 'checkout.css']
+
+            // Truyền biến user sang view
+            'user'        => $currentUser,
+
+            'css_files'   => ['style.css','checkout.css']
         ];
 
         $this->view('Client/checkout', $data, 'client_layout');
     }
 
     // 2. Xử lý khi bấm nút "ĐẶT HÀNG" (Lưu vào DB)
-public function process() {
-        // Chỉ xử lý khi có POST và Giỏ hàng không rỗng
+    public function process()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['cart'])) {
 
             // 1. LẤY DỮ LIỆU TỪ FORM
@@ -46,37 +59,63 @@ public function process() {
             $address  = trim($_POST['address']);
             $note     = isset($_POST['note']) ? trim($_POST['note']) : '';
 
-            // 2. XÁC ĐỊNH KHÁCH HÀNG (Để lưu lịch sử mua hàng)
-            $customer_id = null; // Mặc định là khách vãng lai
+            // --- LOGIC MỚI: XỬ LÝ CẬP NHẬT THÔNG TIN KHÁCH HÀNG ---
+
+            $customer_id = null;
+            $customerModel = new \App\Models\Customer(); // Gọi Model
+
+            // TRƯỜNG HỢP A: Khách ĐÃ Đăng Nhập
             if (isset($_SESSION['customer_user'])) {
                 $customer_id = $_SESSION['customer_user']['id'];
-            }
 
-            // 3. TÍNH TỔNG TIỀN
+                // Cập nhật thông tin mới vào bảng customers
+                // (Ví dụ lúc đăng ký chưa có địa chỉ, giờ mua hàng nhập địa chỉ -> Lưu luôn)
+                $customerModel->updateContactInfo($customer_id, $fullname, $phone, $address);
+
+                // Cập nhật lại Session để hiển thị đúng ngay lập tức (nếu cần)
+                $_SESSION['customer_user']['fullname'] = $fullname;
+                $_SESSION['customer_user']['phone'] = $phone;
+            }
+            // TRƯỜNG HỢP B: Khách Vãng Lai (Chưa đăng nhập)
+            else {
+                // Kiểm tra xem SĐT này đã có trong hệ thống chưa?
+                $existCus = $customerModel->findByPhone($phone);
+
+                if ($existCus) {
+                    // Nếu SĐT đã tồn tại -> Gán đơn hàng này cho khách đó luôn
+                    $customer_id = $existCus->id;
+
+                    // (Tùy chọn) Nếu khách cũ chưa có địa chỉ trong DB thì cập nhật luôn
+                    if (empty($existCus->address)) {
+                        $customerModel->updateContactInfo($customer_id, $fullname, $phone, $address);
+                    }
+                }
+            }
+            // -------------------------------------------------------
+
+            // 3. TIẾP TỤC QUY TRÌNH ĐẶT HÀNG (Code cũ của bạn)
             $cart = $_SESSION['cart'];
             $total_money = 0;
             foreach ($cart as $item) {
                 $total_money += $item['price'] * $item['qty'];
             }
 
-            // 4. TẠO MÃ ĐƠN HÀNG (VD: DH1702345678)
             $order_code = 'DH' . time();
 
-            // 5. KẾT NỐI DB & BẮT ĐẦU GIAO DỊCH
-            $db = new \App\Core\Database(); // Nhớ thêm dấu \ hoặc use App\Core\Database ở đầu file
+            $db = new \App\Core\Database();
             $conn = $db->getConnection();
 
             try {
-                $conn->beginTransaction(); // --- BẮT ĐẦU ---
+                $conn->beginTransaction();
 
                 // A. INSERT BẢNG ORDERS
                 $sql_order = "INSERT INTO orders (code, customer_id, customer_name, customer_phone, shipping_address, total_money, note, status, created_at) 
                               VALUES (:code, :cid, :name, :phone, :addr, :total, :note, 'pending', NOW())";
-                
+
                 $stmt_order = $conn->prepare($sql_order);
                 $stmt_order->execute([
                     ':code'  => $order_code,
-                    ':cid'   => $customer_id, // Lưu ID khách (quan trọng để xem lịch sử)
+                    ':cid'   => $customer_id, // ID khách hàng (đã xử lý ở trên)
                     ':name'  => $fullname,
                     ':phone' => $phone,
                     ':addr'  => $address,
@@ -84,9 +123,9 @@ public function process() {
                     ':note'  => $note
                 ]);
 
-                // Lấy ID của đơn hàng vừa tạo
                 $order_id = $conn->lastInsertId();
 
+                // ... (Phần lưu chi tiết và trừ kho giữ nguyên như cũ) ...
                 // B. CHUẨN BỊ SQL: CHI TIẾT & TRỪ KHO
                 $sql_detail = "INSERT INTO order_details (order_id, product_id, product_name, price, quantity, total_price) 
                                VALUES (:oid, :pid, :pname, :price, :qty, :total)";
@@ -95,9 +134,7 @@ public function process() {
                 $sql_stock = "UPDATE products SET stock = stock - :qty WHERE id = :pid";
                 $stmt_stock = $conn->prepare($sql_stock);
 
-                // C. CHẠY VÒNG LẶP TỪNG SẢN PHẨM
                 foreach ($cart as $item) {
-                    // C.1 Lưu chi tiết đơn hàng
                     $stmt_detail->execute([
                         ':oid'   => $order_id,
                         ':pid'   => $item['id'],
@@ -106,33 +143,24 @@ public function process() {
                         ':qty'   => $item['qty'],
                         ':total' => $item['price'] * $item['qty']
                     ]);
-
-                    // C.2 Trừ tồn kho (Nằm trong vòng lặp là ĐÚNG)
                     $stmt_stock->execute([
                         ':qty' => $item['qty'],
                         ':pid' => $item['id']
                     ]);
                 }
 
-                // D. CHỐT GIAO DỊCH
-                $conn->commit(); // --- THÀNH CÔNG ---
-
-                // 6. XÓA GIỎ HÀNG & CHUYỂN HƯỚNG
+                $conn->commit();
                 unset($_SESSION['cart']);
 
                 echo "<script>
-                        alert('🎉 Đặt hàng thành công! Mã đơn: $order_code. Chúng tôi sẽ liên hệ sớm.');
+                        alert('🎉 Đặt hàng thành công! Mã đơn: $order_code');
                         window.location.href = '/';
                       </script>";
-
             } catch (\Exception $e) {
-                // Nếu có lỗi bất kỳ -> Hủy toàn bộ thao tác
-                $conn->rollBack(); 
+                $conn->rollBack();
                 echo "Lỗi hệ thống: " . $e->getMessage();
             }
-
         } else {
-            // Nếu truy cập trực tiếp mà không mua hàng -> Về trang chủ
             header("Location: /");
         }
     }

@@ -64,6 +64,36 @@
                 </div>
             </div>
 
+            <div class="advanced-settings" style="display: flex; gap: 20px; margin-top: 20px;">
+
+                <div class="data-card" style="flex: 1; text-align: center; padding: 30px; border: 1px solid #e1e1e1;">
+                    <div style="margin-bottom: 15px;">
+                        <i class="fa-regular fa-images" style="font-size: 40px; color: #28a745;"></i>
+                    </div>
+                    <h4 style="margin: 0 0 10px; color: #333;">Banner Quảng Cáo</h4>
+                    <p style="color: #666; font-size: 13px; margin-bottom: 20px; min-height: 40px;">
+                        Quản lý slider chạy trang chủ và các banner khuyến mãi.
+                    </p>
+                    <a href="/admin/setting/banner" class="btn-action btn-green" style="display: inline-block; text-decoration: none;">
+                        <i class="fa-solid fa-pen-to-square"></i> Quản lý Banner
+                    </a>
+                </div>
+
+                <div class="data-card" style="flex: 1; text-align: center; padding: 30px; border: 1px solid #e1e1e1;">
+                    <div style="margin-bottom: 15px;">
+                        <i class="fa-solid fa-print" style="font-size: 40px; color: #007bff;"></i>
+                    </div>
+                    <h4 style="margin: 0 0 10px; color: #333;">Mẫu In Hóa Đơn</h4>
+                    <p style="color: #666; font-size: 13px; margin-bottom: 20px; min-height: 40px;">
+                        Thiết kế và quản lý các mẫu in (A4, A5, K80) cho đơn hàng.
+                    </p>
+                    <a href="/admin/template" class="btn-action btn-blue" style="display: inline-block; text-decoration: none;">
+                        <i class="fa-solid fa-list-check"></i> Quản lý Mẫu in
+                    </a>
+                </div>
+
+            </div>
+
         </div>
 
         <div class="form-col-side">
@@ -118,20 +148,7 @@
                     <input type="text" name="google_analytics" value="<?php echo $settings['google_analytics'] ?? ''; ?>" placeholder="G-XXXXXXXXXX">
                 </div>
             </div> -->
-            <div class="data-card form-card" style="background: #e3f2fd; border: 1px solid #90caf9;">
-                <h3 class="card-title" style="color: #0d47a1;">
-                    <i class="fa-solid fa-print"></i> Cấu hình in ấn
-                </h3>
-
-                <p style="font-size: 13px; color: #555; margin-bottom: 15px; line-height: 1.5;">
-                    Thiết kế và quản lý các mẫu in hóa đơn (A4, A5, K80) cho đơn hàng.
-                </p>
-
-                <a href="/admin/template" class="btn-action"
-                    style="display: block; text-align: center; background: #fff; color: #007bff; border: 1px solid #007bff; text-decoration: none; border-radius: 4px; padding: 10px; font-weight: bold; transition: 0.3s;">
-                    <i class="fa-solid fa-gear"></i> Quản lý mẫu in
-                </a>
-            </div>
+            
 
         </div>
 </div>

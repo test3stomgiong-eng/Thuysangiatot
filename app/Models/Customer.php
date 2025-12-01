@@ -197,4 +197,25 @@ class Customer extends Model
         $stmt = $this->query($sql);
         return $stmt->execute($params);
     }
+
+    // 1. Tìm khách hàng theo Số điện thoại
+    public function findByPhone($phone) {
+        $sql = "SELECT * FROM customers WHERE phone = :phone";
+        $stmt = $this->query($sql);
+        $stmt->execute([':phone' => $phone]);
+        return $stmt->fetch();
+    }
+
+    // 2. Cập nhật thông tin liên hệ (Dùng khi Checkout)
+    public function updateContactInfo($id, $fullname, $phone, $address) {
+        // Chỉ cập nhật Tên, SĐT, Địa chỉ
+        $sql = "UPDATE customers SET fullname = :name, phone = :phone, address = :addr WHERE id = :id";
+        $stmt = $this->query($sql);
+        return $stmt->execute([
+            ':name' => $fullname,
+            ':phone' => $phone,
+            ':addr' => $address,
+            ':id'   => $id
+        ]);
+    }
 }

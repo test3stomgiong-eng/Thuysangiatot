@@ -17,6 +17,24 @@
             <h3 class="card-title">Thông tin danh mục</h3>
 
             <div class="form-group">
+                <label>Mã Icon (FontAwesome)</label>
+                <input type="text" name="icon_class" class="form-control"
+                    placeholder="Ví dụ: fa-solid fa-fish">
+                <small style="color:#666;">
+                    Tìm icon tại: <a href="https://fontawesome.com/search?o=r&m=free"
+                        target="_blank">FontAwesome Free</a>.
+                    Copy đoạn class dán vào đây.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label>Icon / Ảnh đại diện danh mục</label>
+                <input type="file" name="image" class="form-control" style="padding: 5px;">
+                <small style="color:#888">Nên dùng ảnh PNG nền trong suốt hoặc SVG (Kích thước 64x64 hoặc
+                    128x128)</small>
+            </div>
+
+            <div class="form-group">
                 <label>Tên danh mục <span class="required" style="color:red">*</span></label>
                 <input type="text" name="name" id="catName" required
                     placeholder="Ví dụ: Men vi sinh..." onkeyup="generateSlug()">

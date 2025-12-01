@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,17 +8,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/admin.css">
 </head>
+
 <body>
 
     <div class="admin-overlay"></div>
 
     <div class="admin-wrapper">
-        
+
         <aside class="sidebar">
             <div class="sidebar-brand"><i class="fa-solid fa-shield-cat"></i> <span>ADMIN TS</span></div>
             <ul class="sidebar-menu">
                 <li><a href="index.html"><i class="fa-solid fa-gauge"></i> <span>Tổng quan</span></a></li>
-                <li><a href="categories.html" class="active"><i class="fa-solid fa-folder-tree"></i> <span>Danh mục SP</span></a></li>
+                <li><a href="categories.html" class="active"><i class="fa-solid fa-folder-tree"></i> <span>Danh mục
+                            SP</span></a></li>
                 <li><a href="products.html"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
                 <li><a href="orders.html"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span></a></li>
                 <li><a href="customers.html"><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a></li>
@@ -43,11 +46,15 @@
 
                 <div style="max-width: 800px; margin: 0 auto;">
                     <form class="data-card form-card">
+
+                       
+
                         <h3 class="card-title">Thông tin danh mục</h3>
 
                         <div class="form-group">
                             <label>Tên danh mục <span class="required">*</span></label>
-                            <input type="text" id="catName" placeholder="Ví dụ: Men vi sinh..." onkeyup="generateSlug()">
+                            <input type="text" id="catName" placeholder="Ví dụ: Men vi sinh..."
+                                onkeyup="generateSlug()">
                         </div>
 
                         <div class="form-group">
@@ -106,7 +113,7 @@
             slug = slug.replace(/\-\-/gi, '-');
             slug = '@' + slug + '@';
             slug = slug.replace(/\@\-|\-\@|\@/gi, '');
-            
+
             document.getElementById('catSlug').value = slug;
         }
 
@@ -121,4 +128,5 @@
         overlay.addEventListener('click', () => { body.classList.remove('mobile-open'); });
     </script>
 </body>
+
 </html>

@@ -1,70 +1,64 @@
+
 <section class="checkout-section container section-padding">
-    <!-- SỬA 1: Form trỏ về Controller xử lý, method POST -->
+    
     <form class="checkout-layout" action="/checkout/process" method="POST">
 
         <div class="checkout-info">
-            <h3 class="block-title"><i class="fa-solid fa-location-dot"></i> Thông tin giao hàng</h3>
+            <h3 class="block-title">
+                <i class="fa-solid fa-location-dot"></i> Thông tin giao hàng
+            </h3>
 
             <div class="form-group-row">
                 <div class="form-group">
                     <label>Họ và tên <span class="required">*</span></label>
-                    <!-- SỬA 2: Thêm name="fullname" -->
-                    <input type="text" name="fullname" placeholder="Nhập họ tên của bạn" required>
+                    <input type="text" name="fullname" required class="form-control" 
+                           placeholder="Nhập họ tên..."
+                           value="<?php echo isset($user) ? $user->fullname : ''; ?>">
                 </div>
                 <div class="form-group">
                     <label>Số điện thoại <span class="required">*</span></label>
-                    <!-- SỬA 3: Thêm name="phone" -->
-                    <input type="tel" name="phone" placeholder="Ví dụ: 0912345678" required>
+                    <input type="tel" name="phone" required class="form-control" 
+                           placeholder="09xxxxxxx"
+                           value="<?php echo isset($user) ? $user->phone : ''; ?>">
                 </div>
             </div>
 
             <div class="form-group">
-                <label>Email (Để nhận hóa đơn)</label>
-                <!-- Thêm name="email" -->
-                <input type="email" name="email" placeholder="example@gmail.com">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" 
+                       placeholder="email@example.com"
+                       value="<?php echo isset($user) ? $user->email : ''; ?>">
             </div>
 
             <div class="form-group">
-                <label>Địa chỉ cụ thể <span class="required">*</span></label>
-                <!-- SỬA 4: Thêm name="address" -->
-                <input type="text" name="address" placeholder="Số nhà, tên đường..." required>
-            </div>
-
-            <div class="form-group">
-                <label>Địa chỉ nhận hàng đầy đủ <span class="required">*</span></label>
-                <!-- Gợi ý khách nhập đầy đủ 4 cấp -->
-                <textarea name="address" rows="2" placeholder="Vui lòng nhập rõ: Số nhà, Tên đường, Xã/Phường, Quận/Huyện, Tỉnh/Thành phố..." required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                <label>Địa chỉ nhận hàng <span class="required">*</span></label>
+                <textarea name="address" rows="3" required class="form-control" 
+                          placeholder="Số nhà, đường, phường/xã..."><?php echo isset($user) ? $user->address : ''; ?></textarea>
             </div>
 
             <div class="form-group">
                 <label>Ghi chú đơn hàng</label>
-                <!-- SỬA 5: Thêm name="note" -->
-                <textarea name="note" rows="3" placeholder="Ví dụ: Giao hàng giờ hành chính..."></textarea>
+                <textarea name="note" rows="2" class="form-control" 
+                          placeholder="Giao giờ hành chính..."></textarea>
             </div>
 
-            <h3 class="block-title" style="margin-top: 30px;"><i class="fa-solid fa-wallet"></i> Phương thức thanh toán</h3>
+            <h3 class="block-title">
+                <i class="fa-solid fa-wallet"></i> Phương thức thanh toán
+            </h3>
+            
             <div class="payment-methods">
                 <label class="payment-item">
-                    <!-- SỬA 6: Thêm name="payment_method" và value -->
                     <input type="radio" name="payment_method" value="COD" checked>
-                    <div class="payment-content">
-                        <i class="fa-solid fa-money-bill-wave"></i>
-                        <span>Thanh toán khi nhận hàng (COD)</span>
-                    </div>
+                    <span class="payment-content">
+                        <i class="fa-solid fa-money-bill-wave"></i> Thanh toán khi nhận hàng (COD)
+                    </span>
                 </label>
+                
                 <label class="payment-item">
                     <input type="radio" name="payment_method" value="BANK">
-                    <div class="payment-content">
-                        <i class="fa-solid fa-building-columns"></i>
-                        <span>Chuyển khoản ngân hàng</span>
-                    </div>
-                </label>
-                <label class="payment-item">
-                    <input type="radio" name="payment_method" value="MOMO">
-                    <div class="payment-content">
-                        <i class="fa-solid fa-qrcode"></i>
-                        <span>Ví MoMo / ZaloPay</span>
-                    </div>
+                    <span class="payment-content">
+                        <i class="fa-solid fa-building-columns"></i> Chuyển khoản ngân hàng
+                    </span>
                 </label>
             </div>
         </div>
@@ -74,19 +68,21 @@
                 <h3 class="summary-header">Đơn hàng (<?php echo count($cart); ?> sản phẩm)</h3>
 
                 <div class="summary-list">
-                    <!-- SỬA 7: Vòng lặp hiển thị sản phẩm thật trong giỏ -->
                     <?php foreach ($cart as $item): ?>
                         <?php
-                        // Xử lý ảnh (Nếu không có ảnh thật thì dùng ảnh placeholder)
-                        $img = !empty($item['image']) ? '/assets/uploads/products/' . $item['image'] : 'https://placehold.co/60x60?text=No+Img';
+                            $img = !empty($item['image']) ? '/assets/uploads/products/' . $item['image'] : 'https://placehold.co/60x60';
                         ?>
                         <div class="summary-item">
-                            <div class="img-wrapper"><img src="<?php echo $img; ?>" alt="<?php echo $item['name']; ?>"></div>
+                            <div class="img-wrapper">
+                                <img src="<?php echo $img; ?>" alt="<?php echo $item['name']; ?>">
+                            </div>
                             <div class="info">
                                 <h4><?php echo $item['name']; ?></h4>
                                 <p>x<?php echo $item['qty']; ?></p>
                             </div>
-                            <div class="price"><?php echo number_format($item['price'] * $item['qty'], 0, ',', '.'); ?>đ</div>
+                            <div class="price">
+                                <?php echo number_format($item['price'] * $item['qty'], 0, ',', '.'); ?>đ
+                            </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -94,23 +90,24 @@
                 <div class="summary-pricing">
                     <div class="row">
                         <span>Tạm tính</span>
-                        <!-- SỬA 8: Hiển thị tổng tiền thật -->
                         <span><?php echo number_format($total_money, 0, ',', '.'); ?>đ</span>
                     </div>
                     <div class="row">
                         <span>Phí vận chuyển</span>
-                        <span>0đ (Miễn phí vận chuyển) </span>
+                        <span>0đ</span>
                     </div>
                     <div class="divider"></div>
                     <div class="row total">
                         <span>Tổng cộng</span>
-                        <!-- Cộng thêm 30k ship -->
                         <span class="total-price"><?php echo number_format($total_money, 0, ',', '.'); ?>đ</span>
                     </div>
                 </div>
 
                 <button type="submit" class="btn-place-order">ĐẶT HÀNG NGAY</button>
-                <p class="policy-text">Bằng cách đặt hàng, bạn đồng ý với <a href="#">Điều khoản sử dụng</a> của TS-AQUA Pharma.</p>
+                
+                <p class="policy-text">
+                    Bằng cách đặt hàng, bạn đồng ý với <a href="#">Điều khoản sử dụng</a>.
+                </p>
             </div>
         </div>
 
