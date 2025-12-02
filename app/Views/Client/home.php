@@ -209,6 +209,40 @@
                 }
                 ?>
                 <article class="product-card">
+
+                    <?php
+                    // 1. ƯU TIÊN: GIẢM GIÁ (SALE)
+                    if ($item->sale_price > 0 && $item->sale_price < $item->price) {
+                        $percent = round((($item->price - $item->sale_price) / $item->price) * 100);
+                        // Sale thường màu Đỏ
+                        echo '<div class="badge" style="background-color: #d0021b;">-' . $percent . '%</div>';
+                    }
+
+                    // 2. TIẾP THEO: CHƯƠNG TRÌNH KHUYẾN MÃI (MUA TẶNG)
+                    elseif (isset($item->promo_type) && $item->promo_type != 'none') {
+                        // Mua X Tặng Y (Cùng loại)
+                        if ($item->promo_type == 'same') {
+                            // Màu Cam nổi bật
+                            echo '<div class="badge" style="background-color: #ff9800; font-size: 11px;">Mua ' . $item->promo_buy . ' Tặng ' . $item->promo_get . '</div>';
+                        }
+                        // Tặng Quà Khác
+                        elseif ($item->promo_type == 'gift') {
+                            // Màu Hồng đậm
+                            echo '<div class="badge" style="background-color: #e91e63;"><i class="fa-solid fa-gift"></i> Quà Tặng</div>';
+                        }
+                    }
+
+                    // 3. TIẾP THEO: HOT (NỔI BẬT)
+                    elseif (isset($item->is_featured) && $item->is_featured == 1) {
+                        echo '<div class="badge" style="background-color: #ff5722;">Hot</div>';
+                    }
+
+                    // 4. CUỐI CÙNG: NEW (MỚI)
+                    elseif (isset($item->is_new) && $item->is_new == 1) {
+                        echo '<div class="badge" style="background-color: #28a745;">New</div>';
+                    }
+                    ?>
+
                     <div class="img-box"><img src="<?php echo $img_path; ?>" alt="<?php echo $item->name; ?>"></div>
                     <div class="info">
                         <h3><?php echo $item->name; ?></h3>
@@ -238,50 +272,7 @@
                     </div>
                 </article>
             <?php endforeach; ?>
-            <article class="product-card">
-                <div class="img-box"><img src="https://placehold.co/200x200?text=Vi+Sinh" alt="SP"></div>
-                <div class="info">
-                    <h3>Vi sinh xử lý đáy (Gói 500g)</h3>
-                    <div class="price"><span class="current">190.000đ</span></div>
-                    <div class="card-actions">
-                        <button class="btn-action btn-view">Xem</button>
-                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
-                    </div>
-                </div>
-            </article>
-            <article class="product-card">
-                <div class="img-box"><img src="https://placehold.co/200x200?text=Tang+Trong" alt="SP"></div>
-                <div class="info">
-                    <h3>Thuốc tăng trọng tôm thẻ</h3>
-                    <div class="price"><span class="current">410.000đ</span></div>
-                    <div class="card-actions">
-                        <button class="btn-action btn-view">Xem</button>
-                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
-                    </div>
-                </div>
-            </article>
-            <article class="product-card">
-                <div class="img-box"><img src="https://placehold.co/200x200?text=EDTA" alt="SP"></div>
-                <div class="info">
-                    <h3>EDTA Khử phèn (Bao 5kg)</h3>
-                    <div class="price"><span class="current">150.000đ</span></div>
-                    <div class="card-actions">
-                        <button class="btn-action btn-view">Xem</button>
-                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
-                    </div>
-                </div>
-            </article>
-            <article class="product-card">
-                <div class="img-box"><img src="https://placehold.co/200x200?text=Soda" alt="SP"></div>
-                <div class="info">
-                    <h3>Soda lạnh tăng kiềm (Bao 25kg)</h3>
-                    <div class="price"><span class="current">220.000đ</span></div>
-                    <div class="card-actions">
-                        <button class="btn-action btn-view">Xem</button>
-                        <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
-                    </div>
-                </div>
-            </article>
+
         </div>
 
     </section>
@@ -289,69 +280,95 @@
     <p style="text-align: center; color: red;">Chưa có sản phẩm nào được cập nhật.</p>
 <?php endif; ?>
 
-<section class="products container section-padding bg-light">
-    <div class="section-header">
-        <h2 class="section-title" style="color: #c0392b;"><i class="fa-solid fa-kit-medical"></i> KHÁNG SINH ĐẶC TRỊ</h2>
-        <a href="#" class="view-all">Xem tất cả <i class="fa-solid fa-caret-right"></i></a>
-    </div>
-    <div class="product-grid">
-        <article class="product-card">
-            <div class="img-box"><img src="https://placehold.co/200x200?text=Doxy" alt="SP"></div>
-            <div class="info">
-                <h3>Kháng sinh Doxycycline</h3>
-                <div class="price"><span class="current">1.200.000đ</span></div>
-                <div class="card-actions">
-                    <button class="btn-action btn-view">Xem</button>
-                    <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
-                </div>
-            </div>
-        </article>
-        <article class="product-card">
-            <div class="img-box"><img src="https://placehold.co/200x200?text=Cefo" alt="SP"></div>
-            <div class="info">
-                <h3>Kháng sinh Cefotaxime</h3>
-                <div class="price"><span class="current">1.800.000đ</span></div>
-                <div class="card-actions">
-                    <button class="btn-action btn-view">Xem</button>
-                    <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
-                </div>
-            </div>
-        </article>
-        <article class="product-card">
-            <div class="img-box"><img src="https://placehold.co/200x200?text=Flor" alt="SP"></div>
-            <div class="info">
-                <h3>Florfenicol (Chai 1L)</h3>
-                <div class="price"><span class="current">650.000đ</span></div>
-                <div class="card-actions">
-                    <button class="btn-action btn-view">Xem</button>
-                    <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
-                </div>
-            </div>
-        </article>
-        <article class="product-card">
-            <div class="img-box"><img src="https://placehold.co/200x200?text=Tri+Gan" alt="SP"></div>
-            <div class="info">
-                <h3>Đặc trị sưng gan, vàng gan</h3>
-                <div class="price"><span class="current">280.000đ</span></div>
-                <div class="card-actions">
-                    <button class="btn-action btn-view">Xem</button>
-                    <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
-                </div>
-            </div>
-        </article>
-        <article class="product-card">
-            <div class="img-box"><img src="https://placehold.co/200x200?text=Tri+Ruot" alt="SP"></div>
-            <div class="info">
-                <h3>Đặc trị phân trắng (Gói 100g)</h3>
-                <div class="price"><span class="current">95.000đ</span></div>
-                <div class="card-actions">
-                    <button class="btn-action btn-view">Xem</button>
-                    <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
-                </div>
-            </div>
-        </article>
-    </div>
-</section>
+<?php if (!empty($antibiotic_products)): ?>
+    <section class="products container section-padding bg-light">
+        <div class="section-header">
+            <h2 class="section-title" style="color: #c0392b;"><i class="fa-solid fa-kit-medical"></i> KHÁNG SINH ĐẶC TRỊ</h2>
+            <a href="#" class="view-all">Xem tất cả <i class="fa-solid fa-caret-right"></i></a>
+        </div>
+
+        <div class="product-grid">
+            <?php foreach ($antibiotic_products as $item): ?>
+                <?php
+                // Đường dẫn ảnh mặc định
+                $img_path = '/assets/uploads/products/' . $item->main_image;
+
+                // Nếu DB không có tên ảnh thì dùng ảnh placeholder
+                if (empty($item->main_image)) {
+                    $img_path = '/assets/images/no-image.png';
+                }
+                ?>
+                <article class="product-card">
+
+                    <?php
+                    // 1. ƯU TIÊN: GIẢM GIÁ (SALE)
+                    if ($item->sale_price > 0 && $item->sale_price < $item->price) {
+                        $percent = round((($item->price - $item->sale_price) / $item->price) * 100);
+                        // Sale thường màu Đỏ
+                        echo '<div class="badge" style="background-color: #d0021b;">-' . $percent . '%</div>';
+                    }
+
+                    // 2. TIẾP THEO: CHƯƠNG TRÌNH KHUYẾN MÃI (MUA TẶNG)
+                    elseif (isset($item->promo_type) && $item->promo_type != 'none') {
+                        // Mua X Tặng Y (Cùng loại)
+                        if ($item->promo_type == 'same') {
+                            // Màu Cam nổi bật
+                            echo '<div class="badge" style="background-color: #ff9800; font-size: 11px;">Mua ' . $item->promo_buy . ' Tặng ' . $item->promo_get . '</div>';
+                        }
+                        // Tặng Quà Khác
+                        elseif ($item->promo_type == 'gift') {
+                            // Màu Hồng đậm
+                            echo '<div class="badge" style="background-color: #e91e63;"><i class="fa-solid fa-gift"></i> Quà Tặng</div>';
+                        }
+                    }
+
+                    // 3. TIẾP THEO: HOT (NỔI BẬT)
+                    elseif (isset($item->is_featured) && $item->is_featured == 1) {
+                        echo '<div class="badge" style="background-color: #ff5722;">Hot</div>';
+                    }
+
+                    // 4. CUỐI CÙNG: NEW (MỚI)
+                    elseif (isset($item->is_new) && $item->is_new == 1) {
+                        echo '<div class="badge" style="background-color: #28a745;">New</div>';
+                    }
+                    ?>
+
+                    <div class="img-box">
+                        <img src="<?php echo $img_path; ?>" alt="<?php echo $item->name; ?>">
+                    </div>
+                    <div class="info">
+                        <h3><?php echo $item->name; ?></h3>
+                        <div class="price">
+                            <?php if ($item->sale_price > 0 && $item->sale_price < $item->price): ?>
+
+                                <span class="current">
+                                    <?php echo number_format($item->sale_price, 0, ',', '.'); ?>đ
+                                </span>
+
+                                <span class="old">
+                                    <?php echo number_format($item->price, 0, ',', '.'); ?>đ
+                                </span>
+
+                            <?php else: ?>
+
+                                <span class="current">
+                                    <?php echo number_format($item->price, 0, ',', '.'); ?>đ
+                                </span>
+
+                            <?php endif; ?>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/product/detail/<?php echo $item->id; ?>" class="btn-action btn-view">Xem</a>
+
+                            <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
+                        </div>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+
+        </div>
+    </section>
+<?php endif; ?>
 
 <section class="news container section-padding" style="margin: 50px auto;">
 

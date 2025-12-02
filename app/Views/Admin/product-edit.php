@@ -160,6 +160,51 @@
                 </div>
             </div>
 
+            <div class="data-card form-card" style="border-top: 3px solid #ffc107;">
+                <h3 class="card-title">Cấu hình Khuyến mãi</h3>
+
+                <div class="form-group">
+                    <label>Loại khuyến mãi</label>
+                    <select name="promo_type" id="promoType" onchange="togglePromo()">
+                        <option value="none">Không áp dụng</option>
+                        <option value="same">Mua X tặng Y (Cùng loại)</option>
+                        <option value="gift">Mua SP tặng Quà khác</option>
+                    </select>
+                </div>
+
+                <div id="promoConfig" style="display: none;">
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label>Mua (SL)</label>
+                            <input type="number" name="promo_buy" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Tặng (SL)</label>
+                            <input type="number" name="promo_get" value="1" min="1">
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="giftSelect" style="display: <?php echo ($product->promo_type == 'gift') ? 'block' : 'none'; ?>;">
+                        <label>Sản phẩm quà tặng <span style="color:red">*</span></label>
+
+                        <select name="promo_gift_id" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                            <option value="0">-- Chọn sản phẩm tặng kèm --</option>
+
+                            <?php if (!empty($all_products)): ?>
+                                <?php foreach ($all_products as $p): ?>
+
+                                    <option value="<?php echo $p->id; ?>">
+                                        <?php echo $p->name; ?>
+                                    </option>
+
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </form>
 
@@ -222,4 +267,23 @@
             });
         }
     });
+</script>
+
+<script>
+    function togglePromo() {
+        var type = document.getElementById('promoType').value;
+        var config = document.getElementById('promoConfig');
+        var gift = document.getElementById('giftSelect');
+
+        if (type === 'none') {
+            config.style.display = 'none';
+        } else {
+            config.style.display = 'block';
+            if (type === 'gift') {
+                gift.style.display = 'block';
+            } else {
+                gift.style.display = 'none';
+            }
+        }
+    }
 </script>

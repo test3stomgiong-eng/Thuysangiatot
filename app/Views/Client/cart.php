@@ -15,57 +15,82 @@
                 <?php foreach ($cart as $id => $item): ?>
 
                     <?php
-                    // Tính thành tiền từng món
-                    $line_total = $item['price'] * $item['qty'];
                     // Xử lý ảnh
-                    $img_src = !empty($item['image']) ? '/assets/uploads/products/' . $item['image'] : 'https://placehold.co/100x100?text=No+Image';
+                    $img = !empty($item['image']) ? '/assets/uploads/products/' . $item['image'] : 'https://placehold.co/100x100';
+
+                    // Kiểm tra cờ quà tặng
+                    $isGift = isset($item['is_gift']) && $item['is_gift'] == true;
+
+                    // Tính thành tiền (Nếu là quà thì = 0)
+                    $lineTotal = $isGift ? 0 : ($item['price'] * $item['qty']);
                     ?>
 
-                    <div class="cart-item">
-                        <div class="item-img">
-                            <img src="<?php echo $img_src; ?>" alt="<?php echo $item['name']; ?>">
+                    <?php if ($isGift): ?>
+
+                        <div class="cart-item cart-item-gift">
+                            <div class="item-img">
+                                <img src="<?php echo $img; ?>" alt="<?php echo $item['name']; ?>">
+                                <span class="gift-badge"><i class="fa-solid fa-gift"></i> Tặng</span>
+                            </div>
+                            <div class="item-info">
+                                <h3><a href="/product/detail/<?php echo $item['id']; ?>"><?php echo $item['name']; ?></a></h3>
+                                <p class="variant">Mã SP: <?php echo $item['id']; ?> - Quà tặng khuyến mãi</p>
+                            </div>
+                            <div class="item-price">
+                                <span class="old-price"><?php echo number_format($item['price']); ?>đ</span>
+                                <span class="free-price">0đ</span>
+                            </div>
+                            <div class="item-qty">
+                                <span>x<?php echo $item['qty']; ?></span>
+                            </div>
+                            <div class="item-total text-green">Miễn phí</div>
+                            <div class="item-remove"></div>
                         </div>
 
-                        <div class="item-info">
-                            <h3><a href="/product/detail/<?php echo $id; ?>"><?php echo $item['name']; ?></a></h3>
-                            <p class="variant">Mã SP: <?php echo isset($item['id']) ? $item['id'] : '---'; ?></p>
-                        </div>
+                    <?php else: ?>
 
-                        <div class="item-price">
-                            <?php echo number_format($item['price'], 0, ',', '.'); ?>đ
-                        </div>
+                        <div class="cart-item">
+                            <div class="item-img">
+                                <img src="<?php echo $img; ?>" alt="<?php echo $item['name']; ?>">
+                            </div>
+                            <div class="item-info">
+                                <h3><a href="/product/detail/<?php echo $item['id']; ?>"><?php echo $item['name']; ?></a></h3>
+                                <p class="variant">Mã SP: <?php echo $item['id']; ?></p>
+                            </div>
+                            <div class="item-price">
+                                <?php echo number_format($item['price']); ?>đ
+                            </div>
+                            <div class="item-qty">
+                                <div class="qty-control-small">
+                                    <a href="/cart/update/<?php echo $id; ?>/decrease" style="text-decoration:none;">
+                                        <button type="button">-</button>
+                                    </a>
 
-                        <div class="item-qty">
-                            <div class="qty-control-small">
-                                <a href="/cart/update/<?php echo $id; ?>/decrease" style="text-decoration:none;">
-                                    <button type="button">-</button>
-                                </a>
+                                    <input type="number" value="<?php echo $item['qty']; ?>" min="1" readonly>
 
-                                <input type="number" value="<?php echo $item['qty']; ?>" readonly>
-
-                                <a href="/cart/update/<?php echo $id; ?>/increase" style="text-decoration:none;">
-                                    <button type="button">+</button>
+                                    <a href="/cart/update/<?php echo $id; ?>/increase" style="text-decoration:none;">
+                                        <button type="button">+</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item-total">
+                                <?php echo number_format($lineTotal); ?>đ
+                            </div>
+                            <div class="item-remove">
+                                <a href="/cart/remove/<?php echo $id; ?>" onclick="return confirm('Xóa sản phẩm này?');">
+                                    <button type="button"><i class="fa-regular fa-trash-can"></i></button>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="item-total">
-                            <?php echo number_format($line_total, 0, ',', '.'); ?>đ
-                        </div>
-
-                        <div class="item-remove">
-                            <a href="/cart/remove/<?php echo $id; ?>" onclick="return confirm('Bạn chắc chắn muốn xóa món này?');">
-                                <button type="button"><i class="fa-regular fa-trash-can"></i></button>
-                            </a>
-                        </div>
-                    </div>
+                    <?php endif; ?>
 
                 <?php endforeach; ?>
-
             <?php else: ?>
-                <div class="empty-cart" style="text-align:center; padding: 30px;">
-                    <p>Giỏ hàng của bạn đang trống!</p>
-                    <a href="/" class="btn-continue">Mua sắm ngay</a>
+                <div style="text-align:center; padding: 40px; color: #999;">
+                    <i class="fa-solid fa-cart-arrow-down" style="font-size: 40px; margin-bottom: 10px;"></i>
+                    <p>Giỏ hàng của bạn đang trống.</p>
+                    <a href="/" style="color: var(--primary-color); font-weight: bold;">Tiếp tục mua sắm</a>
                 </div>
             <?php endif; ?>
 
@@ -74,41 +99,38 @@
             </div>
         </div>
 
-        <?php if (!empty($cart)): ?>
-            <div class="cart-summary-area">
-                <div class="summary-box">
-                    <h3 class="summary-title">Cộng giỏ hàng</h3>
+        <div class="cart-summary-area">
+            <div class="summary-box">
+                <h3 class="summary-title">Cộng giỏ hàng</h3>
+                <div class="summary-row">
+                    <span>Tạm tính:</span>
+                    <span class="temp-total"><?php echo number_format($total_money ?? 0); ?>đ</span>
+                </div>
+                <div class="summary-row">
+                    <span>Giảm giá:</span>
+                    <span>0đ</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row total-row">
+                    <span>Tổng tiền:</span>
+                    <span class="final-total"><?php echo number_format($total_money ?? 0); ?>đ</span>
+                </div>
+                <p class="vat-note">(Đã bao gồm VAT nếu có)</p>
 
-                    <div class="summary-row">
-                        <span>Tạm tính:</span>
-                        <span class="temp-total"><?php echo number_format($total_money, 0, ',', '.'); ?>đ</span>
-                    </div>
-
-                    <div class="summary-row">
-                        <span>Giảm giá:</span>
-                        <span>0đ</span>
-                    </div>
-
-                    <div class="summary-divider"></div>
-
-                    <div class="summary-row total-row">
-                        <span>Tổng tiền:</span>
-                        <span class="final-total"><?php echo number_format($total_money, 0, ',', '.'); ?>đ</span>
-                    </div>
-
-                    <p class="vat-note">(Đã bao gồm VAT nếu có)</p>
-
+                <?php if (!empty($cart)): ?>
                     <a href="/checkout" style="text-decoration: none;">
                         <button class="btn-checkout">TIẾN HÀNH THANH TOÁN</button>
                     </a>
+                <?php else: ?>
+                    <button class="btn-checkout" disabled style="background:#ccc; cursor:not-allowed;">TIẾN HÀNH THANH TOÁN</button>
+                <?php endif; ?>
 
-                    <div class="support-note">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        <p>Cam kết chính hãng 100%<br>Hoàn tiền nếu phát hiện hàng giả</p>
-                    </div>
+                <div class="support-note">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <p>Cam kết chính hãng 100%<br>Hoàn tiền nếu phát hiện hàng giả</p>
                 </div>
             </div>
-        <?php endif; ?>
+        </div>
 
     </div>
 </section>

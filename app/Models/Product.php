@@ -121,9 +121,11 @@ class Product extends Model
     public function createGetId($data)
     {
         $sql = "INSERT INTO products 
-                (category_id, name, sku, price, sale_price, main_image, stock, ingredients, uses, usage_instruction, note, status, created_at) 
-                VALUES 
-                (:cat_id, :name, :sku, :price, :sale, :img, :stock, :ingr, :uses, :usage, :note, :status, NOW())";
+            (category_id, name, sku, price, sale_price, main_image, stock, ingredients, uses, usage_instruction, note, status, 
+            promo_type, promo_buy, promo_get, promo_gift_id, created_at) 
+            VALUES 
+            (:cat_id, :name, :sku, :price, :sale, :img, :stock, :ingr, :uses, :usage, :note, :status, 
+            :promo_type, :promo_buy, :promo_get, :promo_gift_id, NOW())";
 
         $stmt = $this->query($sql);
         $stmt->execute([
@@ -138,7 +140,11 @@ class Product extends Model
             ':uses'   => $data['uses'],
             ':usage'  => $data['usage_instruction'],
             ':note'   => $data['note'],
-            ':status' => $data['status']
+            ':status' => $data['status'],
+            ':promo_type'    => $data['promo_type'],
+            ':promo_buy'     => $data['promo_buy'],
+            ':promo_get'     => $data['promo_get'],
+            ':promo_gift_id' => $data['promo_gift_id']
         ]);
         return $this->db->getConnection()->lastInsertId();
     }
@@ -147,10 +153,15 @@ class Product extends Model
     public function update($data)
     {
         $sql = "UPDATE products SET 
-                category_id = :cat_id, name = :name, sku = :sku, price = :price, sale_price = :sale, 
-                main_image = :img, stock = :stock, ingredients = :ingr, uses = :uses, 
-                usage_instruction = :usage, note = :note, status = :status
-                WHERE id = :id";
+            category_id = :cat_id, name = :name, sku = :sku, price = :price, sale_price = :sale, 
+            main_image = :img, stock = :stock, ingredients = :ingr, uses = :uses, 
+            usage_instruction = :usage, note = :note, status = :status,
+            promo_type = :promo_type,
+            promo_buy = :promo_buy,
+            promo_get = :promo_get,
+            promo_gift_id = :promo_gift_id
+
+            WHERE id = :id";
 
         $stmt = $this->query($sql);
         return $stmt->execute([
@@ -166,6 +177,10 @@ class Product extends Model
             ':usage' => $data['usage_instruction'],
             ':note' => $data['note'],
             ':status' => $data['status'],
+            ':promo_type'    => $data['promo_type'],
+            ':promo_buy'     => $data['promo_buy'],
+            ':promo_get'     => $data['promo_get'],
+            ':promo_gift_id' => $data['promo_gift_id'],
             ':id' => $data['id']
         ]);
     }
@@ -199,5 +214,18 @@ class Product extends Model
         $sql = "DELETE FROM product_images WHERE id = :id";
         $stmt = $this->query($sql);
         return $stmt->execute([':id' => $image_id]);
+    }
+
+    public function getProductsByCategory($categoryId, $limit = 5)
+    {
+        // Lấy sản phẩm có category_id bằng $categoryId VÀ đang hiện (status=1)
+        $sql = "SELECT * FROM products 
+                WHERE category_id = :cid AND status = 1 
+                ORDER BY id DESC LIMIT $limit";
+
+        $stmt = $this->query($sql);
+        $stmt->bindValue(':cid', $categoryId);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }

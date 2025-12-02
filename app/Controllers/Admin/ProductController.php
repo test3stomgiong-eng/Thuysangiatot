@@ -42,11 +42,22 @@ class ProductController extends Controller
     }
 
     // 2. Form thêm mới
+
     public function add()
     {
         $cateModel = new Category();
+        $prodModel = new Product(); // Gọi thêm Model Product
+
         $categories = $cateModel->getTreeProductCategories();
-        $data = ['title' => 'Thêm sản phẩm mới', 'categories' => $categories];
+
+        // 👇 LẤY DANH SÁCH SẢN PHẨM (ĐỂ CHỌN LÀM QUÀ)
+        $all_products = $prodModel->getAllAdmin();
+
+        $data = [
+            'title'        => 'Thêm sản phẩm mới',
+            'categories'   => $categories,
+            'all_products' => $all_products // Truyền sang View
+        ];
         $this->view('Admin/product-add', $data, 'admin_layout');
     }
 
@@ -85,7 +96,7 @@ class ProductController extends Controller
                 $this->view('Admin/product-add', $data, 'admin_layout');
                 return; // Dừng lại, không chạy code lưu bên dưới
             }
-            
+
             // A. Upload Ảnh Chính
             $main_image = '';
             if (!empty($_FILES['main_image']['name'])) {
@@ -115,7 +126,12 @@ class ProductController extends Controller
                 'uses'              => $_POST['uses'],
                 'usage_instruction' => $_POST['usage_instruction'],
                 'note'              => $_POST['note'],
-                'main_image'        => $main_image
+                'main_image'        => $main_image,
+
+                'promo_type'        => $_POST['promo_type'],
+                'promo_buy'         => !empty($_POST['promo_buy']) ? $_POST['promo_buy'] : 0,
+                'promo_get'         => !empty($_POST['promo_get']) ? $_POST['promo_get'] : 0,
+                'promo_gift_id'     => !empty($_POST['promo_gift_id']) ? $_POST['promo_gift_id'] : 0
             ];
 
             // C. Gọi Model lưu
@@ -189,31 +205,29 @@ class ProductController extends Controller
         exit();
     }
     // 4. HIỆN FORM SỬA (GET)
+
     public function edit($id)
     {
         $prodModel = new Product();
         $cateModel = new Category();
 
-        // Lấy thông tin sản phẩm
         $product = $prodModel->find($id);
         if (!$product) {
-            // Nếu không thấy SP thì về trang danh sách
             header("Location: /admin/product");
             exit();
         }
-
-        // Lấy danh sách ảnh phụ (gallery)
         $gallery = $prodModel->getGallery($id);
-
-        // Lấy danh mục để hiển thị select box
-        // (Nhớ dùng hàm lọc đã làm ở bài trước để loại bỏ tin tức)
         $categories = $cateModel->getTreeProductCategories();
 
+        // LẤY DANH SÁCH SẢN PHẨM
+        $all_products = $prodModel->getAllAdmin();
+
         $data = [
-            'title'      => 'Chỉnh sửa sản phẩm',
-            'product'    => $product,
-            'gallery'    => $gallery,
-            'categories' => $categories
+            'title'        => 'Chỉnh sửa sản phẩm',
+            'product'      => $product,
+            'gallery'      => $gallery,
+            'categories'   => $categories,
+            'all_products' => $all_products // Truyền sang View
         ];
         $this->view('Admin/product-edit', $data, 'admin_layout');
     }
@@ -258,7 +272,12 @@ class ProductController extends Controller
                 'uses'              => $_POST['uses'],
                 'usage_instruction' => $_POST['usage_instruction'],
                 'note'              => $_POST['note'],
-                'main_image'        => $main_image
+                'main_image'        => $main_image,
+
+                'promo_type'        => $_POST['promo_type'],
+                'promo_buy'         => !empty($_POST['promo_buy']) ? $_POST['promo_buy'] : 0,
+                'promo_get'         => !empty($_POST['promo_get']) ? $_POST['promo_get'] : 0,
+                'promo_gift_id'     => !empty($_POST['promo_gift_id']) ? $_POST['promo_gift_id'] : 0
             ];
 
             // --- C. GỌI MODEL UPDATE ---
