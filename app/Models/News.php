@@ -59,7 +59,15 @@ class News extends Model
     // 3. Lấy 1 bài viết (Sửa)
     public function find($id)
     {
-        $sql = "SELECT * FROM news WHERE id = :id";
+        // JOIN cả danh mục và tác giả
+        $sql = "SELECT n.*, 
+                       c.name as category_name, 
+                       u.fullname as author_name 
+                FROM news n 
+                LEFT JOIN news_categories c ON n.category_id = c.id
+                LEFT JOIN customers u ON n.author_id = u.id
+                WHERE n.id = :id";
+
         $stmt = $this->query($sql);
         $stmt->execute([':id' => $id]);
         return $stmt->fetch();
@@ -98,9 +106,23 @@ class News extends Model
     // Trong Model News
     public function getLatestNews($limit = 4)
     {
-        $sql = "SELECT * FROM news WHERE status = 1 ORDER BY id DESC LIMIT $limit";
+        // Thêm LEFT JOIN customers
+        $sql = "SELECT n.*, u.fullname as author_name 
+                FROM news n
+                LEFT JOIN customers u ON n.author_id = u.id
+                WHERE n.status = 1 
+                ORDER BY n.id DESC 
+                LIMIT $limit";
+
         $stmt = $this->query($sql);
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+    // Tăng lượt xem tin tức
+    public function increaseView($id) {
+        $sql = "UPDATE news SET views = views + 1 WHERE id = :id";
+        $stmt = $this->query($sql);
+        $stmt->execute([':id' => $id]);
     }
 }

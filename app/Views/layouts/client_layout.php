@@ -18,18 +18,18 @@
 
 <body>
     <div class="mobile-nav-overlay"></div>
-
     <nav class="mobile-nav-drawer">
         <div class="mobile-nav-header">
             <span class="nav-title">MENU</span>
             <button class="btn-close-menu"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <ul class="mobile-nav-list">
-            <li><a href="#"><i class="fa-solid fa-house"></i> Trang chủ</a></li>
-            <li><a href="products.html"><i class="fa-solid fa-capsules"></i> Sản phẩm</a></li>
-            <li><a href="#"><i class="fa-solid fa-book-medical"></i> Kiến thức nuôi tôm</a></li>
-            <li><a href="news.html"><i class="fa-solid fa-newspaper"></i> Tin tức & Sự kiện</a></li>
+            <li><a href="/"><i class="fa-solid fa-house"></i> Trang chủ</a></li>
+            <li><a href="/product"><i class="fa-solid fa-capsules"></i> Sản phẩm</a></li>
+            <li><a href="/news"><i class="fa-solid fa-newspaper"></i> Tin tức & Sự kiện</a></li>
             <li><a href="#"><i class="fa-solid fa-phone"></i> Liên hệ</a></li>
+            <li class="divider"></li>
+            <li><a href="/cart"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
             <li class="divider"></li>
             <?php if (isset($_SESSION['customer_user'])): ?>
 
@@ -99,7 +99,7 @@
                     <i class="fa-solid fa-bars"></i>
                 </div>
 
-                <a href="/index" class="logo-wrapper">
+                <a href="/" class="logo-wrapper">
                     <div class="logo-icon">
                         <i class="fa-solid fa-layers-group"></i>
                     </div>
@@ -110,8 +110,11 @@
                 </a>
 
                 <div class="search-container">
-                    <form class="search-box-wrapper">
-                        <input type="text" placeholder="Tìm tên thuốc, bệnh lý...">
+                    <form action="/product" method="GET" class="search-box-wrapper">
+                        <input type="text" name="keyword"
+                            placeholder="Tìm tên thuốc, bệnh lý..."
+                            value="<?php echo isset($_GET['keyword']) ? $_GET['keyword'] : ''; ?>"
+                            required>
                         <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                     <div class="search-tags">
@@ -197,25 +200,54 @@
         <nav class="main-nav">
             <div class="container">
                 <ul class="menu-root">
-                    <li class="menu-item active"><a href="/index">Trang chủ</a></li>
+                    <li class="menu-item active"><a href="/">Trang chủ</a></li>
+
                     <li class="menu-item has-child">
-                        <a href="products.html">Sản phẩm <i class="fa-solid fa-angle-down"></i></a>
+                        <a href="#">Sản phẩm <i class="fa-solid fa-angle-down"></i></a>
+
                         <ul class="sub-menu">
-                            <li><a href="#">Thuốc trị bệnh gan tụy</a></li>
-                            <li><a href="#">Men vi sinh xử lý nước</a></li>
-                            <li><a href="#">Khoáng tạt & Dinh dưỡng</a></li>
-                            <li><a href="#">Diệt khuẩn & Ký sinh trùng</a></li>
+
+                            <?php if (!empty($menu_categories)): ?>
+
+                                <li>
+                                    <a href="/product" style="font-weight: bold; color: #007bff;">
+                                        Tất cả sản phẩm
+                                    </a>
+                                </li>
+
+                                <?php foreach ($menu_categories as $cat): ?>
+                                    <li>
+                                        <a href="/product?cat=<?php echo $cat->id; ?>">
+                                            <?php echo $cat->name; ?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+
+                            <?php endif; ?>
+
                         </ul>
                     </li>
+
+
                     <li class="menu-item has-child">
-                        <a href="news.html">Kiến thức nuôi tôm <i class="fa-solid fa-angle-down"></i></a>
+                        <a href="#">Kiến thức nuôi tôm <i class="fa-solid fa-angle-down"></i></a>
+
                         <ul class="sub-menu">
-                            <li><a href="#">Phác đồ điều trị</a></li>
-                            <li><a href="#">Giá tôm hôm nay</a></li>
-                            <li><a href="#">Kỹ thuật gây màu nước</a></li>
+                            <li><a href="/news" style="font-weight:bold; color:#007bff;">Tất cả bài viết</a></li>
+
+                            <?php if (!empty($news_menu)): ?>
+                                <?php foreach ($news_menu as $item): ?>
+                                    <li>
+                                        <a href="/news?cat=<?php echo $item->id; ?>">
+                                            <?php echo $item->name; ?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </ul>
                     </li>
-                    <li class="menu-item"><a href="#">Liên hệ</a></li>
+
+                    <li class="menu-item"><a href="/about">Liên hệ</a></li>
                 </ul>
             </div>
         </nav>
@@ -314,6 +346,91 @@
             }
         }
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <?php if (isset($_SESSION['flash_success'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Thêm vào giỏ thành công!',
+                text: '<?php echo $_SESSION['flash_success']; ?>',
+
+                // Cấu hình hiển thị giữa màn hình
+                position: 'center',
+                showConfirmButton: true,
+                showCancelButton: true,
+
+                // Nút bấm
+                confirmButtonColor: '#28a745', // Màu xanh (Vào giỏ)
+                cancelButtonColor: '#6c757d', // Màu xám (Mua tiếp)
+                confirmButtonText: '<i class="fa-solid fa-cart-shopping"></i> Xem giỏ hàng',
+                cancelButtonText: 'Mua tiếp'
+
+            }).then((result) => {
+                // Nếu khách bấm "Xem giỏ hàng" thì chuyển trang
+                if (result.isConfirmed) {
+                    window.location.href = '/cart';
+                }
+            });
+        </script>
+
+        <?php unset($_SESSION['flash_success']); ?>
+    <?php endif; ?>
+
+    <script>
+        // 1. GHI NHỚ VỊ TRÍ KHI BẤM NÚT "THÊM VÀO GIỎ"
+        // Tìm tất cả các form có hành động thêm giỏ hàng
+        const cartForms = document.querySelectorAll('form[action="/cart/add"]');
+
+        cartForms.forEach(form => {
+            form.addEventListener('submit', function() {
+                // Lưu vị trí dọc (Y) hiện tại vào bộ nhớ trình duyệt
+                localStorage.setItem('scrollPosition', window.scrollY);
+            });
+        });
+
+        // 2. KHÔI PHỤC VỊ TRÍ SAU KHI LOAD LẠI TRANG
+        window.addEventListener('load', function() {
+            // Kiểm tra xem có vị trí đã lưu không
+            const scrollPos = localStorage.getItem('scrollPosition');
+
+            if (scrollPos) {
+                // Cuộn ngay lập tức xuống vị trí cũ
+                window.scrollTo(0, parseInt(scrollPos));
+
+                // Xóa bộ nhớ để không ảnh hưởng các trang khác
+                localStorage.removeItem('scrollPosition');
+            }
+        });
+    </script>
+
+    <script>
+        const filterBtn = document.querySelector('.btn-open-filter');
+        const sidebar = document.querySelector('.shop-sidebar');
+        const closeFilter = document.querySelector('.btn-close-filter');
+        const overlay = document.querySelector('.mobile-nav-overlay'); // Tận dụng overlay cũ
+
+        if (filterBtn) {
+            filterBtn.addEventListener('click', () => {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            });
+        }
+        if (closeFilter) {
+            closeFilter.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        }
+        // Bấm ra ngoài đóng luôn bộ lọc
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+            });
+        }
+    </script>
+
 </body>
 
 </html>

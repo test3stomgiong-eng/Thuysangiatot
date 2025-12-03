@@ -46,10 +46,21 @@ class CartController extends Controller
 
                 // Điều hướng
                 if ($action == 'buy_now') {
+                    // Nếu bấm MUA NGAY -> Chuyển sang Giỏ hàng
                     header("Location: /cart");
                 } else {
-                    // Nếu thêm giỏ thì quay lại trang cũ hoặc về giỏ hàng tùy bạn
-                    header("Location: /cart");
+                    // Nếu bấm THÊM GIỎ -> Ở lại trang cũ + Thông báo
+
+                    // 1. Lưu thông báo vào session
+                    $_SESSION['flash_success'] = "Đã thêm sản phẩm vào giỏ hàng!";
+
+                    // 2. Quay lại trang trước đó (Trang chi tiết sản phẩm)
+                    if (isset($_SERVER['HTTP_REFERER'])) {
+                        header("Location: " . $_SERVER['HTTP_REFERER']);
+                    } else {
+                        // Nếu không xác định được trang cũ thì về trang chủ
+                        header("Location: /");
+                    }
                 }
                 exit();
             }

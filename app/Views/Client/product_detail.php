@@ -160,7 +160,7 @@
                         <?php
                         // 1. Xử lý ảnh (Nếu không có ảnh thì dùng ảnh placeholder 80x80)
                         $img_src = !empty($item->main_image)
-                            ? '/assets/uploads/' . $item->main_image
+                            ? '/assets/uploads/products/' . $item->main_image
                             : 'https://placehold.co/80x80?text=No+Image';
                         ?>
 

@@ -49,8 +49,8 @@
         </div>
     </div>
 </section>
-
-<section class="mobile-quick-menu container">
+<!-- Hien thi menu mobi -->
+<!-- <section class="mobile-quick-menu container">
     <div class="quick-menu-grid">
         <a href="#" class="quick-item">
             <i class="fa-solid fa-user-doctor"></i>
@@ -69,8 +69,8 @@
             <span>Sức khỏe tổng quát</span>
         </a>
     </div>
-</section>
-
+</section> -->
+<!-- kết thúc Hien thi menu mobi -->
 <section class="categories container section-padding">
     <h2 class="section-title" style="margin-bottom: 20px; font-size: 20px; font-weight: 700; color: #333;">
         DANH MỤC SẢN PHẨM
@@ -117,7 +117,8 @@
     </div>
 </section>
 
-<section class="products container section-padding bg-light">
+<!-- Bat dau khong dung -->
+<!-- <section class="products container section-padding bg-light">
     <div class="section-header">
         <h2 class="section-title text-orange"><i class="fa-solid fa-bolt"></i> DEAL SIÊU KHỦNG</h2>
         <a href="#" class="view-all">Xem tất cả <i class="fa-solid fa-caret-right"></i></a>
@@ -190,7 +191,89 @@
             </div>
         </article>
     </div>
-</section>
+</section> -->
+<!-- hết Không dùng -->
+
+<!-- Sản phẩm quan tâm -->
+<?php if (!empty($top_viewed)): ?>
+    <section class="products container section-padding bg-light" style="margin-top: 30px;">
+        <div class="section-header">
+            <h2 class="section-title" style="color: #ff9800;">
+                <i class="fa-solid fa-fire"></i> SẢN PHẨM ĐƯỢC QUAN TÂM
+            </h2>
+        </div>
+        <div class="product-grid">
+            <?php foreach ($top_viewed as $item): ?>
+                <article class="product-card">
+                    <?php
+                    // 1. ƯU TIÊN: GIẢM GIÁ (SALE)
+                    if ($item->sale_price > 0 && $item->sale_price < $item->price) {
+                        $percent = round((($item->price - $item->sale_price) / $item->price) * 100);
+                        // Sale thường màu Đỏ
+                        echo '<div class="badge" style="background-color: #d0021b;">-' . $percent . '%</div>';
+                    }
+
+                    // 2. TIẾP THEO: CHƯƠNG TRÌNH KHUYẾN MÃI (MUA TẶNG)
+                    elseif (isset($item->promo_type) && $item->promo_type != 'none') {
+                        // Mua X Tặng Y (Cùng loại)
+                        if ($item->promo_type == 'same') {
+                            // Màu Cam nổi bật
+                            echo '<div class="badge" style="background-color: #ff9800; font-size: 11px;">Mua ' . $item->promo_buy . ' Tặng ' . $item->promo_get . '</div>';
+                        }
+                        // Tặng Quà Khác
+                        elseif ($item->promo_type == 'gift') {
+                            // Màu Hồng đậm
+                            echo '<div class="badge" style="background-color: #e91e63;"><i class="fa-solid fa-gift"></i> Quà Tặng</div>';
+                        }
+                    }
+
+                    // 3. TIẾP THEO: HOT (NỔI BẬT)
+                    elseif (isset($item->is_featured) && $item->is_featured == 1) {
+                        echo '<div class="badge" style="background-color: #ff5722;">Hot</div>';
+                    }
+
+                    // 4. CUỐI CÙNG: NEW (MỚI)
+                    elseif (isset($item->is_new) && $item->is_new == 1) {
+                        echo '<div class="badge" style="background-color: #28a745;">New</div>';
+                    }
+                    ?>
+
+                    <div class="img-box" style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fff; border-bottom: 1px solid #eee;">
+                        <?php $imgSrc = !empty($item->main_image) ? '/assets/uploads/products/' . $item->main_image : 'https://placehold.co/200x200'; ?>
+                        <a href="/product/detail/<?php echo $item->id; ?>" style="display: block; width: 100%; height: 100%;">
+                            <img src="<?php echo $imgSrc; ?>" alt="<?php echo $item->name; ?>">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <h3><a href="/product/detail/<?php echo $item->id; ?>"><?php echo $item->name; ?></a></h3>
+                        <div class="price"><span class="current"><?php echo number_format($item->price); ?>đ</span></div>
+                        <form action="/cart/add" method="POST">
+                            <div class="card-actions">
+
+                                <a href="/product/detail/<?php echo $item->id; ?>" class="btn-action btn-view">
+                                    <i class="fa-regular fa-eye"></i> Xem
+                                </a>
+
+
+                                <input type="hidden" name="product_id" value="<?php echo $item->id; ?>">
+
+                                <input type="hidden" name="quantity" value="1">
+
+                                <button type="submit" name="action" value="add_cart" class="btn-action btn-cart-add">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+    </section>
+<?php endif; ?>
+
+<!-- Sản phẩm mới -->
 <?php if (!empty($new_products)): ?>
     <section class="products container section-padding">
         <div class="section-header">
@@ -243,7 +326,15 @@
                     }
                     ?>
 
-                    <div class="img-box"><img src="<?php echo $img_path; ?>" alt="<?php echo $item->name; ?>"></div>
+                    <!-- <div class="img-box"><img src="<?php echo $img_path; ?>" alt="<?php echo $item->name; ?>"></div> -->
+                    <div class="img-box" style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fff; border-bottom: 1px solid #eee;">
+                        <?php
+                        $imgSrc = !empty($item->main_image) ? '/assets/uploads/products/' . $item->main_image : 'https://placehold.co/200x200?text=No+Img';
+                        ?>
+                        <a href="/product/detail/<?php echo $item->id; ?>" style="display: block; width: 100%; height: 100%;">
+                            <img src="<?php echo $imgSrc; ?>" alt="<?php echo $item->name; ?>" style="width: 100%; height: 100%; object-fit: contain;">
+                        </a>
+                    </div>
                     <div class="info">
                         <h3><?php echo $item->name; ?></h3>
                         <div class="price">
@@ -265,21 +356,39 @@
 
                             <?php endif; ?>
                         </div>
-                        <div class="card-actions">
+                        <!-- <div class="card-actions">
                             <a href="/product/detail/<?php echo $item->id; ?>" class="btn-action btn-view">Xem</a>
                             <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
-                        </div>
+                        </div> -->
+
+                        <form action="/cart/add" method="POST">
+                            <div class="card-actions">
+
+                                <a href="/product/detail/<?php echo $item->id; ?>" class="btn-action btn-view">
+                                    <i class="fa-regular fa-eye"></i> Xem
+                                </a>
+
+
+                                <input type="hidden" name="product_id" value="<?php echo $item->id; ?>">
+
+                                <input type="hidden" name="quantity" value="1">
+
+                                <button type="submit" name="action" value="add_cart" class="btn-action btn-cart-add">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
+
+
+                            </div>
+                        </form>
+
                     </div>
                 </article>
             <?php endforeach; ?>
-
         </div>
-
     </section>
-<?php else: ?>
-    <p style="text-align: center; color: red;">Chưa có sản phẩm nào được cập nhật.</p>
 <?php endif; ?>
 
+<!-- Kháng sinh đặt trị -->
 <?php if (!empty($antibiotic_products)): ?>
     <section class="products container section-padding bg-light">
         <div class="section-header">
@@ -357,11 +466,25 @@
 
                             <?php endif; ?>
                         </div>
-                        <div class="card-actions">
-                            <a href="/product/detail/<?php echo $item->id; ?>" class="btn-action btn-view">Xem</a>
+                        <form action="/cart/add" method="POST">
+                            <div class="card-actions">
 
-                            <button class="btn-action btn-cart-add"><i class="fa-solid fa-cart-plus"></i></button>
-                        </div>
+                                <a href="/product/detail/<?php echo $item->id; ?>" class="btn-action btn-view">
+                                    <i class="fa-regular fa-eye"></i> Xem
+                                </a>
+
+
+                                <input type="hidden" name="product_id" value="<?php echo $item->id; ?>">
+
+                                <input type="hidden" name="quantity" value="1">
+
+                                <button type="submit" name="action" value="add_cart" class="btn-action btn-cart-add">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
+
+
+                            </div>
+                        </form>
                     </div>
                 </article>
             <?php endforeach; ?>
@@ -370,16 +493,128 @@
     </section>
 <?php endif; ?>
 
-<section class="news container section-padding" style="margin: 50px auto;">
+<!-- Men vi sinh -->
+<?php if (!empty($probiotic_products)): ?>
+    <section class="products container section-padding" style="margin-top: 30px;">
+        <div class="section-header">
+            <h2 class="section-title" style="color: #28a745;">
+                <i class="fa-solid fa-bacterium"></i> MEN VI SINH XỬ LÝ
+            </h2>
+            <a href="/product?cat=3" class="view-all">Xem tất cả <i class="fa-solid fa-caret-right"></i></a>
+        </div>
 
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2 class="section-title" style="margin:0; text-transform:uppercase; font-size:24px;">Thông tin kỹ thuật - Dịch bệnh</h2>
-        <a href="/news" style="color:#28a745; font-weight:bold; text-decoration:none;">Xem tất cả &rarr;</a>
+        <div class="product-grid">
+            <?php foreach ($probiotic_products as $item): ?>
+                <article class="product-card">
+                    <?php
+                    // 1. ƯU TIÊN: GIẢM GIÁ (SALE)
+                    if ($item->sale_price > 0 && $item->sale_price < $item->price) {
+                        $percent = round((($item->price - $item->sale_price) / $item->price) * 100);
+                        // Sale thường màu Đỏ
+                        echo '<div class="badge" style="background-color: #d0021b;">-' . $percent . '%</div>';
+                    }
+
+                    // 2. TIẾP THEO: CHƯƠNG TRÌNH KHUYẾN MÃI (MUA TẶNG)
+                    elseif (isset($item->promo_type) && $item->promo_type != 'none') {
+                        // Mua X Tặng Y (Cùng loại)
+                        if ($item->promo_type == 'same') {
+                            // Màu Cam nổi bật
+                            echo '<div class="badge" style="background-color: #ff9800; font-size: 11px;">Mua ' . $item->promo_buy . ' Tặng ' . $item->promo_get . '</div>';
+                        }
+                        // Tặng Quà Khác
+                        elseif ($item->promo_type == 'gift') {
+                            // Màu Hồng đậm
+                            echo '<div class="badge" style="background-color: #e91e63;"><i class="fa-solid fa-gift"></i> Quà Tặng</div>';
+                        }
+                    }
+
+                    // 3. TIẾP THEO: HOT (NỔI BẬT)
+                    elseif (isset($item->is_featured) && $item->is_featured == 1) {
+                        echo '<div class="badge" style="background-color: #ff5722;">Hot</div>';
+                    }
+
+                    // 4. CUỐI CÙNG: NEW (MỚI)
+                    elseif (isset($item->is_new) && $item->is_new == 1) {
+                        echo '<div class="badge" style="background-color: #28a745;">New</div>';
+                    }
+                    ?>
+                    <div class="img-box" style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fff; border-bottom: 1px solid #eee;">
+                        <?php $imgSrc = !empty($item->main_image) ? '/assets/uploads/products/' . $item->main_image : 'https://placehold.co/200x200'; ?>
+                        <a href="/product/detail/<?php echo $item->id; ?>" style="display: block; width: 100%; height: 100%;">
+                            <img src="<?php echo $imgSrc; ?>" alt="<?php echo $item->name; ?>">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <h3><a href="/product/detail/<?php echo $item->id; ?>"><?php echo $item->name; ?></a></h3>
+                        <div class="price"><span class="current"><?php echo number_format($item->price); ?>đ</span></div>
+                        <form action="/cart/add" method="POST">
+                            <div class="card-actions">
+
+                                <a href="/product/detail/<?php echo $item->id; ?>" class="btn-action btn-view">
+                                    <i class="fa-regular fa-eye"></i> Xem
+                                </a>
+
+
+                                <input type="hidden" name="product_id" value="<?php echo $item->id; ?>">
+
+                                <input type="hidden" name="quantity" value="1">
+
+                                <button type="submit" name="action" value="add_cart" class="btn-action btn-cart-add">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+    </section>
+<?php endif; ?>
+
+<!-- cam kết -->
+<section class="policy-section container" style="margin: 50px auto; padding: 30px 0; border-top: 1px solid #eee;">
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+
+        <div class="policy-item" style="text-align: center; flex: 1; min-width: 200px;">
+            <i class="fa-solid fa-truck-fast" style="font-size: 40px; color: #28a745; margin-bottom: 15px;"></i>
+            <h4 style="margin: 0 0 5px; font-size: 16px;">Giao hàng toàn quốc</h4>
+            <p style="font-size: 13px; color: #666;">Nhận hàng kiểm tra mới thanh toán</p>
+        </div>
+
+        <div class="policy-item" style="text-align: center; flex: 1; min-width: 200px;">
+            <i class="fa-solid fa-shield-halved" style="font-size: 40px; color: #28a745; margin-bottom: 15px;"></i>
+            <h4 style="margin: 0 0 5px; font-size: 16px;">Hàng chính hãng 100%</h4>
+            <p style="font-size: 13px; color: #666;">Đền gấp 10 lần nếu phát hiện hàng giả</p>
+        </div>
+
+        <div class="policy-item" style="text-align: center; flex: 1; min-width: 200px;">
+            <i class="fa-solid fa-user-doctor" style="font-size: 40px; color: #28a745; margin-bottom: 15px;"></i>
+            <h4 style="margin: 0 0 5px; font-size: 16px;">Dược sĩ tư vấn 24/7</h4>
+            <p style="font-size: 13px; color: #666;">Hỗ trợ kỹ thuật nuôi tôm trọn đời</p>
+        </div>
+
+        <div class="policy-item" style="text-align: center; flex: 1; min-width: 200px;">
+            <i class="fa-solid fa-arrows-rotate" style="font-size: 40px; color: #28a745; margin-bottom: 15px;"></i>
+            <h4 style="margin: 0 0 5px; font-size: 16px;">Đổi trả trong 7 ngày</h4>
+            <p style="font-size: 13px; color: #666;">Nếu sản phẩm bị lỗi hoặc hư hỏng</p>
+        </div>
+
     </div>
+</section>
 
-    <div class="news-layout">
+<!-- Tin tức -->
+<?php if (!empty($latest_news)): ?>
+    <section class="news container section-padding" style="margin: 50px auto;">
 
-        <?php if (!empty($latest_news)): ?>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2 class="section-title" style="margin:0; text-transform:uppercase; font-size:24px;">Thông tin kỹ thuật - Dịch bệnh</h2>
+            <a href="/news" style="color:#28a745; font-weight:bold; text-decoration:none;">Xem tất cả &rarr;</a>
+        </div>
+
+        <div class="news-layout">
+
 
             <?php
             $bigNews = $latest_news[0];
@@ -424,9 +659,6 @@
                 <?php endforeach; ?>
             </div>
 
-        <?php else: ?>
-            <p>Chưa có tin tức nào.</p>
-        <?php endif; ?>
-
-    </div>
-</section>
+        </div>
+    </section>
+<?php endif; ?>

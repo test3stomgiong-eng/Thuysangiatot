@@ -44,7 +44,9 @@ class SettingController extends Controller
                 'social_facebook',
                 'social_zalo',
                 'seo_description',
-                'seo_keywords'
+                'seo_keywords',
+                'social_youtube',
+                'social_tiktok'
             ];
 
             // Lưu các trường text
@@ -53,8 +55,13 @@ class SettingController extends Controller
                     $settingModel->updateValue($key, $_POST[$key]);
                 }
             }
+            $statusKeys = ['status_facebook', 'status_zalo', 'status_youtube', 'status_tiktok'];
 
-            // Xử lý Upload Logo (Nếu có chọn ảnh mới)
+            foreach ($statusKeys as $key) {
+                // Nếu có tích -> value=1, Không tích -> value=0
+                $val = isset($_POST[$key]) ? 1 : 0;
+                $settingModel->updateValue($key, $val);
+            }            // Xử lý Upload Logo (Nếu có chọn ảnh mới)
             if (!empty($_FILES['site_logo']['name'])) {
                 $logoName = $this->uploadLogo($_FILES['site_logo']);
                 if ($logoName) {

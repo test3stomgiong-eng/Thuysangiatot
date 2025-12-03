@@ -29,21 +29,79 @@ class Product extends Model
         return $stmt->fetchAll();
     }
 
-    // 3. Lấy tất cả sản phẩm (Trang danh sách sản phẩm)
-    public function getAllClient($category_id = null)
+    // 1. HÀM ĐẾM TỔNG SỐ LƯỢNG (Dùng để tính số trang)
+    public function countAllClient($category_id = null, $min_price = null, $max_price = null, $keyword = null)
     {
-        $sql = "SELECT * FROM products WHERE status = 1";
+        $sql = "SELECT COUNT(*) as total FROM products WHERE status = 1";
 
+        // Lọc danh mục
         if ($category_id) {
             $sql .= " AND category_id = :cat_id";
         }
 
-        $sql .= " ORDER BY id DESC";
+        // Lọc giá
+        if ($min_price !== null && $min_price !== '') {
+            $sql .= " AND price >= :min";
+        }
+        if ($max_price !== null && $max_price !== '') {
+            $sql .= " AND price <= :max";
+        }
+
+        // Tìm kiếm (Tên hoặc SKU)
+        if (!empty($keyword)) {
+            $sql .= " AND (name LIKE :kw OR sku LIKE :kw)";
+        }
 
         $stmt = $this->query($sql);
-        if ($category_id) {
-            $stmt->bindValue(':cat_id', $category_id);
+
+        // Bind dữ liệu
+        if ($category_id) $stmt->bindValue(':cat_id', $category_id);
+        if ($min_price !== null && $min_price !== '') $stmt->bindValue(':min', $min_price);
+        if ($max_price !== null && $max_price !== '') $stmt->bindValue(':max', $max_price);
+        if (!empty($keyword)) $stmt->bindValue(':kw', "%$keyword%");
+
+        $stmt->execute();
+        return $stmt->fetch()->total;
+    }
+
+    // 2. HÀM LẤY DANH SÁCH (Full chức năng: Lọc, Tìm, Phân trang)
+    // Chú ý: Có thêm tham số $limit, $offset, $keyword
+    public function getAllClient($category_id = null, $min_price = null, $max_price = null, $sort = 'newest', $limit = null, $offset = 0, $keyword = null)
+    {
+        $sql = "SELECT * FROM products WHERE status = 1";
+
+        // 1. Các bộ lọc (Giống hệt hàm đếm)
+        if ($category_id) $sql .= " AND category_id = :cat_id";
+        if ($min_price !== null && $min_price !== '') $sql .= " AND price >= :min";
+        if ($max_price !== null && $max_price !== '') $sql .= " AND price <= :max";
+        if (!empty($keyword)) $sql .= " AND (name LIKE :kw OR sku LIKE :kw)";
+
+        // 2. Sắp xếp
+        switch ($sort) {
+            case 'price_asc':
+                $sql .= " ORDER BY price ASC";
+                break;
+            case 'price_desc':
+                $sql .= " ORDER BY price DESC";
+                break;
+            default:
+                $sql .= " ORDER BY id DESC";
+                break;
         }
+
+        // 3. Phân trang (Limit & Offset)
+        if ($limit !== null) {
+            $sql .= " LIMIT $offset, $limit";
+        }
+
+        $stmt = $this->query($sql);
+
+        // 4. Bind dữ liệu
+        if ($category_id) $stmt->bindValue(':cat_id', $category_id);
+        if ($min_price !== null && $min_price !== '') $stmt->bindValue(':min', $min_price);
+        if ($max_price !== null && $max_price !== '') $stmt->bindValue(':max', $max_price);
+        if (!empty($keyword)) $stmt->bindValue(':kw', "%$keyword%");
+
         $stmt->execute();
         return $stmt->fetchAll();
     }
@@ -225,6 +283,26 @@ class Product extends Model
 
         $stmt = $this->query($sql);
         $stmt->bindValue(':cid', $categoryId);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    // Tăng lượt xem sản phẩm
+    public function increaseView($id)
+    {
+        $sql = "UPDATE products SET views = views + 1 WHERE id = :id";
+        $stmt = $this->query($sql);
+        $stmt->execute([':id' => $id]);
+    }
+
+    // Lấy sản phẩm xem nhiều nhất (Top Views)
+    public function getTopViewed($limit = 5)
+    {
+        $sql = "SELECT * FROM products 
+                WHERE status = 1 AND views > 0 
+                ORDER BY views DESC 
+                LIMIT $limit";
+        $stmt = $this->query($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
