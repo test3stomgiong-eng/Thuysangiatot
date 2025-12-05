@@ -20,8 +20,7 @@ class Customer extends Model
 
         // 2. Kiểm tra mật khẩu
         if ($customer) {
-            // 👇 THAY ĐỔI Ở ĐÂY: Dùng password_verify
-            // Hàm này sẽ lấy mật khẩu nhập vào (ví dụ "123456") so sánh với chuỗi mã hóa trong DB
+            // Dùng password_verify để so sánh mật khẩu nhập vào với hash trong DB
             if (password_verify($password, $customer->password)) {
                 return $customer;
             }
@@ -37,20 +36,29 @@ class Customer extends Model
         $stmt = $this->query($sql);
 
         // Thực thi và trả về True/False
+        // LƯU Ý: Controller phải hash password trước khi truyền vào đây, hoặc hash tại đây:
+        // $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
         return $stmt->execute([
             ':fullname' => $data['fullname'],
             ':phone'    => $data['phone'],
             ':email'    => $data['email'],
-            ':password' => $data['password']
+            ':password' => $data['password'] // Giả định đã được hash ở Controller
         ]);
     }
 
     // Kiểm tra xem email/sđt đã tồn tại chưa (Dùng cho Đăng ký sau này)
     public function exists($phone, $email = null)
     {
-        $sql = "SELECT id FROM customers WHERE phone = :phone OR email = :email";
+        $sql = "SELECT id FROM customers WHERE phone = :phone";
+        $params = [':phone' => $phone];
+
+        if (!empty($email)) {
+            $sql .= " OR email = :email";
+            $params[':email'] = $email;
+        }
+
         $stmt = $this->query($sql);
-        $stmt->execute([':phone' => $phone, ':email' => $email]);
+        $stmt->execute($params);
         return $stmt->fetch();
     }
 
@@ -106,6 +114,28 @@ class Customer extends Model
         return $stmt->fetch();
     }
 
+    // Cập nhật thông tin cá nhân (Dùng cho trang Profile của Client)
+    public function updateInfo($id, $fullname, $phone, $address, $email) {
+        $sql = "UPDATE customers SET fullname=:name, phone=:phone, address=:addr, email=:email WHERE id=:id";
+        $stmt = $this->query($sql);
+        return $stmt->execute([
+            ':name'  => $fullname,
+            ':phone' => $phone,
+            ':addr'  => $address,
+            ':email' => $email,
+            ':id'    => $id
+        ]);
+    }
+    
+    // Đổi mật khẩu (Dùng cho trang Profile của Client)
+    public function changePassword($id, $newPass) {
+        // $newPass cần được hash trước khi truyền vào hoặc hash tại đây
+        // $hashedPass = password_hash($newPass, PASSWORD_DEFAULT);
+        $sql = "UPDATE customers SET password=:pass WHERE id=:id";
+        $stmt = $this->query($sql);
+        return $stmt->execute([':pass' => $newPass, ':id' => $id]);
+    }
+
     public function getEmployees($keyword = null)
     {
         // Lấy tất cả ai KHÔNG PHẢI là customer
@@ -124,6 +154,7 @@ class Customer extends Model
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
     public function checkDuplicate($phone, $email, $exclude_id = null)
     {
         $sql = "SELECT count(*) as total FROM customers WHERE (phone = :phone OR email = :email)";
@@ -145,6 +176,7 @@ class Customer extends Model
 
         return $row->total > 0; // Trả về True nếu có trùng
     }
+
     /**
      * 2. Thêm mới Nhân viên (Có chọn Role)
      */
@@ -157,7 +189,7 @@ class Customer extends Model
         return $stmt->execute([
             ':name'   => $data['fullname'],
             ':email'  => $data['email'],
-            ':pass'   => $data['password'], // Đã hash
+            ':pass'   => $data['password'], // Đã hash từ Controller
             ':phone'  => $data['phone'],
             ':role'   => $data['role'],     // Admin/Sale...
             ':status' => $data['status']
@@ -186,7 +218,7 @@ class Customer extends Model
             $params = [
                 ':name' => $data['fullname'],
                 ':email' => $data['email'],
-                ':pass' => $data['password'],
+                ':pass' => $data['password'], // Đã hash từ Controller
                 ':phone' => $data['phone'],
                 ':role' => $data['role'],
                 ':status' => $data['status'],
