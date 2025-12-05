@@ -1,9 +1,9 @@
 <?php
+date_default_timezone_set('Asia/Ho_Chi_Minh'); // Set giờ Việt Nam
 // public/index.php
 session_start();
 // 1. Định nghĩa đường dẫn gốc (để sau này dễ gọi file)
-define('ROOT_PATH', dirname(__DIR__)); 
-
+define('ROOT_PATH', dirname(__DIR__));
 // 2. Gọi file Autoload vừa tạo ở trên
 require_once ROOT_PATH . '/app/Core/Autoload.php';
 

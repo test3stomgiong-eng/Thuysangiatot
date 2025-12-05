@@ -175,7 +175,7 @@
                                             </a>
                                         </li>
                                         <li class="divider"></li> <?php endif; ?>
-                                    <li><a href="/account/profile"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li>
+                                    <li><a href="/user"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li>
                                     <li><a href="/account/orders"><i class="fa-solid fa-box-open"></i> Đơn hàng</a></li>
                                     <li class="divider"></li>
                                     <li><a href="/auth/logout" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>

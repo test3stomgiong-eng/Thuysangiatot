@@ -27,7 +27,7 @@
 
             <div class="form-actions">
                 <label><input type="checkbox"> Ghi nhớ tôi</label>
-                <a href="#" class="forgot-pass">Quên mật khẩu?</a>
+                <a href="/auth/forgotPassword" class="forgot-pass">Quên mật khẩu?</a>
             </div>
 
             <button type="submit" class="btn-submit">ĐĂNG NHẬP</button>

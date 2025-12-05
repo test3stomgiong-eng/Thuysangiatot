@@ -97,4 +97,46 @@ class UserController extends Controller
 
         $this->view('Client/user_order_detail', $data, 'client_layout');
     }
+
+    // 3. XỬ LÝ ĐỔI MẬT KHẨU
+    public function changePassword()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $userId      = $_SESSION['customer_user']['id'];
+            $oldPass     = $_POST['old_password'];
+            $newPass     = $_POST['new_password'];
+            $confirmPass = $_POST['confirm_password'];
+
+            $cusModel = new \App\Models\Customer();
+
+            // Lấy thông tin user hiện tại để check pass cũ
+            $user = $cusModel->find($userId);
+
+            // 1. Kiểm tra mật khẩu cũ
+            if (!password_verify($oldPass, $user->password)) {
+                echo "<script>alert('Mật khẩu hiện tại không đúng!'); window.history.back();</script>";
+                return;
+            }
+
+            // 2. Kiểm tra xác nhận mật khẩu mới
+            if ($newPass !== $confirmPass) {
+                echo "<script>alert('Mật khẩu xác nhận không khớp!'); window.history.back();</script>";
+                return;
+            }
+
+            // 3. Kiểm tra độ dài (Tùy chọn)
+            if (strlen($newPass) < 6) {
+                echo "<script>alert('Mật khẩu mới phải có ít nhất 6 ký tự!'); window.history.back();</script>";
+                return;
+            }
+
+            // 4. Mã hóa và Lưu
+            $hashedPass = password_hash($newPass, PASSWORD_DEFAULT);
+            $cusModel->changePassword($userId, $hashedPass);
+
+            // Đăng xuất để người dùng đăng nhập lại với mật khẩu mới
+            unset($_SESSION['customer_user']);
+            echo "<script>alert('Đổi mật khẩu thành công! Vui lòng đăng nhập lại.'); window.location.href='/auth/login';</script>";
+        }
+    }
 }

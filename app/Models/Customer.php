@@ -115,7 +115,8 @@ class Customer extends Model
     }
 
     // Cập nhật thông tin cá nhân (Dùng cho trang Profile của Client)
-    public function updateInfo($id, $fullname, $phone, $address, $email) {
+    public function updateInfo($id, $fullname, $phone, $address, $email)
+    {
         $sql = "UPDATE customers SET fullname=:name, phone=:phone, address=:addr, email=:email WHERE id=:id";
         $stmt = $this->query($sql);
         return $stmt->execute([
@@ -126,11 +127,9 @@ class Customer extends Model
             ':id'    => $id
         ]);
     }
-    
-    // Đổi mật khẩu (Dùng cho trang Profile của Client)
+
+   // Đổi mật khẩu
     public function changePassword($id, $newPass) {
-        // $newPass cần được hash trước khi truyền vào hoặc hash tại đây
-        // $hashedPass = password_hash($newPass, PASSWORD_DEFAULT);
         $sql = "UPDATE customers SET password=:pass WHERE id=:id";
         $stmt = $this->query($sql);
         return $stmt->execute([':pass' => $newPass, ':id' => $id]);
@@ -231,7 +230,8 @@ class Customer extends Model
     }
 
     // 1. Tìm khách hàng theo Số điện thoại
-    public function findByPhone($phone) {
+    public function findByPhone($phone)
+    {
         $sql = "SELECT * FROM customers WHERE phone = :phone";
         $stmt = $this->query($sql);
         $stmt->execute([':phone' => $phone]);
@@ -239,7 +239,8 @@ class Customer extends Model
     }
 
     // 2. Cập nhật thông tin liên hệ (Dùng khi Checkout)
-    public function updateContactInfo($id, $fullname, $phone, $address) {
+    public function updateContactInfo($id, $fullname, $phone, $address)
+    {
         // Chỉ cập nhật Tên, SĐT, Địa chỉ
         $sql = "UPDATE customers SET fullname = :name, phone = :phone, address = :addr WHERE id = :id";
         $stmt = $this->query($sql);
@@ -250,4 +251,37 @@ class Customer extends Model
             ':id'   => $id
         ]);
     }
+
+    // 1. Lưu Token và Hạn sử dụng (Ví dụ: 1 tiếng)
+    // Hàm này giúp "gắn" cái mã bí mật vào đúng người dùng có email đó
+    public function saveResetToken($email, $token)
+    {
+        $expiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+        // 👇 CHỈ UPDATE TOKEN VÀ EXPIRY, KHÔNG ĐƯỢC CÓ CỘT PASSWORD Ở ĐÂY
+        $sql = "UPDATE customers SET reset_token = :token, reset_expiry = :expiry WHERE email = :email";
+
+        $stmt = $this->query($sql);
+        return $stmt->execute([':token' => $token, ':expiry' => $expiry, ':email' => $email]);
+    }
+
+    // 2. Kiểm tra Token có hợp lệ không (Phải đúng mã và chưa hết hạn)
+    // Hàm này trả lời câu hỏi: "Mã này là của ai?"
+    public function checkToken($token)
+    {
+        $sql = "SELECT * FROM customers WHERE reset_token = :token AND reset_expiry > NOW()";
+        $stmt = $this->query($sql);
+        $stmt->execute([':token' => $token]);
+        return $stmt->fetch();
+    }
+
+    // 3. Đổi mật khẩu mới và Hủy vé cũ (Để vé này không dùng lại được nữa)
+    public function updatePasswordByToken($id, $newPass)
+    {
+        $sql = "UPDATE customers SET password = :pass, reset_token = NULL, reset_expiry = NULL WHERE id = :id";
+        $stmt = $this->query($sql);
+        return $stmt->execute([':pass' => $newPass, ':id' => $id]);
+    }
+
+    
 }

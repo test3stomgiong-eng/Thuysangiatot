@@ -64,6 +64,56 @@
                 </div>
             </div>
 
+            <div class="data-card form-card" style="margin-top: 20px; border-top: 3px solid #dc3545;">
+                <h3 class="card-title" style="color: #dc3545; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <i class="fa-solid fa-envelope"></i> Cấu hình Gửi Mail (SMTP)
+                </h3>
+
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label style="font-weight:bold;">SMTP Host</label>
+                        <input type="text" name="smtp_host" class="form-control"
+                            value="<?php echo $settings['smtp_host'] ?? 'smtp.gmail.com'; ?>"
+                            placeholder="VD: smtp.gmail.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-weight:bold;">Email gửi đi (Username)</label>
+                        <input type="text" name="smtp_username" class="form-control"
+                            value="<?php echo $settings['smtp_username'] ?? ''; ?>"
+                            placeholder="VD: admin@gmail.com">
+                    </div>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label style="font-weight:bold;">Mật khẩu ứng dụng</label>
+                        <input type="password" name="smtp_password" class="form-control"
+                            value="<?php echo $settings['smtp_password'] ?? ''; ?>"
+                            placeholder="Nhập mật khẩu ứng dụng (App Password)...">
+                    </div>
+
+                    <div class="form-group" style="display: flex; gap: 10px;">
+                        <div style="flex: 1;">
+                            <label style="font-weight:bold;">Cổng (Port)</label>
+                            <input type="text" name="smtp_port" class="form-control"
+                                value="<?php echo $settings['smtp_port'] ?? '587'; ?>">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="font-weight:bold;">Bảo mật</label>
+                            <select name="smtp_secure" class="form-control">
+                                <option value="tls" <?php echo (isset($settings['smtp_secure']) && $settings['smtp_secure'] == 'tls') ? 'selected' : ''; ?>>TLS (587)</option>
+                                <option value="ssl" <?php echo (isset($settings['smtp_secure']) && $settings['smtp_secure'] == 'ssl') ? 'selected' : ''; ?>>SSL (465)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                    <i class="fa-solid fa-circle-info"></i> Lưu ý: Với Gmail, bạn bắt buộc phải bật "Xác minh 2 bước" và tạo "Mật khẩu ứng dụng" để sử dụng.
+                </p>
+            </div>
+
             <div class="advanced-settings" style="display: flex; gap: 20px; margin-top: 20px;">
 
                 <div class="data-card" style="flex: 1; text-align: center; padding: 30px; border: 1px solid #e1e1e1;">
@@ -188,7 +238,7 @@
                     <input type="text" name="social_youtube" class="form-control"
                         value="<?php echo $settings['social_youtube'] ?? ''; ?>" placeholder="Link kênh...">
                 </div>
-                
+
                 <div class="form-group" style="margin-bottom: 20px; background: #f9f9f9; padding: 10px; border-radius: 5px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                         <label style="font-weight:600; font-size:13px;"><i class="fa-brands fa-tiktok"></i> TikTok</label>

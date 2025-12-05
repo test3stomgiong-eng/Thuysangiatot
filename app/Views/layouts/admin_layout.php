@@ -24,6 +24,7 @@
                 <li class="divider"></li>
                 <li><a href="/admin/product"><i class="fa-solid fa-box"></i> <span>Sản phẩm</span></a></li>
                 <li><a href="/admin/category"><i class="fa-solid fa-layer-group"></i> <span>Danh mục sản phẩm</span></a></li>
+                <li><a href="/admin/inventory"><i class="fa-solid fa-boxes-stacked"></i> <span>Quản lý Nhập kho</span></a></li>
                 <li class="divider"></li>
                 <li><a href="/admin/order"><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span> <span class="badge">3</span></a></li>
                 <li class="divider"></li>

@@ -47,6 +47,38 @@
                         <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
                     </a>
                 </div>
+
+                <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+
+                <h3 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 15px; color: #dc3545;">
+                    <i class="fa-solid fa-key"></i> Đổi mật khẩu
+                </h3>
+
+                <form action="/user/changePassword" method="POST">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Mật khẩu hiện tại</label>
+                        <input type="password" name="old_password" required placeholder="******"
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Mật khẩu mới</label>
+                        <input type="password" name="new_password" required placeholder="******"
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Xác nhận mật khẩu mới</label>
+                        <input type="password" name="confirm_password" required placeholder="******"
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+
+                    <button type="submit"
+                        style="width: 100%; padding: 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                        ĐỔI MẬT KHẨU
+                    </button>
+                </form>
+
             </div>
         </div>
 

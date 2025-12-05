@@ -46,7 +46,8 @@ class SettingController extends Controller
                 'seo_description',
                 'seo_keywords',
                 'social_youtube',
-                'social_tiktok'
+                'social_tiktok',
+                'smtp_host', 'smtp_username', 'smtp_password', 'smtp_port', 'smtp_secure'
             ];
 
             // Lưu các trường text
