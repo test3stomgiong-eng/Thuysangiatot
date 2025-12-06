@@ -86,16 +86,20 @@ class OrderController extends Controller
     // Hàm In Hóa Đơn (Dynamic)
     // Hàm In Hóa Đơn (Đã fix lỗi thiếu tham số)
     // Thêm "= null" để nếu thiếu ID mẫu thì không bị lỗi
-    public function printOrder($order_id, $template_id = null) {
+    public function printOrder($order_id, $template_id = null)
+    {
         $orderModel = new \App\Models\Order();
         $db = new \App\Core\Database();
 
         // 1. Lấy dữ liệu
         $order = $orderModel->findOrder($order_id);
-        if (!$order) { echo "Đơn không tồn tại"; die(); }
+        if (!$order) {
+            echo "Đơn không tồn tại";
+            die();
+        }
         $details = $orderModel->getOrderDetails($order_id);
 
-        // 2. Lấy mẫu in
+        // 2. Lấy mẫu in (Logic ưu tiên: ID -> Mặc định -> Mới nhất)
         if ($template_id) {
             $stmt = $db->query("SELECT content FROM print_templates WHERE id = :id");
             $stmt->execute([':id' => $template_id]);
@@ -104,59 +108,63 @@ class OrderController extends Controller
             $stmt->execute();
         }
         $tpl = $stmt->fetch();
-        
-        // Nếu không có mẫu nào thì lấy đại cái mới nhất (fallback)
+
         if (!$tpl) {
             $stmt = $db->query("SELECT content FROM print_templates ORDER BY id DESC LIMIT 1");
             $stmt->execute();
             $tpl = $stmt->fetch();
-            if (!$tpl) { echo "Chưa có mẫu in!"; die(); }
+            if (!$tpl) {
+                echo "Chưa có mẫu in!";
+                die();
+            }
         }
-        
+
         $content = $tpl->content;
 
         // ===========================================================
-        // 3. TÍNH TOÁN & CHUẨN BỊ DỮ LIỆU (FIX LỖI TẠI ĐÂY)
+        // 3. TÍNH TOÁN TỔNG TIỀN TRƯỚC (Quan trọng)
         // ===========================================================
-        
-        // Khởi tạo biến trước vòng lặp để tránh lỗi Undefined variable
-        $sumProduct = 0; 
-        $i = 1;
+        $sumProduct = 0;
+        foreach ($details as $item) {
+            $sumProduct += $item->price * $item->quantity;
+        }
 
-        // Tạo sẵn khung HTML cho bảng tự động (để dùng cho {BANG_HANG_CHI_TIET})
+        // ===========================================================
+        // 4. TẠO BẢNG TỰ ĐỘNG (CHO BIẾN {BANG_HANG_CHI_TIET})
+        // ===========================================================
         $tableHtml = '<table style="width:100%; border-collapse:collapse; font-size:13px; font-family:Arial;">
                         <thead>
                             <tr style="background-color:#f0f0f0;">
                                 <th style="border:1px solid #333; padding:5px;">STT</th>
+                                <th style="border:1px solid #333; padding:5px;">Mã SP</th>
                                 <th style="border:1px solid #333; padding:5px;">Tên Hàng</th>
+                                <th style="border:1px solid #333; padding:5px;">ĐVT</th>
                                 <th style="border:1px solid #333; padding:5px;">SL</th>
                                 <th style="border:1px solid #333; padding:5px; text-align:right;">Đơn giá</th>
                                 <th style="border:1px solid #333; padding:5px; text-align:right;">Thành tiền</th>
                             </tr>
                         </thead>
                         <tbody>';
-
-        // Chạy vòng lặp 1 lần để tính tổng tiền VÀ tạo bảng tự động luôn
+        $i = 1;
         foreach ($details as $item) {
             $thanhTien = $item->price * $item->quantity;
-            $sumProduct += $thanhTien; // Cộng dồn tổng tiền hàng
-
-            // Nối chuỗi cho bảng tự động
             $tableHtml .= '<tr>
-                            <td style="border:1px solid #333; padding:5px; text-align:center;">'.$i++.'</td>
-                            <td style="border:1px solid #333; padding:5px;">'.$item->product_name.'</td>
-                            <td style="border:1px solid #333; padding:5px; text-align:center;">'.$item->quantity.'</td>
-                            <td style="border:1px solid #333; padding:5px; text-align:right;">'.number_format($item->price).'</td>
-                            <td style="border:1px solid #333; padding:5px; text-align:right;">'.number_format($thanhTien).'</td>
+                            <td style="border:1px solid #333; padding:5px; text-align:center;">' . $i++ . '</td>
+                            <td style="border:1px solid #333; padding:5px;">' . ($item->sku ?? '') . '</td>
+                            <td style="border:1px solid #333; padding:5px;">' . $item->product_name . '</td>
+                            <td style="border:1px solid #333; padding:5px; text-align:center;">Hộp</td>
+                            <td style="border:1px solid #333; padding:5px; text-align:center;">' . $item->quantity . '</td>
+                            <td style="border:1px solid #333; padding:5px; text-align:right;">' . number_format($item->price) . '</td>
+                            <td style="border:1px solid #333; padding:5px; text-align:right;">' . number_format($thanhTien) . '</td>
                           </tr>';
         }
         $tableHtml .= '</tbody></table>';
 
         // ===========================================================
-        // 4. XỬ LÝ NÂNG CAO: NẾU NGƯỜI DÙNG TỰ VẼ BẢNG (REGEX)
+        // 5. XỬ LÝ NÂNG CAO: TỰ VẼ BẢNG (REGEX)
         // ===========================================================
         $pattern = '/<tr[^>]*>.*?\{SP_[A-Z_]+\}.*?<\/tr>/is';
-        
+
         if (preg_match($pattern, $content, $matches)) {
             $rowTemplate = $matches[0];
             $rowsHtml = '';
@@ -164,17 +172,14 @@ class OrderController extends Controller
 
             foreach ($details as $item) {
                 $thanhTien = $item->price * $item->quantity;
-                $unit = 'Hộp'; 
-                $giaGoc = $item->price;
-
                 $tempRow = $rowTemplate;
                 $rowMap = [
                     '{SP_STT}'        => $j++,
                     '{SP_MA}'         => $item->sku ?? '',
                     '{SP_TEN}'        => $item->product_name,
-                    '{SP_DVT}'        => $unit,
+                    '{SP_DVT}'        => 'Hộp',
                     '{SP_SL}'         => $item->quantity,
-                    '{SP_GIA_LE}'     => number_format($giaGoc),
+                    '{SP_GIA_LE}'     => number_format($item->price), // Giá lẻ giả định
                     '{SP_GIA_CK}'     => number_format($item->price),
                     '{SP_THANH_TIEN}' => number_format($thanhTien)
                 ];
@@ -185,7 +190,7 @@ class OrderController extends Controller
         }
 
         // ===========================================================
-        // 5. THAY THẾ CÁC BIẾN CHUNG
+        // 6. THAY THẾ BIẾN CHUNG
         // ===========================================================
         $map = [
             '{MA_DON}'           => $order->code,
@@ -193,9 +198,9 @@ class OrderController extends Controller
             '{TEN_KHACH}'        => $order->customer_name,
             '{SDT_KHACH}'        => $order->customer_phone,
             '{DIA_CHI}'          => $order->shipping_address,
-            
-            '{BANG_HANG_CHI_TIET}' => $tableHtml, // Luôn có dữ liệu, không bị lỗi
-            
+
+            '{BANG_HANG_CHI_TIET}' => $tableHtml,
+
             '{TONG_TIEN_HANG}'   => number_format($sumProduct) . ' đ',
             '{PHI_SHIP}'         => '0 đ',
             '{TONG_CONG}'        => number_format($order->total_money) . ' đ'
@@ -204,5 +209,4 @@ class OrderController extends Controller
         echo str_replace(array_keys($map), array_values($map), $content);
         echo "<script>window.print();</script>";
     }
-    
 }

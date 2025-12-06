@@ -61,26 +61,45 @@ class TemplateController extends Controller
             $content    = $_POST['content'];
             $is_default = isset($_POST['is_default']) ? 1 : 0;
 
+            // Lấy khổ giấy (Nếu không chọn thì mặc định A4)
+            $paper_size = !empty($_POST['paper_size']) ? $_POST['paper_size'] : 'A4';
+
             $db = new Database();
 
+            // Reset mặc định nếu cần
             if ($is_default == 1) {
                 $db->query("UPDATE print_templates SET is_default = 0")->execute();
             }
 
             if ($id) {
-                $sql = "UPDATE print_templates SET name=:name, content=:content, is_default=:def WHERE id=:id";
+                // UPDATE: Thêm paper_size vào SQL
+                $sql = "UPDATE print_templates 
+                        SET name = :name, content = :content, is_default = :def, paper_size = :size 
+                        WHERE id = :id";
                 $stmt = $db->query($sql);
-                $stmt->execute([':name' => $name, ':content' => $content, ':def' => $is_default, ':id' => $id]);
+                $stmt->execute([
+                    ':name'    => $name,
+                    ':content' => $content,
+                    ':def'     => $is_default,
+                    ':size'    => $paper_size, // 👈 Bổ sung Bind
+                    ':id'      => $id
+                ]);
             } else {
-                $sql = "INSERT INTO print_templates (name, content, is_default) VALUES (:name, :content, :def)";
+                // INSERT: Thêm paper_size vào SQL
+                $sql = "INSERT INTO print_templates (name, content, is_default, paper_size) 
+                        VALUES (:name, :content, :def, :size)";
                 $stmt = $db->query($sql);
-                $stmt->execute([':name' => $name, ':content' => $content, ':def' => $is_default]);
+                $stmt->execute([
+                    ':name'    => $name,
+                    ':content' => $content,
+                    ':def'     => $is_default,
+                    ':size'    => $paper_size // 👈 Bổ sung Bind
+                ]);
             }
 
             echo "<script>alert('Lưu mẫu in thành công!'); window.location.href='/admin/template';</script>";
         }
     }
-
     // 4. XÓA (Giữ nguyên)
     public function delete($id)
     {

@@ -28,6 +28,7 @@
             <li><a href="/product"><i class="fa-solid fa-capsules"></i> Sản phẩm</a></li>
             <li><a href="/news"><i class="fa-solid fa-newspaper"></i> Tin tức & Sự kiện</a></li>
             <li><a href="#"><i class="fa-solid fa-phone"></i> Liên hệ</a></li>
+            <li class="menu-item"><a href="/contact">Hỏi đáp</a></li>
             <li class="divider"></li>
             <li><a href="/cart"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
             <li class="divider"></li>
@@ -248,6 +249,7 @@
                     </li>
 
                     <li class="menu-item"><a href="/about">Liên hệ</a></li>
+                    <li class="menu-item"><a href="/contact">Hỏi đáp</a></li>
                 </ul>
             </div>
         </nav>

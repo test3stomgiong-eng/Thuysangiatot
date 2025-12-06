@@ -1,5 +1,5 @@
 <div class="content-body" style="background: #f0f2f5; min-height: 100vh;">
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.2/tinymce.min.js"></script>
 
     <div class="page-header-row" style="background: #fff; padding: 15px 20px; border-bottom: 1px solid #ddd; margin: -20px -20px 20px -20px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
@@ -15,26 +15,26 @@
     </div>
 
     <form id="form-template" action="/admin/template/save" method="POST" style="display: flex; gap: 20px; align-items: flex-start;">
-        
-        <?php if(isset($template)): ?>
+
+        <?php if (isset($template)): ?>
             <input type="hidden" name="id" value="<?php echo $template->id; ?>">
         <?php endif; ?>
 
         <div style="flex: 3; background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px;">
-            
+
             <div class="form-group" style="margin-bottom: 15px;">
                 <label style="font-weight: bold;">Tên mẫu in <span style="color:red">*</span></label>
-                <input type="text" name="name" required class="form-control" 
-                       value="<?php echo isset($template) ? $template->name : ''; ?>" 
-                       placeholder="Ví dụ: Hóa đơn bán lẻ A4..."
-                       style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-top:5px;">
+                <input type="text" name="name" required class="form-control"
+                    value="<?php echo isset($template) ? $template->name : ''; ?>"
+                    placeholder="Ví dụ: Hóa đơn bán lẻ A4..."
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-top:5px;">
             </div>
-            
+
             <label style="font-weight: bold; display: block; margin-bottom: 5px;">Nội dung thiết kế</label>
             <textarea name="content" id="myTextarea">
                 <?php echo isset($template) ? $template->content : ''; ?>
             </textarea>
-            
+
             <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
                 <label style="cursor: pointer; user-select: none;">
                     <input type="checkbox" name="is_default" value="1" <?php echo (isset($template) && $template->is_default) ? 'checked' : ''; ?>>
@@ -43,15 +43,25 @@
             </div>
         </div>
 
+
+
         <div style="flex: 1; min-width: 300px;">
+            <div class="form-group">
+                <label style="font-weight: bold;">Khổ giấy thiết kế</label>
+                <select name="paper_size" id="paperSelect" class="form-control" onchange="updateEditorSize(this.value)" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="A4" <?php echo (isset($template) && $template->paper_size == 'A4') ? 'selected' : ''; ?>>A4 (Hóa đơn chuẩn)</option>
+                    <option value="A5" <?php echo (isset($template) && $template->paper_size == 'A5') ? 'selected' : ''; ?>>A5 (Hóa đơn nhỏ)</option>
+                    <option value="K80" <?php echo (isset($template) && $template->paper_size == 'K80') ? 'selected' : ''; ?>>K80 (Máy in nhiệt)</option>
+                </select>
+            </div>
             <div class="setting-box" style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 15px; position: sticky; top: 80px; max-height: 85vh; overflow-y: auto;">
-                
+
                 <h4 style="margin-top:0; font-size:14px; border-bottom:1px solid #eee; padding-bottom:10px; color:#007bff; text-transform:uppercase;">
                     <i class="fa-solid fa-code"></i> Từ khóa dữ liệu
                 </h4>
-                
+
                 <div id="list-keywords">
-                    
+
                     <div class="key-group">
                         <strong class="group-title">1. THÔNG TIN CHUNG</strong>
                         <div class="key-list">
@@ -74,7 +84,7 @@
                         <p style="font-size:11px; color:#666; margin:5px 0;">
                             <i class="fa-solid fa-lightbulb"></i> <b>HD:</b> Vẽ bảng 2 dòng. Dòng 1 ghi tiêu đề. Dòng 2 chèn các key dưới đây vào các ô. Hệ thống sẽ tự lặp lại dòng 2.
                         </p>
-                        
+
                         <div class="key-list">
                             <span class="badge-key orange" onclick="insertVar('{SP_STT}')" title="Số thứ tự">STT</span>
                             <span class="badge-key orange" onclick="insertVar('{SP_MA}')" title="Mã sản phẩm">Mã SP</span>
@@ -110,29 +120,80 @@
 </div>
 
 <style>
-    .key-group { margin-bottom: 15px; border-bottom: 1px dashed #eee; padding-bottom: 10px; }
-    .key-group:last-child { border-bottom: none; }
-    
-    .group-title { font-size: 11px; color: #888; font-weight: bold; display: block; margin-bottom: 8px; }
-    
-    .key-list { display: flex; flex-wrap: wrap; gap: 5px; }
-    
+    .key-group {
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #eee;
+        padding-bottom: 10px;
+    }
+
+    .key-group:last-child {
+        border-bottom: none;
+    }
+
+    .group-title {
+        font-size: 11px;
+        color: #888;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .key-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
     .badge-key {
-        display: inline-block; padding: 5px 8px; background: #fff; border: 1px solid #ccc;
-        border-radius: 4px; font-size: 11px; font-weight: bold; color: #333; cursor: pointer; user-select: none;
+        display: inline-block;
+        padding: 5px 8px;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+        user-select: none;
         transition: all 0.2s;
     }
-    .badge-key:hover { background: #e2e6ea; border-color: #adb5bd; transform: translateY(-1px); }
-    
-    .badge-key.orange { background: #fff3cd; border-color: #ffeeba; color: #856404; }
-    .badge-key.orange:hover { background: #ffe8a1; }
-    
-    .badge-key.red { background: #f8d7da; border-color: #f5c6cb; color: #721c24; }
-    
-    .highlight-box { background: #fffcf5; padding: 10px; border: 1px solid #faeec7; border-radius: 5px; }
-    
+
+    .badge-key:hover {
+        background: #e2e6ea;
+        border-color: #adb5bd;
+        transform: translateY(-1px);
+    }
+
+    .badge-key.orange {
+        background: #fff3cd;
+        border-color: #ffeeba;
+        color: #856404;
+    }
+
+    .badge-key.orange:hover {
+        background: #ffe8a1;
+    }
+
+    .badge-key.red {
+        background: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+
+    .highlight-box {
+        background: #fffcf5;
+        padding: 10px;
+        border: 1px solid #faeec7;
+        border-radius: 5px;
+    }
+
     .key-item.btn-block {
-        display: block; padding: 8px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;
+        display: block;
+        padding: 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
     }
 </style>
 
@@ -147,13 +208,78 @@
             'insertdatetime', 'media', 'table', 'help', 'wordcount', 'emoticons'
         ],
         toolbar: 'undo redo | blocks fontfamily fontsize | ' +
-                 'bold italic forecolor backcolor | alignleft aligncenter alignright | ' +
-                 'table | bullist numlist | ' +
-                 'removeformat code preview',
+            'bold italic forecolor backcolor | alignleft aligncenter alignright | ' +
+            'table | bullist numlist | ' +
+            'removeformat code preview',
         content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; line-height:1.5; } table { width: 100%; border-collapse: collapse; } td, th { border: 1px solid #ccc; padding: 5px; }'
     });
 
     // Hàm chèn biến
+    function insertVar(text) {
+        tinymce.activeEditor.insertContent(text);
+    }
+</script>
+
+<script>
+    tinymce.init({
+        selector: '#myTextarea',
+        height: 800, // Cao lên chút để nhìn rõ tờ giấy
+        menubar: false,
+        plugins: ['table', 'image', 'code', 'preview', 'lists'],
+        toolbar: 'undo redo | fontfamily fontsize | bold italic | alignleft aligncenter alignright | table | bullist numlist | code',
+
+        // 👇 QUAN TRỌNG: CSS ĐỂ TẠO HÌNH DÁNG TỜ GIẤY TRONG EDITOR
+        content_style: `
+            body { 
+                background-color: #eee; /* Nền xám bao quanh */
+                padding: 20px 0;
+                font-family: Arial, sans-serif;
+            }
+            /* Class giả lập tờ giấy */
+            .page-sheet {
+                background: white;
+                margin: 0 auto;
+                padding: 10mm; /* Lề giấy */
+                box-shadow: 0 0 10px rgba(0,0,0,0.2);
+                min-height: 200mm;
+                box-sizing: border-box;
+            }
+            /* Kích thước chuẩn */
+            .page-sheet.A4  { width: 210mm; }
+            .page-sheet.A5  { width: 148mm; }
+            .page-sheet.K80 { width: 80mm; min-height: 100mm; padding: 2mm; }
+        `,
+
+        // Khi Editor load xong -> Tự động thêm class tờ giấy vào
+        setup: function(editor) {
+            editor.on('init', function() {
+                // Lấy khổ giấy đang chọn (hoặc mặc định A4)
+                var size = document.getElementById('paperSelect').value || 'A4';
+
+                // Bọc nội dung vào div .page-sheet
+                var body = editor.getBody();
+                body.setAttribute('class', 'mce-content-body'); // Class mặc định
+
+                // Tạo div bao quanh nếu chưa có (để làm tờ giấy)
+                // Lưu ý: TinyMCE edit trực tiếp trong Body, nên ta set class cho Body luôn
+                editor.dom.addClass(body, 'page-sheet');
+                editor.dom.addClass(body, size);
+            });
+        }
+    });
+
+    // 3. Hàm đổi kích thước khi chọn Dropdown
+    function updateEditorSize(size) {
+        var body = tinymce.activeEditor.getBody();
+        // Xóa các class cũ
+        tinymce.activeEditor.dom.removeClass(body, 'A4');
+        tinymce.activeEditor.dom.removeClass(body, 'A5');
+        tinymce.activeEditor.dom.removeClass(body, 'K80');
+
+        // Thêm class mới
+        tinymce.activeEditor.dom.addClass(body, size);
+    }
+
     function insertVar(text) {
         tinymce.activeEditor.insertContent(text);
     }
